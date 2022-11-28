@@ -6,15 +6,26 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/11/28 10:55:41 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/11/28 20:17:51 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/includes/libft.h"
 #include "minishell.h"
-#include <stdlib.h>
 
 char		*g_op[6];
+
+int	find_quote(const char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && s[i] != (char)c)
+		i++;
+	if (s[i] == (char)c)
+		return (i + 1);
+	return (0);
+}
 
 void	find_ops(const char *input, t_list **head)
 {
@@ -39,6 +50,8 @@ void	find_ops(const char *input, t_list **head)
 			}
 			j++;
 		}
+		if (input[i] == '"' || input[i] == '\'')
+			i += find_quote(input + i + 1, input[i]);
 		i++;
 	}
 }
@@ -94,11 +107,9 @@ void	print_nodes(void *n)
 
 int	main(void)
 {
-	int			i;
 	t_list		**head;
-	const char	input[] = "< echo lol ||rev|rev|rev| rev >> out > lol";
+	const char	input[] = "< echo lol ||\"rev||rev\"|'rev| rev' >> out > lol";
 
-	i = 0;
 	g_op[0] = "||";
 	g_op[1] = "<";
 	g_op[2] = ">>";
