@@ -6,12 +6,12 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/11/28 09:26:55 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/11/28 10:55:41 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/includes/libft.h"
-#include "ops.h"
+#include "minishell.h"
 #include <stdlib.h>
 
 char		*g_op[6];
@@ -20,8 +20,7 @@ void	find_ops(const char *input, t_list **head)
 {
 	int			i;
 	int			j;
-	t_op		*op;
-	t_cmd		*cmd;
+	t_token		*op;
 
 	i = 0;
 	while (input[i])
@@ -31,9 +30,10 @@ void	find_ops(const char *input, t_list **head)
 		{
 			if (!ft_strncmp(input + i, g_op[j], ft_strlen(g_op[j])))
 			{
-				op = malloc(sizeof(t_op));
+				op = malloc(sizeof(t_token));
 				op->idx = i;
-				op->op = g_op[j];
+				op->str = g_op[j];
+				op->label = OP;
 				ft_lstadd_back(head, ft_lstnew(op));
 				i += ft_strlen(g_op[j]);
 			}
@@ -43,40 +43,58 @@ void	find_ops(const char *input, t_list **head)
 	}
 }
 
+void	insert_node(t_list *curr, char *tmp)
+{
+	t_list	*next;
+	t_token	*new;
+
+	next = curr->next;
+	new = malloc(sizeof(t_token));
+	new->label = CMD;
+	new->str = tmp;
+	curr->next = ft_lstnew(new);
+	curr->next->next = next;
+}
+
 void	find_cmds(const char *input, t_list **head)
 {
 	int		start;
-	int		end;
+	char	*tmp;
+	t_list	*prev;
 	t_list	*curr;
-	t_op	*node;
+	t_token	*node;
 
 	curr = *head;
 	while (curr)
 	{
-		node = (t_op *)curr->content;
-		start = node->idx + ft_strlen(node->op);
+		node = (t_token *)curr->content;
+		start = node->idx + ft_strlen(node->str);
+		prev = curr;
 		curr = curr->next;
 		if (curr)
 		{
-			node = (t_op *)curr->content;
-			end = node->idx;
-			ft_printf("%s\n", ft_substr(input, start, end - start));
+			node = (t_token *)curr->content;
+			tmp = ft_substr(input, start, node->idx - start);
+			tmp = ft_strtrimf(tmp, " ");
+			insert_node(prev, tmp);
 		}
 	}
+	tmp = ft_substr(input, start, ft_strlen(input) - start);
+	tmp = ft_strtrimf(tmp, " ");
+	insert_node(prev, tmp);
 }
 
 void	print_nodes(void *n)
 {
-	t_op	*node;
+	t_token	*node;
 
-	node = (t_op *)n;
-	ft_printf("Found %s at idx %d\n", node->op, node->idx);
+	node = (t_token *)n;
+	ft_printf("Found %s at idx %d\n", node->str, node->idx);
 }
 
 int	main(void)
 {
 	int			i;
-	int			j;
 	t_list		**head;
 	const char	input[] = "< echo lol ||rev|rev|rev| rev >> out > lol";
 

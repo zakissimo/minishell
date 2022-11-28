@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ops.h                                              :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/11/28 09:14:07 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/11/28 11:01:34 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPS_H
-# define OPS_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "libft/includes/libft.h"
 # include <stdbool.h>
 
-typedef struct s_op
+typedef enum e_label
 {
-	const char	*op;
-	int			idx;
-}			t_op;
+	OP,
+	CMD
+}			t_label;
 
-typedef struct s_cmd
+typedef struct s_token
 {
-	const char	*cmd;
+	t_label		label;
+	char		*str;
 	int			idx;
-}			t_cmd;
+}				t_token;
 
-char	*ft_opnstr(const char *big, const char *little, size_t len);
 char	*ft_strtrimf(char *s1, char const *set);
 
 #endif

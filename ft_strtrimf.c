@@ -6,11 +6,11 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 14:17:48 by zhabri            #+#    #+#             */
-/*   Updated: 2022/11/28 09:13:50 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/11/28 10:03:03 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ops.h"
+#include "minishell.h"
 
 static int	is_in_set(char c, char const *set)
 {
