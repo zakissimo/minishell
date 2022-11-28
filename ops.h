@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/11/27 22:03:09 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/11/28 09:14:07 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ typedef struct s_op
 	int			idx;
 }			t_op;
 
+typedef struct s_cmd
+{
+	const char	*cmd;
+	int			idx;
+}			t_cmd;
+
 char	*ft_opnstr(const char *big, const char *little, size_t len);
+char	*ft_strtrimf(char *s1, char const *set);
 
 #endif
