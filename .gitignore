@@ -1,3 +1,5 @@
 *.o
 a.out
 minishell
+
+compile_commands.json

@@ -6,15 +6,18 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/11/28 11:01:34 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/01 11:52:33 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/includes/libft.h"
+# include <stdio.h>
 # include <stdbool.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include "libft/includes/libft.h"
 
 typedef enum e_label
 {
@@ -29,6 +32,8 @@ typedef struct s_token
 	int			idx;
 }				t_token;
 
+void	find_ops(const char *input, t_list **head);
+void	find_cmds(const char *input, t_list **head);
 char	*ft_strtrimf(char *s1, char const *set);
 
 #endif

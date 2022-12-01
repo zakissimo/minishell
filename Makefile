@@ -6,21 +6,21 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2022/11/28 10:05:39 by zhabri           ###   ########.fr        #
+#    Updated: 2022/12/01 11:54:09 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= clang
 
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -I. -g
 
-LIBFTFLAGS	= -Llibft -lft
+LIBFTFLAGS	= -Llibft -lft -Ilibft/includes
 
 RM			= rm -f
 
 NAME		= minishell
 
-SRCS		= find_ops.c ft_strtrimf.c
+SRCS		= minishell.c find_ops.c find_cmd.c ft_strtrimf.c
 
 OBJS		= $(SRCS:.c=.o)
 
@@ -29,7 +29,7 @@ OBJS		= $(SRCS:.c=.o)
 
 $(NAME):	$(OBJS)
 			@make --no-print-directory -sC libft
-			$(CC) $(CFLAGS) $(OBJS) $(LIBFTFLAGS) -o $@
+			$(CC) $(CFLAGS) $(OBJS) $(LIBFTFLAGS) -lreadline -o $@
 
 all:		$(NAME)
 
