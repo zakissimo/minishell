@@ -3,3 +3,4 @@ a.out
 minishell
 
 compile_commands.json
+.cache/clangd/index

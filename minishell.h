@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/01 11:52:33 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/02 09:22:54 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 typedef enum e_label
 {
 	OP,
-	CMD
+	CMD,
+	UNKNOWN
 }			t_label;
 
 typedef struct s_token
