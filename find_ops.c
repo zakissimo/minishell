@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/03 16:08:12 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/03 16:38:29 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,33 +66,33 @@ int	add_ops(const char *input, t_list **head, int i)
 	return (i - n);
 }
 
-size_t	add_cmd(const char *input, size_t i, size_t start_cmd, size_t end_cmd)
+void	add_cmd(const char *input, size_t i, size_t end_cmd)
 {
-	char	*tmp;
+	char			*tmp;
+	static size_t	start_cmd;
 
+	if (!end_cmd)
+		start_cmd = end_cmd;
 	if (end_cmd < i || i == ft_strlen(input) - 1)
 	{
 		tmp = ft_substr(input, start_cmd, end_cmd - start_cmd);
 		printf("%s\n", tmp);
 		printf("i %zu, start_cmd %zu, end_cmd %zu\n", i, start_cmd, end_cmd);
-		return (i);
+		start_cmd = i;
 	}
-	return (start_cmd);
 }
 
 void	split_by_ops(const char *input, t_list **head)
 {
 	size_t	i;
-	size_t	start_cmd;
 	size_t	end_cmd;
 
 	i = 0;
-	start_cmd = 0;
 	while (input[i])
 	{
 		end_cmd = i;
 		i += add_ops(input, head, i);
-		start_cmd = add_cmd(input, i, start_cmd, end_cmd);
+		add_cmd(input, i, end_cmd);
 		if (input[i] == '"' || input[i] == '\'')
 			i += find_quote(input + i + 1, input[i]);
 		i++;
