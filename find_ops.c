@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/01 11:57:21 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/03 12:54:09 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,22 @@ int	find_quote(const char *s, char c)
 	return (0);
 }
 
-void	find_ops(const char *input, t_list **head)
+t_token	*init_token(char *str, int str_idx, int idx)
+{
+	t_token	*new;
+
+	new = malloc(sizeof(t_token));
+	new->idx = idx;
+	new->str_idx = str_idx;
+	new->label = UNKNOWN;
+	new->str = str;
+	return (new);
+}
+
+void	split_by_ops(const char *input, t_list **head)
 {
 	int			i;
+	int			idx;
 	int			j;
 	t_token		*op;
 	char		*op_tab[6];
@@ -38,6 +51,7 @@ void	find_ops(const char *input, t_list **head)
 	op_tab[4] = "|";
 	op_tab[5] = NULL;
 	i = 0;
+	idx = 0;
 	while (input[i])
 	{
 		j = 0;
@@ -46,11 +60,13 @@ void	find_ops(const char *input, t_list **head)
 			if (!ft_strncmp(input + i, op_tab[j], ft_strlen(op_tab[j])))
 			{
 				op = malloc(sizeof(t_token));
-				op->idx = i;
+				op->idx = idx;
+				op->str_idx = i;
 				op->str = op_tab[j];
 				op->label = OP;
 				ft_lstadd_back(head, ft_lstnew(op));
 				i += ft_strlen(op_tab[j]);
+				idx++;
 			}
 			j++;
 		}

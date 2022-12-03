@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/02 10:52:40 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/03 12:54:23 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ void	print_nodes(void *n)
 
 	node = (t_token *)n;
 	printf("-------------\n");
+	printf("Node %d\n", node->idx);
 	printf("Input: \"%s\"\n", node->str);
-	printf("At idx %d\n", node->idx);
+	printf("At idx %d\n", node->str_idx);
 	printf("-------------\n");
 	printf("\n");
 }
@@ -27,18 +28,17 @@ void	print_nodes(void *n)
 int	main(void)
 {
 	t_list		**head;
-	char		input[] = "asdf | lol";
+	char		*input;
 
-	// while (1)
-	// {
-	head = malloc(sizeof(t_list *));
-	*head = NULL;
-	// input = readline("minishell> ");
-	find_ops(input, head);
-	find_cmds(input, head);
-	ft_lstiter(*head, print_nodes);
-	ft_lstclear(head, free);
-	free(head);
-		// free(input);
-	// }
+	while (1)
+	{
+		head = malloc(sizeof(t_list *));
+		*head = NULL;
+		input = readline("minishell> ");
+		find_ops(input, head);
+		ft_lstiter(*head, print_nodes);
+		ft_lstclear(head, free);
+		free(head);
+		free(input);
+	}
 }
