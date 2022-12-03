@@ -6,11 +6,13 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/03 12:54:09 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/03 16:08:12 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
+#include <stddef.h>
 
 int	find_quote(const char *s, char c)
 {
@@ -24,25 +26,24 @@ int	find_quote(const char *s, char c)
 	return (0);
 }
 
-t_token	*init_token(char *str, int str_idx, int idx)
+t_token	*init_token(char *str, int str_idx, int idx, t_label label)
 {
 	t_token	*new;
 
 	new = malloc(sizeof(t_token));
 	new->idx = idx;
 	new->str_idx = str_idx;
-	new->label = UNKNOWN;
+	new->label = label;
 	new->str = str;
 	return (new);
 }
 
-void	split_by_ops(const char *input, t_list **head)
+int	add_ops(const char *input, t_list **head, int i)
 {
-	int			i;
-	int			idx;
-	int			j;
-	t_token		*op;
-	char		*op_tab[6];
+	int		j;
+	int		n;
+	t_token	*op;
+	char	*op_tab[6];
 
 	op_tab[0] = "||";
 	op_tab[1] = "<";
@@ -50,26 +51,48 @@ void	split_by_ops(const char *input, t_list **head)
 	op_tab[3] = ">";
 	op_tab[4] = "|";
 	op_tab[5] = NULL;
+	j = 0;
+	n = i;
+	while (op_tab[j])
+	{
+		if (!ft_strncmp(input + i, op_tab[j], ft_strlen(op_tab[j])))
+		{
+			op = init_token(op_tab[j], i, 0, OP);
+			ft_lstadd_back(head, ft_lstnew(op));
+			i += ft_strlen(op_tab[j]);
+		}
+		j++;
+	}
+	return (i - n);
+}
+
+size_t	add_cmd(const char *input, size_t i, size_t start_cmd, size_t end_cmd)
+{
+	char	*tmp;
+
+	if (end_cmd < i || i == ft_strlen(input) - 1)
+	{
+		tmp = ft_substr(input, start_cmd, end_cmd - start_cmd);
+		printf("%s\n", tmp);
+		printf("i %zu, start_cmd %zu, end_cmd %zu\n", i, start_cmd, end_cmd);
+		return (i);
+	}
+	return (start_cmd);
+}
+
+void	split_by_ops(const char *input, t_list **head)
+{
+	size_t	i;
+	size_t	start_cmd;
+	size_t	end_cmd;
+
 	i = 0;
-	idx = 0;
+	start_cmd = 0;
 	while (input[i])
 	{
-		j = 0;
-		while (op_tab[j])
-		{
-			if (!ft_strncmp(input + i, op_tab[j], ft_strlen(op_tab[j])))
-			{
-				op = malloc(sizeof(t_token));
-				op->idx = idx;
-				op->str_idx = i;
-				op->str = op_tab[j];
-				op->label = OP;
-				ft_lstadd_back(head, ft_lstnew(op));
-				i += ft_strlen(op_tab[j]);
-				idx++;
-			}
-			j++;
-		}
+		end_cmd = i;
+		i += add_ops(input, head, i);
+		start_cmd = add_cmd(input, i, start_cmd, end_cmd);
 		if (input[i] == '"' || input[i] == '\'')
 			i += find_quote(input + i + 1, input[i]);
 		i++;

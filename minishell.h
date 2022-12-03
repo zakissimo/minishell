@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/03 12:54:26 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/03 14:22:16 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_token
 	int			idx;
 }				t_token;
 
-void	find_ops(const char *input, t_list **head);
+void	split_by_ops(const char *input, t_list **head);
 char	*ft_strtrimf(char *s1, char const *set);
 void	insert_node(t_list **head, t_list *node, int idx);
 

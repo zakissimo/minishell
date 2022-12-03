@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/03 12:54:23 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/03 14:22:27 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(void)
 		head = malloc(sizeof(t_list *));
 		*head = NULL;
 		input = readline("minishell> ");
-		find_ops(input, head);
+		split_by_ops(input, head);
 		ft_lstiter(*head, print_nodes);
 		ft_lstclear(head, free);
 		free(head);
