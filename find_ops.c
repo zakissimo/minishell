@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/04 13:19:38 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/04 13:20:33 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	add_cmd(t_list **head, const char *input, size_t i, size_t end_cmd)
 	char			*tmp;
 	static size_t	start_cmd;
 
-	printf("start %zu, end %zu, i %zu\n", start_cmd, end_cmd, i);
 	if (!end_cmd)
 		start_cmd = end_cmd;
 	if (end_cmd < i)
