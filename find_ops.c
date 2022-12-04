@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/03 16:38:29 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/04 09:51:02 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	add_cmd(const char *input, size_t i, size_t end_cmd)
 
 	if (!end_cmd)
 		start_cmd = end_cmd;
-	if (end_cmd < i || i == ft_strlen(input) - 1)
+	if (end_cmd < i)
 	{
 		tmp = ft_substr(input, start_cmd, end_cmd - start_cmd);
 		printf("%s\n", tmp);
@@ -97,4 +97,6 @@ void	split_by_ops(const char *input, t_list **head)
 			i += find_quote(input + i + 1, input[i]);
 		i++;
 	}
+	if (i)
+		add_cmd(input, i + 1, i);
 }
