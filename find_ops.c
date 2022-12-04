@@ -6,13 +6,14 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/04 09:51:02 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/04 11:36:44 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/includes/libft.h"
 #include "minishell.h"
 #include <stddef.h>
+#include <stdio.h>
 
 int	find_quote(const char *s, char c)
 {
@@ -26,7 +27,7 @@ int	find_quote(const char *s, char c)
 	return (0);
 }
 
-t_token	*init_token(char *str, int str_idx, int idx, t_label label)
+t_token	*init_token(const char *str, int str_idx, int idx, t_label label)
 {
 	t_token	*new;
 
@@ -40,17 +41,11 @@ t_token	*init_token(char *str, int str_idx, int idx, t_label label)
 
 int	add_ops(const char *input, t_list **head, int i)
 {
-	int		j;
-	int		n;
-	t_token	*op;
-	char	*op_tab[6];
+	int						j;
+	int						n;
+	t_token					*op;
+	static const char		*op_tab[6] = {"||", "<", ">>", ">", "|", NULL};
 
-	op_tab[0] = "||";
-	op_tab[1] = "<";
-	op_tab[2] = ">>";
-	op_tab[3] = ">";
-	op_tab[4] = "|";
-	op_tab[5] = NULL;
 	j = 0;
 	n = i;
 	while (op_tab[j])
@@ -66,8 +61,9 @@ int	add_ops(const char *input, t_list **head, int i)
 	return (i - n);
 }
 
-void	add_cmd(const char *input, size_t i, size_t end_cmd)
+void	add_cmd(t_list **head, const char *input, size_t i, size_t end_cmd)
 {
+	t_token			*cmd;
 	char			*tmp;
 	static size_t	start_cmd;
 
@@ -76,9 +72,11 @@ void	add_cmd(const char *input, size_t i, size_t end_cmd)
 	if (end_cmd < i)
 	{
 		tmp = ft_substr(input, start_cmd, end_cmd - start_cmd);
-		printf("%s\n", tmp);
-		printf("i %zu, start_cmd %zu, end_cmd %zu\n", i, start_cmd, end_cmd);
+		cmd = init_token(ft_strtrimf(tmp, " \t"), start_cmd, 0, UNKNOWN);
 		start_cmd = i;
+		// printf("%d\n", ft_lstsize(*head) - 2);
+		// insert_node(head, ft_lstnew(cmd), ft_lstsize(*head) - 2);
+		ft_lstadd_front(head, ft_lstnew(cmd));
 	}
 }
 
@@ -92,11 +90,11 @@ void	split_by_ops(const char *input, t_list **head)
 	{
 		end_cmd = i;
 		i += add_ops(input, head, i);
-		add_cmd(input, i, end_cmd);
+		add_cmd(head, input, i, end_cmd);
 		if (input[i] == '"' || input[i] == '\'')
 			i += find_quote(input + i + 1, input[i]);
 		i++;
 	}
 	if (i)
-		add_cmd(input, i + 1, i);
+		add_cmd(head, input, i + 1, i);
 }

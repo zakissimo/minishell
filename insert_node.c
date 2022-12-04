@@ -6,10 +6,11 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 10:24:31 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/03 12:52:12 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/04 11:31:26 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 void	increment_idx(void *l)
@@ -32,9 +33,9 @@ void	insert_node(t_list **head, t_list *node, int idx)
 	t_list	*next;
 	int		i;
 
-	if (!*head)
+	if (!*head || idx >= ft_lstsize(*head) - 1)
 		ft_lstadd_back(head, node);
-	else if (!idx)
+	else if (idx <= 0)
 		ft_lstadd_front(head, node);
 	else
 	{

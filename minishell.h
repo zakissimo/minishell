@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/03 14:22:16 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/04 11:00:24 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ typedef enum e_label
 
 typedef struct s_token
 {
-	t_label		label;
-	char		*str;
-	int			str_idx;
-	int			idx;
+	t_label			label;
+	const char		*str;
+	int				str_idx;
+	int				idx;
 }				t_token;
 
 void	split_by_ops(const char *input, t_list **head);
