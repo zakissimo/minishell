@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/04 13:20:33 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/04 13:25:02 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	add_ops(const char *input, t_list **head, int i)
 	{
 		if (!ft_strncmp(input + i, op_tab[j], ft_strlen(op_tab[j])))
 		{
-			op = init_token(op_tab[j], i, 0, OP);
+			op = init_token(ft_strdup(op_tab[j]), i, 0, OP);
 			i += ft_strlen(op_tab[j]);
 			add_cmd(head, input, i, end_cmd);
 			ft_lstadd_back(head, ft_lstnew(op));
