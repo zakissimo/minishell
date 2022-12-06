@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/06 11:52:57 by zhabri           ###   ########.fr       */
+/*   Created: 2022/12/06 11:11:50 by zhabri            #+#    #+#             */
+/*   Updated: 2022/12/06 11:59:38 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	quote_error(const char *input, char quote)
 {
-	t_list		**head;
-	char		*input;
+	int	i;
 
-	while (1)
+	i = 0;
+	while (input[i])
 	{
-		head = malloc(sizeof(t_list *));
-		*head = NULL;
-		input = readline("minishell> ");
-		add_history(input);
-		if (quote_error(input, '\'') || quote_error(input, '"'))
-			free(input);
-		else
+		if (input[i] == quote)
 		{
-			get_ops(input, head);
-			ft_lstiter(*head, print_nodes);
-			ft_lstclear(head, free);
-			free(head);
+			i++;
+			while (input[i] && input[i] != quote)
+				i++;
+			if (!input[i])
+			{
+				ft_putstr_fd("Parse Error (Quote)\n", 2);
+				return (-1);
+			}
 		}
+		i++;
 	}
-	clear_history();
+	return (0);
 }
