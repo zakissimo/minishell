@@ -6,10 +6,11 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/05 13:20:40 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/06 13:50:26 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 int	find_quote(const char *s, char c)
@@ -39,14 +40,14 @@ t_token	*init_token(const char *str, int str_idx, int idx, t_label label)
 t_label	get_label(const char *op)
 {
 	int					i;
-	static const char	*op_tab[6] = {"<<", ">>", "|", ">", "<", NULL};
+	static const char	*op_tab[7] = {"<<", ">>", "|", ">", "<", "$", NULL};
 
 	i = 0;
-	while (ft_strncmp(op_tab[i], op, 2))
+	while (ft_strncmp(op_tab[i], op, ft_strlen(op_tab[i])))
 		i++;
-	if (i < 4)
+	if (i < 5)
 		return (i);
-	return (4);
+	return (5);
 }
 
 int	add_ops(const char *input, t_list **head, int i)
@@ -55,7 +56,7 @@ int	add_ops(const char *input, t_list **head, int i)
 	int						n;
 	static int				idx;
 	t_token					*op;
-	static const char		*op_tab[6] = {"<<", ">>", "|", ">", "<", NULL};
+	static const char		*op_tab[7] = {"<<", ">>", "|", ">", "<", "$", NULL};
 
 	j = 0;
 	n = i;
@@ -77,14 +78,21 @@ int	add_ops(const char *input, t_list **head, int i)
 
 void	get_ops(const char *input, t_list **head)
 {
+	bool	single_q;
+	bool	double_q;
 	size_t	i;
 
 	i = 0;
+	single_q = false;
+	double_q = false;
 	while (input[i])
 	{
-		i += add_ops(input, head, i);
-		if (input[i] == '"' || input[i] == '\'')
-			i += find_quote(input + i + 1, input[i]);
+		if (input[i] == '"')
+			double_q = (double_q + 1) % 2;
+		if (input[i] == '\'')
+			single_q = (single_q + 1) % 2;
+		if ((!single_q && !double_q) || (input[i] == '$' && double_q))
+			i += add_ops(input, head, i);
 		i++;
 	}
 }
