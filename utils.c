@@ -1,39 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/06 15:45:28 by zhabri           ###   ########.fr       */
+/*   Created: 2022/12/06 14:58:39 by zhabri            #+#    #+#             */
+/*   Updated: 2022/12/06 14:59:52 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	get_longest_str(char *s1, char *s2)
 {
-	t_list		**head;
-	char		*input;
-
-	while (1)
-	{
-		head = malloc(sizeof(t_list *));
-		*head = NULL;
-		input = readline("minishell> ");
-		add_history(input);
-		if (quote_error(input) || op_error(input))
-			free(input);
-		else
-		{
-			get_ops(input, head);
-			ft_lstiter(*head, print_nodes);
-			ft_lstiter(*head, free_token_str);
-			ft_lstclear(head, free);
-			free(head);
-			free(input);
-		}
-	}
-	clear_history();
+	if (ft_strlen(s1) > ft_strlen(s2))
+		return (ft_strlen(s1));
+	return (ft_strlen(s2));
 }

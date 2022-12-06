@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:24:06 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/06 13:26:04 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/06 15:34:21 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	print_nodes(void *n)
 	print_label(node->label);
 	printf("Input: \"%s\"\n", node->str);
 	printf("At idx %d\n", node->str_idx);
+	printf("Arg is %s\n", node->arg);
 	printf("-------------\n");
 	printf("\n");
 }
