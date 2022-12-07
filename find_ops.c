@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/06 15:46:25 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:48:44 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ int	add_ops(const char *input, t_list **head, int i)
 		{
 			op = init_token(ft_strdup(op_tab[j]), i, idx, get_label(op_tab[j]));
 			if ((*op_tab[j]) == '$')
+			{
 				find_var(op, (char *)input);
+				expand(op);
+			}
 			ft_lstadd_back(head, ft_lstnew(op));
 			idx++;
 			return (ft_strlen(op_tab[j]) - 1);
