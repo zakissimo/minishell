@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/07 12:57:54 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/07 13:26:17 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ void	expand(t_token *var)
 	while (g_glob->envp[i] && \
 		ft_strncmp(g_glob->envp[i], tmp, ft_strlen(tmp)))
 		i++;
-	free(tmp);
-	free(var->arg);
-	if (g_glob->envp[i])
-		var->arg = ft_strdup(ft_strchr(g_glob->envp[i], '=') + 1);
-	else
-		var->arg = ft_strdup("");
+	if (var->arg[0] != '?')
+	{
+		free(tmp);
+		free(var->arg);
+		if (g_glob->envp[i])
+			var->arg = ft_strdup(ft_strchr(g_glob->envp[i], '=') + 1);
+		else
+			var->arg = ft_strdup("");
+	}
 }
 
 t_token	*get_node(t_list *curr, char *op)
@@ -69,11 +72,16 @@ void	find_var(t_token *token, char *input)
 	if (token)
 	{
 		i = token->str_idx + 1;
-		while (input[i] && !str_is_op(input + i))
+		if (input[i] == '?')
+			token->arg = ft_strdup("?");
+		else
 		{
-			i++;
-			len++;
+			while (input[i] && !str_is_op(input + i))
+			{
+				i++;
+				len++;
+			}
+			token->arg = ft_substr(input, token->str_idx + 1, len);
 		}
-		token->arg = ft_substr(input, token->str_idx + 1, len);
 	}
 }
