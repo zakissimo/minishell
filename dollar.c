@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/08 11:27:58 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/08 15:57:02 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_list	*get_node(t_list *curr, t_label op, bool next)
 	return (NULL);
 }
 
-bool	str_is_op(char *needle)
+static bool	str_is_op(char *needle)
 {
 	int						i;
 	static const char		*op_tab[10] = {"<<", ">>", "|", \
@@ -121,7 +121,7 @@ void	expand_input(void)
 	t_token	*token;
 	char	*expanded_input;
 
-	expanded_input = malloc((get_new_len() + 1) * sizeof(char));
+	expanded_input = ft_calloc((get_new_len() + 1), sizeof(char));
 	i = 0;
 	j = 0;
 	curr = *g_glob->head;
@@ -139,7 +139,9 @@ void	expand_input(void)
 			}
 			if (curr && i == token->str_idx)
 			{
-				expanded_input = ft_strjoinf(expanded_input, token->arg);
+				printf("%s\n", token->not_expanded);
+				ft_strlcat(expanded_input, \
+					token->arg, get_new_len() + 1);
 				j += ft_strlen(token->arg);
 				i += ft_strlen(token->not_expanded) + 1;
 			}
@@ -147,6 +149,7 @@ void	expand_input(void)
 				expanded_input[j++] = g_glob->input[i++];
 		}
 		g_glob->input = expanded_input;
-		printf("%s\n", g_glob->input);
 	}
+	if (!i)
+		free(expanded_input);
 }

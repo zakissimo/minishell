@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/08 11:22:21 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/08 13:10:45 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_glob
 
 extern t_glob	*g_glob;
 
+void	get_args(void);
 void	expand_input(void);
 void	print_nodes(void *n);
 void	find_var(t_token *token, char *input);

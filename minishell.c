@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/08 10:34:41 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/08 15:36:43 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_glob(t_list **head, char *input, char **envp)
 {
 	g_glob = malloc(sizeof(t_glob));
 	g_glob->head = head;
-	g_glob->input = input;
+	g_glob->input = ft_strdup(input);
 	g_glob->envp = envp;
 }
 
@@ -40,14 +40,19 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			init_glob(head, input, envp);
-			get_ops(input, head);
+			get_ops(g_glob->input, head);
 			expand_input();
+			ft_lstiter(*head, free_token_str);
+			ft_lstclear(head, free);
+			get_ops(g_glob->input, head);
+			printf("%s\n", g_glob->input);
+			get_args();
 			ft_lstiter(*head, print_nodes);
 			ft_lstiter(*head, free_token_str);
 			ft_lstclear(head, free);
-			free(head);
-			free(input);
 			free(g_glob);
+			free(input);
+			free(head);
 		}
 	}
 	clear_history();
