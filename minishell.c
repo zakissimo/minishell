@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/07 13:10:34 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/08 10:34:41 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			init_glob(head, input, envp);
 			get_ops(input, head);
+			expand_input();
 			ft_lstiter(*head, print_nodes);
 			ft_lstiter(*head, free_token_str);
 			ft_lstclear(head, free);
