@@ -6,14 +6,11 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/08 15:57:02 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/09 10:03:28 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void	expand(t_token *var)
 {
@@ -35,22 +32,6 @@ void	expand(t_token *var)
 		else
 			var->arg = ft_strdup("");
 	}
-}
-
-t_list	*get_node(t_list *curr, t_label op, bool next)
-{
-	t_token	*token;
-
-	if (curr && next)
-		curr = curr->next;
-	while (curr)
-	{
-		token = (t_token *)curr->content;
-		if (token->label == op)
-			return (curr);
-		curr = curr->next;
-	}
-	return (NULL);
 }
 
 static bool	str_is_op(char *needle)
@@ -90,66 +71,4 @@ void	find_var(t_token *token, char *input)
 			token->arg = ft_substr(input, token->str_idx + 1, len);
 		}
 	}
-}
-
-int	get_new_len(void)
-{
-	int		new_len;
-	t_list	*curr;
-	t_token	*token;
-
-	new_len = ft_strlen(g_glob->input);
-	curr = *g_glob->head;
-	while (curr)
-	{
-		token = (t_token *)curr->content;
-		if (token->label == VARIABLE)
-		{
-			new_len -= ft_strlen(token->not_expanded) + 1;
-			new_len += ft_strlen(token->arg);
-		}
-		curr = curr->next;
-	}
-	return (new_len);
-}
-
-void	expand_input(void)
-{
-	int		i;
-	int		j;
-	t_list	*curr;
-	t_token	*token;
-	char	*expanded_input;
-
-	expanded_input = ft_calloc((get_new_len() + 1), sizeof(char));
-	i = 0;
-	j = 0;
-	curr = *g_glob->head;
-	curr = get_node(curr, VARIABLE, false);
-	if (curr)
-	{
-		token = (t_token *)curr->content;
-		while (g_glob->input[i])
-		{
-			if (i > token->str_idx)
-			{
-				curr = get_node(curr, VARIABLE, true);
-				if (curr)
-					token = (t_token *)curr->content;
-			}
-			if (curr && i == token->str_idx)
-			{
-				printf("%s\n", token->not_expanded);
-				ft_strlcat(expanded_input, \
-					token->arg, get_new_len() + 1);
-				j += ft_strlen(token->arg);
-				i += ft_strlen(token->not_expanded) + 1;
-			}
-			else
-				expanded_input[j++] = g_glob->input[i++];
-		}
-		g_glob->input = expanded_input;
-	}
-	if (!i)
-		free(expanded_input);
 }

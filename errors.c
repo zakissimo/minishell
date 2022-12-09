@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 11:11:50 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/06 14:22:10 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/09 12:37:59 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,27 @@ int	quote_error(const char *input)
 	return (0);
 }
 
-int	op_error(const char *input)
+int	op_error(void)
 {
-	size_t				i;
-	size_t				j;
-	char				*trimmed;
-	static const char	*op_tab[6] = {"<<", ">>", "|", ">", "<", NULL};
+	char	*trimmed;
+	t_token	*token;
+	t_list	*curr;
 
-	i = 0;
-	trimmed = ft_strtrim((char *)input, " \t");
-	j = ft_strlen(trimmed);
-	while (op_tab[i])
+	trimmed = ft_strtrim(g_glob->input, " \t");
+	curr = NULL;
+	if (g_glob->head)
+		curr = *g_glob->head;
+	if (curr)
 	{
-		j -= ft_strlen(op_tab[i]);
-		if (!strncmp(trimmed + j, op_tab[i], ft_strlen(op_tab[i])))
+		token = (t_token *)ft_lstlast(curr)->content;
+		if (token && token->label != VARIABLE
+			&& ft_strlen(trimmed) == token->str_idx + ft_strlen(token->str))
 		{
 			ft_putstr_fd("Parse error\n", 2);
+			free(trimmed);
 			return (-1);
 		}
-		j += ft_strlen(op_tab[i]);
-		i++;
+		free(trimmed);
 	}
-	free(trimmed);
 	return (0);
 }

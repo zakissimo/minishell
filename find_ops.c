@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/08 15:26:26 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/09 12:39:00 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_token	*init_token(const char *str, int str_idx, int idx, t_label label)
 	new->label = label;
 	new->str = str;
 	new->arg = NULL;
+	new->not_expanded = NULL;
 	return (new);
 }
 
@@ -94,6 +95,8 @@ void	get_ops(const char *input, t_list **head)
 			double_q = (double_q + 1) % 2;
 		if (input[i] == '\'')
 			single_q = (single_q + 1) % 2;
+		if (input[i] == '$' && !ft_isprint_nospace(input[i + 1]))
+			i++;
 		if ((!single_q && !double_q) || (input[i] == '$' && double_q))
 			i += add_ops(input, head, i);
 		i++;
