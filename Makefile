@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2022/12/09 10:09:50 by zhabri           ###   ########.fr        #
+#    Updated: 2022/12/09 15:31:27 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,9 @@ SRCS		= minishell.c \
 				utils.c \
 				dollar.c \
 				arg.c \
-				get_after.c
+				get_after.c \
+				ft_strjoinf.c \
+				find_cmd.c
 
 OBJS		= $(SRCS:.c=.o)
 

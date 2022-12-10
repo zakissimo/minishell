@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 13:09:10 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/08 15:39:28 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/09 15:58:22 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ char	*ft_strjoinf(char *s1, char const *s2)
 	if (!str)
 		return (str);
 	i = -1;
-	while (++i < len && s1[i])
+	while (s1 && i++ < len && s1[i])
 		str[i] = s1[i];
 	j = 0;
-	while (i < len && s2[j])
+	while (s2 && i < len && s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
 	free(s1);

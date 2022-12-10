@@ -6,9 +6,14 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/09 12:45:35 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/10 20:29:51 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// TODO
+// IL FAUT GERER LES DOUBLE QUOTE ET LES ESPACES DEDANS
+// CF < i"nfile cat" 
+// < infile cat > '$USER' > "out2 >out3" -e | wc -c
 
 #include "minishell.h"
 
@@ -19,7 +24,7 @@ void	init_glob(t_list **head, char *input, char **envp)
 	g_glob = malloc(sizeof(t_glob));
 	g_glob->head = head;
 	g_glob->input = input;
-	g_glob->envp = envp;
+	g_glob->envp = str_tab_to_list(envp);
 }
 
 void	events(t_list **head, char *input, char **envp)
@@ -33,6 +38,7 @@ void	events(t_list **head, char *input, char **envp)
 		get_ops(g_glob->input, head);
 		printf("%s\n", g_glob->input);
 		get_args();
+		get_cmd();
 		ft_lstiter(*head, print_nodes);
 	}
 	free_list();
