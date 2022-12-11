@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 11:11:50 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/11 16:21:31 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/11 18:57:23 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,48 @@ int	quote_error(const char *input)
 	return (0);
 }
 
+char	*op_error_trimmed(t_list *curr)
+{
+	t_token	*token;
+	char	*trimmed;
+	t_token	*token_next;
+
+	token_next = NULL;
+	token = (t_token *)curr->content;
+	if (curr->next)
+	{
+		token_next = (t_token *)curr->next->content;
+		trimmed = ft_strtrimf(ft_substr(g_glob->input, token->str_idx \
+			+ ft_strlen(token->str), \
+			token_next->str_idx - \
+			(ft_strlen(token->str) + token->str_idx)), " \t");
+	}
+	else
+		trimmed = ft_strtrimf(ft_substr(g_glob->input, token->str_idx \
+			+ ft_strlen(token->str), \
+			ft_strlen(g_glob->input) - token->str_idx), " \t");
+	return (trimmed);
+}
+
 int	op_error(void)
 {
-	char	*trimmed;
-	t_token	*token;
 	t_list	*curr;
+	char	*trimmed;
 
-	trimmed = ft_strtrim(g_glob->input, " \t");
 	curr = NULL;
 	if (g_glob->head)
 		curr = *g_glob->head;
-	if (curr)
+	while (curr)
 	{
-		token = (t_token *)ft_lstlast(curr)->content;
-		if (token && token->label != VARIABLE
-			&& ft_strlen(trimmed) == token->str_idx + ft_strlen(token->str))
+		trimmed = op_error_trimmed(curr);
+		if (!ft_strlen(trimmed))
 		{
 			ft_putstr_fd("Parse error\n", 2);
 			free(trimmed);
 			return (-1);
 		}
+		free(trimmed);
+		curr = curr->next;
 	}
-	free(trimmed);
 	return (0);
 }
