@@ -4,3 +4,4 @@ minishell
 
 compile_commands.json
 .cache/clangd/index
+vsupp

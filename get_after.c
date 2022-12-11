@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 10:02:48 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/09 10:16:39 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/11 16:34:24 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,10 @@ void	get_after_loop(char *expanded_input, t_list *curr, int i, int j)
 			else
 				expanded_input[j++] = g_glob->input[i++];
 		}
+		free(g_glob->input);
 		g_glob->input = expanded_input;
 	}
-	if (!i)
+	else
 		free(expanded_input);
 }
 

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/10 20:29:51 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/11 16:34:36 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,33 @@
 
 t_glob	*g_glob;
 
-void	init_glob(t_list **head, char *input, char **envp)
+void	init_glob(char **envp)
 {
 	g_glob = malloc(sizeof(t_glob));
-	g_glob->head = head;
-	g_glob->input = input;
 	g_glob->envp = str_tab_to_list(envp);
 }
 
-void	events(t_list **head, char *input, char **envp)
+void	set_glob(t_list **head, char *input)
 {
-	init_glob(head, input, envp);
+	*head = NULL;
+	g_glob->head = head;
+	g_glob->input = input;
+}
+
+void	events(t_list **head)
+{
 	get_ops(g_glob->input, head);
 	if (!op_error())
 	{
 		get_after_op();
-		free_list();
+		free_op_list();
 		get_ops(g_glob->input, head);
-		printf("%s\n", g_glob->input);
+		printf("New input: %s\n", g_glob->input);
 		get_args();
 		get_cmd();
 		ft_lstiter(*head, print_nodes);
 	}
-	free_list();
-	nuke_glob();
+	free_op_list();
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -52,19 +55,21 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	init_glob(envp);
 	while (1)
 	{
-		head = malloc(sizeof(t_list *));
-		*head = NULL;
 		input = readline("minishell> ");
 		add_history(input);
+		head = malloc(sizeof(t_list *));
+		set_glob(head, input);
 		if (quote_error(input))
-		{
-			free(input);
 			free(head);
-		}
 		else
-			events(head, input, envp);
+			events(head);
+		free(g_glob->input);
+		free(head);
 	}
+	ft_lstclear(g_glob->envp, free);
+	free(g_glob);
 	clear_history();
 }

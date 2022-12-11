@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:25:14 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/10 20:23:05 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/11 16:13:13 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,14 @@ void	free_token_str(void *n)
 		free((char *)node->not_expanded);
 }
 
-void	free_list(void)
+void	free_op_list(void)
 {
 	ft_lstiter(*g_glob->head, free_token_str);
 	ft_lstclear(g_glob->head, free);
-	ft_lstclear(g_glob->envp, free);
 }
 
 void	nuke_glob(void)
 {
 	free(g_glob->input);
 	free(g_glob->head);
-	free(g_glob);
 }

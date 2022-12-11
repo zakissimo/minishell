@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:14:40 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/09 16:37:17 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/11 16:20:55 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	find_cmd_outfile(t_token *token, t_list **cmds)
 	cmd_rest = ft_strtrimf(ft_strdup(token->arg + i), " \t");
 	cmd = ft_lstlast(*cmds)->content;
 	ft_lstlast(*cmds)->content = ft_strjoinf(ft_strjoinf(cmd, " "), cmd_rest);
+	free(cmd_rest);
 	free(token->arg);
 	token->arg = file;
 }
@@ -101,6 +102,7 @@ void	get_cmd(void)
 			ft_lstadd_back(cmds, ft_lstnew(ft_strdup(token->arg)));
 		curr = curr->next;
 	}
+	ft_printf("cmds are:\n");
 	ft_lstiter(*cmds, print_cmd);
 	ft_lstclear(cmds, free);
 	free(cmds);

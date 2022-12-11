@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/10 20:26:10 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/11 16:28:46 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	expand(t_token *var)
 	tmp = ft_strjoin(var->arg, "=");
 	var->not_expanded = ft_strdup(var->arg);
 	curr = *g_glob->envp;
-	env = curr->content;
+	env = (char *)curr->content;
 	while (curr && \
 		ft_strncmp(env, tmp, ft_strlen(tmp)))
 	{
 		curr = curr->next;
 		if (curr)
-			env = curr->content;
+			env = (char *)curr->content;
 	}
 	if (var->arg[0] != '?')
 	{

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 11:11:50 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/09 12:37:59 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/11 16:21:31 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	op_error(void)
 			free(trimmed);
 			return (-1);
 		}
-		free(trimmed);
 	}
+	free(trimmed);
 	return (0);
 }

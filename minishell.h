@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/10 20:13:07 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/11 16:14:03 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ extern t_glob	*g_glob;
 
 void	get_cmd(void);
 void	nuke_glob(void);
-void	free_list(void);
+void	free_op_list(void);
 void	get_args(void);
 void	get_after_op(void);
 int		ft_isprint_nospace(int c);
