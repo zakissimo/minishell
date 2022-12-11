@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:14:40 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/11 16:20:55 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/11 17:17:50 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,14 @@ void	find_cmd_infile(t_token *token, t_list **cmds)
 
 	i = 0;
 	while (ft_isprint_nospace(token->arg[i]))
+	{
+		if (token->arg[i] == '"' || token->arg[i] == '\'')
+		{
+			i += find_quote(token->arg + i + 1, '"');
+			i += find_quote(token->arg + i + 1, '\'');
+		}
 		i++;
+	}
 	file = ft_substr(token->arg, 0, i);
 	cmd = ft_strtrimf(ft_strdup(token->arg + i), " \t");
 	ft_lstadd_back(cmds, ft_lstnew(cmd));
@@ -71,7 +78,14 @@ void	find_cmd_outfile(t_token *token, t_list **cmds)
 
 	i = 0;
 	while (ft_isprint_nospace(token->arg[i]))
+	{
+		if (token->arg[i] == '"' || token->arg[i] == '\'')
+		{
+			i += find_quote(token->arg + i + 1, '"');
+			i += find_quote(token->arg + i + 1, '\'');
+		}
 		i++;
+	}
 	file = ft_substr(token->arg, 0, i);
 	cmd_rest = ft_strtrimf(ft_strdup(token->arg + i), " \t");
 	cmd = ft_lstlast(*cmds)->content;
