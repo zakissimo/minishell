@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/09 17:13:00 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/12 13:45:18 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	get_ops(const char *input, t_list **head)
 	i = 0;
 	single_q = false;
 	double_q = false;
-	while (input[i])
+	while (i < ft_strlen(input) && input[i])
 	{
 		if (input[i] == '"' && !single_q)
 			double_q = (double_q + 1) % 2;

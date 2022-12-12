@@ -6,16 +6,12 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/11 16:34:36 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/12 13:43:29 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// TODO
-// IL FAUT GERER LES DOUBLE QUOTE ET LES ESPACES DEDANS
-// CF < i"nfile cat" 
-// < infile cat > '$USER' > "out2 >out3" -e | wc -c
-
 #include "minishell.h"
+#include "libft/includes/libft.h"
 
 t_glob	*g_glob;
 
@@ -35,15 +31,18 @@ void	set_glob(t_list **head, char *input)
 void	events(t_list **head)
 {
 	get_ops(g_glob->input, head);
+	get_after_op();
+	free_op_list();
+	get_ops(g_glob->input, head);
 	if (!op_error())
 	{
-		get_after_op();
-		free_op_list();
-		get_ops(g_glob->input, head);
 		printf("New input: %s\n", g_glob->input);
 		get_args();
 		get_cmd();
+		ft_lstiter(*g_glob->cmds, print_cmd);
 		ft_lstiter(*head, print_nodes);
+		ft_lstclear(g_glob->cmds, free);
+		free(g_glob->cmds);
 	}
 	free_op_list();
 }
@@ -62,9 +61,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input);
 		head = malloc(sizeof(t_list *));
 		set_glob(head, input);
-		if (quote_error(input))
-			free(head);
-		else
+		if (!quote_error(input))
 			events(head);
 		free(g_glob->input);
 		free(head);

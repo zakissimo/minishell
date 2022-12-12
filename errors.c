@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 11:11:50 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/11 18:57:23 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/12 10:28:57 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	*op_error_trimmed(t_list *curr)
 	char	*trimmed;
 	t_token	*token_next;
 
+	while (curr->next && ((t_token *)curr->next->content)->label == VARIABLE)
+		curr = curr->next;
 	token_next = NULL;
 	token = (t_token *)curr->content;
 	if (curr->next)
@@ -76,13 +78,16 @@ int	op_error(void)
 	while (curr)
 	{
 		trimmed = op_error_trimmed(curr);
-		if (!ft_strlen(trimmed))
+		if (((t_token *)curr->content)->label != VARIABLE)
 		{
-			ft_putstr_fd("Parse error\n", 2);
+			if (!ft_strlen(trimmed))
+			{
+				ft_putstr_fd("Parse error\n", 2);
+				free(trimmed);
+				return (-1);
+			}
 			free(trimmed);
-			return (-1);
 		}
-		free(trimmed);
 		curr = curr->next;
 	}
 	return (0);
