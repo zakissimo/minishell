@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/12 12:49:16 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/13 14:24:28 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ typedef struct s_glob
 
 extern t_glob	*g_glob;
 
+void	split_cmds(void);
+void	add_to_tab(char **tab, char *str);
+void	free_tab(void *t);
 void	get_cmd(void);
 void	nuke_glob(void);
 void	free_op_list(void);
@@ -57,7 +60,8 @@ void	get_args(void);
 void	get_after_op(void);
 int		ft_isprint_nospace(int c);
 int		ft_isprint_nospace_nodollar(int c);
-void	print_cmd(void *n);
+void	print_cmds(void);
+void	clear_cmds(void);
 void	print_nodes(void *n);
 void	find_var(t_token *token, char *input);
 void	free_token_str(void *n);
@@ -74,5 +78,7 @@ int		quote_error(const char *input);
 int		get_longest_str(char *s1, char *s2);
 void	insert_node(t_list **head, t_list *node, int idx);
 void	add_cmd(t_list **head, const char *input, size_t i, size_t end_cmd);
+int		skip_if_quotes(const char *s, int i);
+char	**ft_split_quotes(char const *s, char *sep);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:58:39 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/12 13:40:03 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/13 13:17:27 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ int	get_longest_str(char *s1, char *s2)
 	if (ft_strlen(s1) > ft_strlen(s2))
 		return (ft_strlen(s1));
 	return (ft_strlen(s2));
-}
-
-int	ft_isprint_nospace_nodollar(int c)
-{
-	return ((c > ' ' && c <= '~') && c != '$');
-}
-
-int	ft_isprint_nospace(int c)
-{
-	return ((c > ' ' && c <= '~'));
 }
 
 t_list	**str_tab_to_list(char **tab)
@@ -69,27 +59,21 @@ char	*remove_quotes(char *str)
 	int		i;
 	int		j;
 	char	*ret;
-	bool	double_q;
-	bool	single_q;
+	int		double_q;
+	int		single_q;
 
 	ret = ft_calloc(((ft_strlen(str) - count_quotes(str) + 1)), sizeof(char));
-	double_q = false;
-	single_q = false;
+	double_q = 0;
+	single_q = 0;
 	i = 0;
 	j = 0;
-	while (i < (int)ft_strlen(str) && str[i])
+	while (str[i])
 	{
 		if (str[i] == '"' && !single_q)
-		{
-			double_q = (double_q + 1) % 2;
-			i++;
-		}
-		if (str[i] == '\'' && !double_q)
-		{
-			single_q = (single_q + 1) % 2;
-			i++;
-		}
-		if ((str[i] == '"' && single_q)
+			double_q = !double_q;
+		else if (str[i] == '\'' && !double_q)
+			single_q = !single_q;
+		else if ((str[i] == '"' && single_q)
 			|| (str[i] == '\'' && double_q)
 			|| (str[i] != '"' && str[i] != '\''))
 			ret[j++] = str[i];

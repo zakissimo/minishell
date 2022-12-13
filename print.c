@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:24:06 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/10 20:19:19 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/13 14:25:51 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,26 @@ void	print_label(t_label label)
 		printf("UNKNOWN\n");
 }
 
-void	print_cmd(void *n)
+void	print_cmds(void)
 {
-	char	*cmd;
+	int		i;
+	t_list	*cmd;
 
-	cmd = (char *)n;
-	printf("%s\n", cmd);
+	if (g_glob->cmds)
+	{
+		cmd = *g_glob->cmds;
+		while (cmd)
+		{
+			i = 0;
+			while (((char **)cmd->content)[i])
+			{
+				printf("%s\n", ((char **)cmd->content)[i]);
+				i++;
+			}
+			printf("------------------\n");
+			cmd = cmd->next;
+		}
+	}
 }
 
 void	print_nodes(void *n)

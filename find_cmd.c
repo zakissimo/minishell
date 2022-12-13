@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:14:40 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/12 13:49:32 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/13 13:52:11 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	find_cmd(t_list **cmds)
 	if (trimmed && trimmed[i] && trimmed[0] != '<')
 	{
 		while (trimmed[i] && !str_is_op(trimmed + i))
-			i++;
-		ft_lstadd_back(cmds, ft_lstnew(remove_quotes(ft_substr(trimmed, 0, i))));
+			i += skip_if_quotes(trimmed, i);
+		ft_lstadd_back(cmds, ft_lstnew(ft_substr(trimmed, 0, i)));
 	}
 	free(trimmed);
 }
@@ -53,21 +53,20 @@ void	find_cmd_infile(t_token *token, t_list **cmds)
 	char	*file;
 
 	i = 0;
-	while (i < (int)ft_strlen(token->arg) && ft_isprint_nospace(token->arg[i]))
+	while (ft_isprint_nospace(token->arg[i]))
 	{
 		if (token->arg[i] == '"')
 			i += find_quote(token->arg + i + 1, '"');
-		if (token->arg[i] == '\'')
+		else if (token->arg[i] == '\'')
 			i += find_quote(token->arg + i + 1, '\'');
 		i++;
 	}
 	file = ft_substr(token->arg, 0, i);
 	cmd = ft_strtrimf(ft_strdup(token->arg + i), " \t");
-	ft_lstadd_back(cmds, ft_lstnew(remove_quotes(cmd)));
+	ft_lstadd_back(cmds, ft_lstnew(cmd));
 	free(token->arg);
 	token->arg = remove_quotes(file);
 }
-
 void	find_cmd_outfile(t_token *token, t_list **cmds)
 {
 	int		i;
@@ -80,14 +79,14 @@ void	find_cmd_outfile(t_token *token, t_list **cmds)
 	{
 		if (token->arg[i] == '"')
 			i += find_quote(token->arg + i + 1, '"');
-		if (token->arg[i] == '\'')
+		else if (token->arg[i] == '\'')
 			i += find_quote(token->arg + i + 1, '\'');
 		i++;
 	}
 	file = ft_substr(token->arg, 0, i);
 	cmd_rest = ft_strtrimf(ft_strdup(token->arg + i), " \t");
 	cmd = ft_lstlast(*cmds)->content;
-	ft_lstlast(*cmds)->content = remove_quotes(ft_strjoinf(ft_strjoinf(cmd, " "), cmd_rest));
+	ft_lstlast(*cmds)->content = ft_strjoinf(ft_strjoinf(cmd, " "), cmd_rest);
 	free(cmd_rest);
 	free(token->arg);
 	token->arg = remove_quotes(file);
@@ -108,10 +107,10 @@ void	get_cmd(void)
 		token = (t_token *)curr->content;
 		if (token->label == INFILE || token->label == HEREDOC)
 			find_cmd_infile(token, cmds);
-		if (token->label == OUTFILE || token->label == OUTFILE_A)
+		else if (token->label == OUTFILE || token->label == OUTFILE_A)
 			find_cmd_outfile(token, cmds);
-		if (token->label == PIPE && token->arg[0] != '\0')
-			ft_lstadd_back(cmds, ft_lstnew(remove_quotes(ft_strdup(token->arg))));
+		else if (token->label == PIPE && token->arg[0] != '\0')
+			ft_lstadd_back(cmds, ft_lstnew(ft_strdup(token->arg)));
 		curr = curr->next;
 	}
 	g_glob->cmds = cmds;

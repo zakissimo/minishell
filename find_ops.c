@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/12 13:45:18 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/13 13:34:33 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ void	get_ops(const char *input, t_list **head)
 	while (i < ft_strlen(input) && input[i])
 	{
 		if (input[i] == '"' && !single_q)
-			double_q = (double_q + 1) % 2;
-		if (input[i] == '\'' && !double_q)
-			single_q = (single_q + 1) % 2;
-		if (input[i] == '$' && !ft_isprint_nospace_nodollar(input[i + 1]))
+			double_q = !double_q;
+		else if (input[i] == '\'' && !double_q)
+			single_q = !single_q;
+		else if (input[i] == '$' && !ft_isprint_nospace_nodollar(input[i + 1]))
 			i++;
 		if ((!single_q && !double_q) || (input[i] == '$' && double_q))
 			i += add_ops(input, head, i);

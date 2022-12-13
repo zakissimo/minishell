@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/12 13:43:29 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/13 14:25:14 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ void	events(t_list **head)
 		printf("New input: %s\n", g_glob->input);
 		get_args();
 		get_cmd();
-		ft_lstiter(*g_glob->cmds, print_cmd);
+		split_cmds();
+		print_cmds();
 		ft_lstiter(*head, print_nodes);
-		ft_lstclear(g_glob->cmds, free);
+		clear_cmds();
 		free(g_glob->cmds);
 	}
 	free_op_list();
@@ -58,6 +59,10 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input = readline("minishell> ");
+		if (input == NULL)
+			break ;
+		if (*input == '\0')
+			continue ;
 		add_history(input);
 		head = malloc(sizeof(t_list *));
 		set_glob(head, input);
