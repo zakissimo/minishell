@@ -6,12 +6,14 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/13 14:25:14 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/13 14:41:07 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft/includes/libft.h"
+
+// TODO: Remove quotes for cmds
 
 t_glob	*g_glob;
 
