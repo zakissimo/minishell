@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 13:53:15 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/13 13:57:10 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/15 11:44:23 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	trim_tab(char **tab)
 	i = 0;
 	while (tab[i])
 	{
-		tab[i] = ft_strtrimf(tab[i], " \t");
+		tab[i] = remove_quotes(ft_strtrimf(tab[i], " \t"));
 		i++;
 	}
 }
