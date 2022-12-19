@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:25:14 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/13 14:22:49 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/16 08:26:50 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	free_token_str(void *n)
 	t_token	*node;
 
 	node = (t_token *)n;
-	free((char *)node->str);
+	if (node->str)
+		free((char *)node->str);
 	if (node->arg)
 		free((char *)node->arg);
 	if (node->not_expanded)
@@ -41,13 +42,16 @@ void	clear_cmds(void)
 		cmd = *g_glob->cmds;
 		while (cmd)
 		{
-			i = 0;
-			while (((char **)cmd->content)[i])
+			if (cmd->content)
 			{
-				free(((char **)cmd->content)[i]);
-				i++;
+				i = 0;
+				while (((char **)cmd->content)[i])
+				{
+					free(((char **)cmd->content)[i]);
+					i++;
+				}
+				free(((char **)cmd->content));
 			}
-			free(((char **)cmd->content));
 			next = cmd->next;
 			free(cmd);
 			cmd = next;

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 13:04:06 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/09 15:17:54 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 09:46:19 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	get_args(void)
 		token->arg = ft_substr(g_glob->input, \
 			token->str_idx + ft_strlen(token->str), \
 			idx - token->str_idx - ft_strlen(token->str));
-		token->arg = ft_strtrimf(token->arg, " ");
+		token->arg = ft_strtrimf(token->arg, " \t");
 		curr = curr->next;
 	}
 }

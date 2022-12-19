@@ -6,21 +6,20 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/13 14:41:07 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/16 08:30:58 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft/includes/libft.h"
 
-// TODO: Remove quotes for cmds
-
 t_glob	*g_glob;
 
 void	init_glob(char **envp)
 {
 	g_glob = malloc(sizeof(t_glob));
-	g_glob->envp = str_tab_to_list(envp);
+	if (g_glob)
+		g_glob->envp = str_tab_to_list(envp);
 }
 
 void	set_glob(t_list **head, char *input)
@@ -45,7 +44,8 @@ void	events(t_list **head)
 		print_cmds();
 		ft_lstiter(*head, print_nodes);
 		clear_cmds();
-		free(g_glob->cmds);
+		if (g_glob->cmds)
+			free(g_glob->cmds);
 	}
 	free_op_list();
 }
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	init_glob(envp);
-	while (1)
+	while (g_glob)
 	{
 		input = readline("minishell> ");
 		if (input == NULL)
@@ -68,10 +68,11 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input);
 		head = malloc(sizeof(t_list *));
 		set_glob(head, input);
-		if (!quote_error(input))
+		if (head && !quote_error(input))
 			events(head);
 		free(g_glob->input);
-		free(head);
+		if (head)
+			free(head);
 	}
 	ft_lstclear(g_glob->envp, free);
 	free(g_glob);
