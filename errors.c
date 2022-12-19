@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 11:11:50 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/12 10:28:57 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 11:00:13 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	op_error(void)
 	while (curr)
 	{
 		trimmed = op_error_trimmed(curr);
-		if (((t_token *)curr->content)->label != VARIABLE)
+		if (((t_token *)curr->content)->label != VARIABLE \
+			&& ((t_token *)curr->content)->label != PIPE)
 		{
 			if (!ft_strlen(trimmed))
 			{

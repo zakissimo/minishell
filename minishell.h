@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/13 14:24:28 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 11:06:58 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ int		find_quote(const char *s, char c);
 char	*ft_strjoinf(char *s1, char const *s2);
 char	*ft_strtrimf(char *s1, char const *set);
 void	get_ops(const char *input, t_list **head);
+int		pipe_error(void);
 int		op_error(void);
+char	*op_error_trimmed(t_list *curr);
 void	expand(t_token *var);
 t_list	**str_tab_to_list(char **tab);
 int		quote_error(const char *input);
