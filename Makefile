@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2022/12/19 11:07:24 by zhabri           ###   ########.fr        #
+#    Updated: 2022/12/19 14:45:50 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,9 @@ SRCS		= minishell.c \
 				find_cmd.c \
 				ft_split_quotes.c \
 				split_cmds.c \
-				pipe_error.c
+				pipe_error.c \
+				open.c \
+				add_cmd.c
 
 OBJS		= $(SRCS:.c=.o)
 

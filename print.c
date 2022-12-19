@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:24:06 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 13:33:37 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 15:12:57 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,12 @@ void	print_cmds(void)
 		cmd = *g_glob->cmds;
 		while (cmd)
 		{
-			printf("cmd: %s\n", (((t_cmd *)cmd->content)->str));
-			printf("fd_in: %i\n", (((t_cmd *)cmd->content)->fd_in));
-			printf("fd_out: %i\n", (((t_cmd *)cmd->content)->fd_out));
+			if (cmd->content)
+			{
+				printf("fd_in: %i\n", (((t_cmd *)cmd->content)->fd_in));
+				printf("fd_out: %i\n", (((t_cmd *)cmd->content)->fd_out));
+				printf("cmd: %s\n", (((t_cmd *)cmd->content)->str));
+			}
 			cmd = cmd->next;
 		}
 	}

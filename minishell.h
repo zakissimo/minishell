@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 13:18:39 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 15:41:27 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <string.h>
 # include <stdbool.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "libft/includes/libft.h"
@@ -60,6 +62,8 @@ typedef struct s_glob
 
 extern t_glob	*g_glob;
 
+bool	ft_open_out(t_cmd *node, t_token *token);
+bool	ft_open_in(t_cmd *node, t_token *token);
 void	split_cmds(void);
 void	add_to_tab(char **tab, char *str);
 void	free_tab(void *t);
@@ -83,14 +87,17 @@ char	*ft_strtrimf(char *s1, char const *set);
 void	get_ops(const char *input, t_list **head);
 int		pipe_error(void);
 int		op_error(void);
+void	clear_cmd(void *curr);
+t_cmd	*init_cmd_token(int in, int out, char *str);
+void	lst_dellast(t_list **lst, void (*del)(void *));
 char	*op_error_trimmed(t_list *curr);
 void	expand(t_token *var);
 t_list	**str_tab_to_list(char **tab);
 int		quote_error(const char *input);
 int		get_longest_str(char *s1, char *s2);
 void	insert_node(t_list **head, t_list *node, int idx);
-void	add_cmd(t_list **head, const char *input, size_t i, size_t end_cmd);
 int		skip_if_quotes(const char *s, int i);
 char	**ft_split_quotes(char const *s, char *sep);
+void	add_cmd(t_token *token, t_list **cmds, bool *pb);
 
 #endif

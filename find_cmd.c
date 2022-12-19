@@ -63,7 +63,7 @@ void	find_cmd(t_list **cmds)
 	free(trimmed);
 }
 
-void	find_cmd_infile(t_token *token, t_cmd *node)
+void	find_cmd_infile(t_token *token, t_cmd *node, bool *pb)
 {
 	int		i;
 	char	*cmd;
@@ -84,12 +84,9 @@ void	find_cmd_infile(t_token *token, t_cmd *node)
 	free(cmd);
 	free(token->arg);
 	token->arg = remove_quotes(file);
-	if (token->label == INFILE)
-		node->fd_in = open(token->arg, O_RDONLY);
-	else
-		node->fd_in = -2;
+	*pb = ft_open_in(node, token);
 }
-void	find_cmd_outfile(t_token *token, t_cmd *node)
+void	find_cmd_outfile(t_token *token, t_cmd *node, bool *pb)
 {
 	int		i;
 	char	*cmd;
@@ -110,10 +107,7 @@ void	find_cmd_outfile(t_token *token, t_cmd *node)
 	free(cmd);
 	free(token->arg);
 	token->arg = remove_quotes(file);
-	if (token->label == OUTFILE)
-		node->fd_out = open(token->arg, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	else
-		node->fd_out = open(token->arg, O_RDWR | O_CREAT | O_APPEND, 0644);
+	*pb = ft_open_out(node, token);
 }
 
 void	get_cmd(void)
@@ -121,7 +115,9 @@ void	get_cmd(void)
 	t_list	*curr;
 	t_token	*token;
 	t_list	**cmds;
+	bool	pb;
 
+	pb = false;
 	curr = *g_glob->head;
 	cmds = malloc(sizeof(t_list *));
 	*cmds = NULL;
@@ -129,13 +125,16 @@ void	get_cmd(void)
 	while (curr)
 	{
 		token = (t_token *)curr->content;
-		if (token->label == INFILE || token->label == HEREDOC)
-			find_cmd_infile(token, ft_lstlast(*cmds)->content);
-		else if (token->label == OUTFILE || token->label == OUTFILE_A)
-			find_cmd_outfile(token, ft_lstlast(*cmds)->content);
-		else if (token->label == PIPE && token->arg[0] != '\0')
-			ft_lstadd_back(cmds, ft_lstnew(ft_strdup(token->arg)));
+		if (!pb && (token->label == INFILE || token->label == HEREDOC))
+			find_cmd_infile(token, ft_lstlast(*cmds)->content, &pb);
+		else if (!pb && (token->label == OUTFILE || token->label == OUTFILE_A))
+			find_cmd_outfile(token, ft_lstlast(*cmds)->content, &pb);
+		else if (token->label == PIPE)
+			add_cmd(token, cmds, &pb);
 		curr = curr->next;
 	}
+	if (pb)
+		lst_dellast(cmds, clear_cmd);
+	printf("I see %i cmds\n", ft_lstsize(*cmds));
 	g_glob->cmds = cmds;
 }

@@ -6,10 +6,11 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:25:14 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 13:41:18 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 15:43:09 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 void	free_token_str(void *n)
@@ -50,6 +51,44 @@ void	clear_cmds(void)
 			free(cmd);
 			cmd = next;
 		}
+	}
+}
+
+void	clear_cmd(void *curr)
+{
+	t_cmd	*cmd;
+
+	if (curr)
+	{
+		cmd = ((t_cmd *)curr);
+		free(cmd->str);
+		if (cmd->fd_in > 2)
+			close(cmd->fd_in);
+		if (cmd->fd_out > 2)
+			close(cmd->fd_out);
+		free(cmd);
+	}
+}
+
+void	lst_dellast(t_list **lst, void (*del)(void *))
+{
+	t_list	*curr;
+	t_list	*prev;
+	t_list	*n;
+
+	if (lst && (*lst) && del)
+	{
+		curr = *lst;
+		prev = *lst;
+		n = (*lst)->next;
+		while (n)
+		{
+			prev = curr;
+			curr = n;
+			n = n->next;
+		}
+		ft_lstdelone(curr, del);
+		prev->next = NULL;
 	}
 }
 
