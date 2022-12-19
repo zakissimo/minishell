@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:24:06 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/13 14:25:51 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 13:33:37 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	print_label(t_label label)
 
 void	print_cmds(void)
 {
-	int		i;
 	t_list	*cmd;
 
 	if (g_glob->cmds)
@@ -41,13 +40,9 @@ void	print_cmds(void)
 		cmd = *g_glob->cmds;
 		while (cmd)
 		{
-			i = 0;
-			while (((char **)cmd->content)[i])
-			{
-				printf("%s\n", ((char **)cmd->content)[i]);
-				i++;
-			}
-			printf("------------------\n");
+			printf("cmd: %s\n", (((t_cmd *)cmd->content)->str));
+			printf("fd_in: %i\n", (((t_cmd *)cmd->content)->fd_in));
+			printf("fd_out: %i\n", (((t_cmd *)cmd->content)->fd_out));
 			cmd = cmd->next;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:25:14 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/16 08:26:50 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 13:41:18 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	free_op_list(void)
 
 void	clear_cmds(void)
 {
-	int		i;
 	t_list	*cmd;
 	t_list	*next;
 
@@ -44,13 +43,8 @@ void	clear_cmds(void)
 		{
 			if (cmd->content)
 			{
-				i = 0;
-				while (((char **)cmd->content)[i])
-				{
-					free(((char **)cmd->content)[i]);
-					i++;
-				}
-				free(((char **)cmd->content));
+				free(((t_cmd *)cmd->content)->str);
+				free(cmd->content);
 			}
 			next = cmd->next;
 			free(cmd);

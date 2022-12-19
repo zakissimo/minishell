@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 13:09:10 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/09 15:58:22 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 13:44:16 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ char	*ft_strjoinf(char *s1, char const *s2)
 	int		len;
 	char	*str;
 
-	if (!s1)
-		return (NULL);
+	len = 0;
 	if (s1 && s2)
 		len = ft_strlen(s1) + ft_strlen(s2);
-	else
+	else if (s1)
 		len = ft_strlen(s1);
+	else if (s2)
+		len = ft_strlen(s2);
 	str = malloc((len + 1) * sizeof(char));
 	if (!str)
 		return (str);

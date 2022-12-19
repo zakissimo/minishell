@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 11:06:58 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 13:18:39 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include <stdio.h>
 # include <stdbool.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "libft/includes/libft.h"
@@ -39,6 +42,13 @@ typedef struct s_token
 	char			*arg;
 	char			*not_expanded;
 }				t_token;
+
+typedef struct s_cmd
+{
+	int			fd_in;
+	int			fd_out;
+	char		*str;
+}				t_cmd;
 
 typedef struct s_glob
 {

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 11:06:39 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 12:41:18 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	events(t_list **head)
 		printf("New input: %s\n", g_glob->input);
 		get_args();
 		get_cmd();
-		split_cmds();
+		// split_cmds();
 		print_cmds();
 		ft_lstiter(*head, print_nodes);
 		clear_cmds();

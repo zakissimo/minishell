@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:02:03 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 11:20:05 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/19 13:53:19 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,12 @@ int	pipe_error(void)
 	trimmed = NULL;
 	if (g_glob->head)
 		curr = *g_glob->head;
-	if (((t_token *)curr->content)->label == PIPE)
+	if (curr && curr->content && ((t_token *)curr->content)->label == PIPE)
 	{
 		ft_putstr_fd("Pipe error\n", 2);
 		return (-1);
 	}
-	return (pipe_error_loop(curr, prev, trimmed));
+	if (curr)
+		return (pipe_error_loop(curr, prev, trimmed));
+	return (0);
 }
