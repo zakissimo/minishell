@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:06:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 14:54:17 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 11:36:52 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	ft_open_in(t_cmd *node, t_token *token)
 	if (token->label == INFILE)
 		node->fd_in = open(token->arg, O_RDONLY);
 	else
-		node->fd_in = open(token->arg, O_RDONLY);
+		node->fd_in = -2;
 	if (node->fd_in == -1)
 	{
 		perror(token->arg);

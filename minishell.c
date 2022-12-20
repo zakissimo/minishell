@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 11:02:43 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 11:39:33 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	events(t_list **head)
 		if (!pipe_error())
 		{
 			get_cmd();
-			// split_cmds();
 			print_cmds();
 			ft_lstiter(*head, print_nodes);
 			clear_cmds();
