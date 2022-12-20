@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/13 13:34:33 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 13:18:54 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_token	*init_token(const char *str, int str_idx, int idx, t_label label)
 	new->label = label;
 	new->str = str;
 	new->arg = NULL;
+	new->file = NULL;
 	new->not_expanded = NULL;
 	return (new);
 }

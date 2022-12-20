@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:25:14 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 10:54:50 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 13:18:44 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	free_token_str(void *n)
 		free((char *)node->arg);
 	if (node->not_expanded)
 		free((char *)node->not_expanded);
+	if (node->file)
+		free(node->file);
 }
 
 void	free_op_list(void)

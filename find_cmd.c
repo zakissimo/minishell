@@ -82,10 +82,13 @@ void	find_cmd_infile(t_token *token, t_cmd *node, bool *pb)
 	cmd = ft_strtrimf(ft_strdup(token->arg + i), " \t");
 	node->str = ft_strtrimf(ft_strjoinf(ft_strjoinf(node->str, " "), cmd), " \t");
 	free(cmd);
-	free(token->arg);
-	token->arg = remove_quotes(file);
+	if (token->label != HEREDOC)
+		token->file = remove_quotes(file);
+	else
+		free(file);
 	*pb = ft_open_in(node, token);
 }
+
 void	find_cmd_outfile(t_token *token, t_cmd *node, bool *pb)
 {
 	int		i;
@@ -105,8 +108,7 @@ void	find_cmd_outfile(t_token *token, t_cmd *node, bool *pb)
 	cmd = ft_strtrimf(ft_strdup(token->arg + i), " \t");
 	node->str = ft_strtrimf(ft_strjoinf(ft_strjoinf(node->str, " "), cmd), " \t");
 	free(cmd);
-	free(token->arg);
-	token->arg = remove_quotes(file);
+	token->file = remove_quotes(file);
 	*pb = ft_open_out(node, token);
 }
 
