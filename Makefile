@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2022/12/19 14:45:50 by zhabri           ###   ########.fr        #
+#    Updated: 2022/12/20 10:03:32 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS		= minishell.c \
 				nuke.c \
 				utils.c \
 				utils_bis.c \
+				utils_bis_bis.c \
 				dollar.c \
 				arg.c \
 				get_after.c \

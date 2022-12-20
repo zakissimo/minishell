@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 08:27:09 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 09:57:40 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_glob
 
 extern t_glob	*g_glob;
 
+char	*get_first(void);
 bool	ft_open_out(t_cmd *node, t_token *token);
 bool	ft_open_in(t_cmd *node, t_token *token);
 void	split_cmds(void);
