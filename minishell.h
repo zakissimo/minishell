@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 13:16:09 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 14:46:03 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
+	int			cmd_idx;
 	int			fd_in;
 	int			fd_out;
 	char		*str;
@@ -91,7 +92,7 @@ void	get_ops(const char *input, t_list **head);
 int		pipe_error(void);
 int		op_error(void);
 void	clear_cmd(void *curr);
-t_cmd	*init_cmd_token(int in, int out, char *str);
+t_cmd	*init_cmd_token(int in, int out, char *str, bool reset);
 void	lst_dellast(t_list **lst, void (*del)(void *));
 char	*op_error_trimmed(t_list *curr);
 void	expand(t_token *var);

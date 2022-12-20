@@ -15,16 +15,21 @@
 #include "minishell.h"
 #include <stdlib.h>
 
-t_cmd	*init_cmd_token(int in, int out, char *str)
+t_cmd	*init_cmd_token(int in, int out, char *str, bool reset)
 {
+	static int	idx;
 	t_cmd	*node;
 
+	if (reset)
+		idx = 0;
 	node = NULL;
 	while (!node)
 		node = malloc(sizeof(t_cmd));
+	node->cmd_idx = idx;
 	node->fd_in = in;
 	node->fd_out = out;
 	node->str = str;
+	idx++;
 	return (node);
 }
 
@@ -52,7 +57,7 @@ void	find_cmd(t_list **cmds)
 
 	i = 0;
 	trimmed = ft_strtrim(g_glob->input, " \t");
-	node = init_cmd_token(0, 1, NULL);
+	node = init_cmd_token(0, 1, NULL, true);
 	if (trimmed && trimmed[0])
 	{
 		while (trimmed[i] && !str_is_op(trimmed + i))
