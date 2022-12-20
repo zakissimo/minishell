@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:33:11 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 13:32:42 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 14:05:28 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*name_generator(void)
 	return (file_name);
 }
 
-static char *get_limiter(t_token *token)
+static char	*get_limiter(t_token *token)
 {
 	int		i;
 	char	*limiter;
@@ -66,21 +66,17 @@ static void	handle_here_doc(t_token *token)
 	char	*file_name;
 	char	*limiter;
 
-	file_name = NULL;
-	here_doc_entry = readline("> ");
 	file_name = name_generator();
 	fd = open(file_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		free(file_name);
-		free(here_doc_entry);
-		perror(file_name);
 		return ;
 	}
+	here_doc_entry = readline("> ");
 	limiter = get_limiter(token);
 	while (here_doc_entry != NULL
-		&& strncmp(limiter, here_doc_entry, \
-		ft_strlen(limiter) + 1) != 0)
+		&& strncmp(limiter, here_doc_entry, ft_strlen(limiter) + 1) != 0)
 	{
 		write(fd, here_doc_entry, ft_strlen(here_doc_entry));
 		free(here_doc_entry);
