@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 14:49:52 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 09:19:31 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	events(t_list **head)
 {
 	get_ops(g_glob->input, head);
 	get_after_op();
+	ft_lstiter(*head, print_nodes);
 	free_op_list();
 	get_ops(g_glob->input, head);
 	if (!op_error() && !pipe_error())

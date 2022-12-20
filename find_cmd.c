@@ -21,7 +21,7 @@ t_cmd	*init_cmd_token(int in, int out, char *str)
 
 	node = NULL;
 	while (!node)
-		node = malloc(sizeof(t_cmd *));
+		node = malloc(sizeof(t_cmd));
 	node->fd_in = in;
 	node->fd_out = out;
 	node->str = str;
@@ -133,8 +133,6 @@ void	get_cmd(void)
 			add_cmd(token, cmds, &pb);
 		curr = curr->next;
 	}
-	if (pb)
-		lst_dellast(cmds, clear_cmd);
 	printf("I see %i cmds\n", ft_lstsize(*cmds));
 	g_glob->cmds = cmds;
 }

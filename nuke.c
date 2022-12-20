@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:25:14 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 15:43:09 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 09:14:08 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ void	clear_cmds(void)
 		{
 			if (cmd->content)
 			{
-				free(((t_cmd *)cmd->content)->str);
+				if (((t_cmd *)cmd->content)->str)
+					free(((t_cmd *)cmd->content)->str);
+				if (((t_cmd *)cmd->content)->fd_in > 2)
+					close(((t_cmd *)cmd->content)->fd_in);
+				if (((t_cmd *)cmd->content)->fd_out > 2)
+					close(((t_cmd *)cmd->content)->fd_out);
 				free(cmd->content);
 			}
 			next = cmd->next;
@@ -61,7 +66,8 @@ void	clear_cmd(void *curr)
 	if (curr)
 	{
 		cmd = ((t_cmd *)curr);
-		free(cmd->str);
+		if (cmd->str)
+			free(cmd->str);
 		if (cmd->fd_in > 2)
 			close(cmd->fd_in);
 		if (cmd->fd_out > 2)
@@ -90,10 +96,4 @@ void	lst_dellast(t_list **lst, void (*del)(void *))
 		ft_lstdelone(curr, del);
 		prev->next = NULL;
 	}
-}
-
-void	nuke_glob(void)
-{
-	free(g_glob->input);
-	free(g_glob->head);
 }

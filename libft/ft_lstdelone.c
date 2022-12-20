@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:05 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/16 08:08:35 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 08:34:21 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 	{
 		if (lst->content)
 			del(lst->content);
+		lst = NULL;
 		free(lst);
 	}
 }

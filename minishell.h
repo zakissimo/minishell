@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 15:41:27 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 08:27:09 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	split_cmds(void);
 void	add_to_tab(char **tab, char *str);
 void	free_tab(void *t);
 void	get_cmd(void);
-void	nuke_glob(void);
 void	free_op_list(void);
 void	get_args(void);
 void	get_after_op(void);
