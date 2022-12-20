@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 13:01:05 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 15:18:38 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	main(int argc, char **argv, char **envp)
 	t_list		**head;
 	char		*input;
 
-	(void)argc;
-	(void)argv;
+	if (argc > 1)
+		init_input(argv[1]);
 	init_glob(envp);
 	while (g_glob)
 	{
