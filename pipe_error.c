@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:02:03 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 10:14:41 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 10:21:17 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	pipe_error(void)
 	if (curr && curr->content && ((t_token *)curr->content)->label == PIPE)
 	{
 		trimmed = get_first();
+		printf(">>>>>>>>>>>>>>>>%s\n", trimmed);
 		op_pipe = ft_strtrim(((t_token *)curr->content)->arg, " \t");
 		if (!trimmed || !ft_strlen(op_pipe))
 		{
