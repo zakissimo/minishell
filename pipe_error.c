@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:02:03 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 10:21:17 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 10:46:15 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	pipe_error_loop(t_list *curr, t_list *prev, char *trimmed)
 			free(trimmed);
 			return (-1);
 		}
+		free(trimmed);
 		trimmed = op_error_trimmed(curr);
 		if (((t_token *)curr->content)->label == PIPE \
 			&& curr->next == NULL && !ft_strlen(trimmed))
@@ -36,8 +37,8 @@ static int	pipe_error_loop(t_list *curr, t_list *prev, char *trimmed)
 			free(trimmed);
 			return (-1);
 		}
-		free(trimmed);
 	}
+	free(trimmed);
 	return (0);
 }
 
@@ -58,14 +59,14 @@ int	pipe_error(void)
 		trimmed = get_first();
 		printf(">>>>>>>>>>>>>>>>%s\n", trimmed);
 		op_pipe = ft_strtrim(((t_token *)curr->content)->arg, " \t");
-		if (!trimmed || !ft_strlen(op_pipe))
+		if (!ft_strlen(trimmed) || !ft_strlen(op_pipe))
 		{
 			free(op_pipe);
+			free(trimmed);
 			ft_putstr_fd("Pipe error\n", 2);
 			return (-1);
 		}
-		if (trimmed)
-			free(trimmed);
+		free(trimmed);
 		free(op_pipe);
 	}
 	if (curr)

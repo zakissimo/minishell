@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 09:51:21 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 10:13:12 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 10:48:27 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,17 @@ char	*get_first(void)
 {
 	int		i;
 	char	*trimmed;
+	char	*ret;
 
 	i = 0;
 	trimmed = ft_strtrim(g_glob->input, " \t");
 	if (trimmed && trimmed[0])
 	{
 		while (trimmed[i] && !str_is_op(trimmed + i))
-			i += skip_if_quotes(trimmed, i);
-		trimmed = ft_substr(trimmed, 0, i);
+			i++;
+		ret = ft_substr(trimmed, 0, i);
+		free(trimmed);
+		return (ret);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:30:28 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 16:01:36 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/20 10:59:41 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	add_cmd(t_token *token, t_list **cmds, bool *pb)
 	if (*pb)
 	{
 		node = ((t_cmd *)ft_lstlast(*cmds)->content);
+		if (node->str)
+			free(node->str);
 		node->str = ft_strdup(token->arg);
 		node->fd_in = 0;
 		node->fd_out = 1;
