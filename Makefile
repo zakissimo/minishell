@@ -41,7 +41,9 @@ SRCS		= minishell.c \
 				open.c \
 				add_cmd.c \
 				heredocs.c \
-				parse_init_input.c
+				parse_init_input.c \
+				pipex.c \
+				pipex_children.c
 
 OBJS		= $(SRCS:.c=.o)
 

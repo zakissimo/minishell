@@ -79,6 +79,7 @@ static void	handle_here_doc(t_token *token)
 		&& strncmp(limiter, here_doc_entry, ft_strlen(limiter) + 1) != 0)
 	{
 		write(fd, here_doc_entry, ft_strlen(here_doc_entry));
+		write(fd, "\n", 1);
 		free(here_doc_entry);
 		here_doc_entry = readline("> ");
 	}

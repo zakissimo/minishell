@@ -17,6 +17,7 @@
 # include <string.h>
 # include <stdbool.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <errno.h>
@@ -104,5 +105,10 @@ void	insert_node(t_list **head, t_list *node, int idx);
 int		skip_if_quotes(const char *s, int i);
 char	**ft_split_quotes(char const *s, char *sep);
 void	add_cmd(t_token *token, t_list **cmds, bool *pb);
+void	pipex(void);
+void	child(t_cmd *cmd, int *pipes);
+void	close_pipes(int *pipes);
+char *const	*envp_list_to_tab(void);
+void	clean_exit(void);
 
 #endif

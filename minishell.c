@@ -44,6 +44,7 @@ void	events(t_list **head)
 			scan_heredocs();
 			get_cmd();
 			print_cmds();
+			pipex();
 			unlink_heredocs();
 			ft_lstiter(*head, print_nodes);
 			clear_cmds();

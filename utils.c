@@ -27,11 +27,29 @@ t_list	**str_tab_to_list(char **tab)
 	t_list	**head;
 
 	i = 0;
-	head = malloc(sizeof(t_list *));
+	head = malloc(sizeof(t_list *)); //malloc pas protégé
 	*head = NULL;
 	while (tab[i])
 		ft_lstadd_back(head, ft_lstnew(ft_strdup(tab[i++])));
 	return (head);
+}
+
+char *const	*envp_list_to_tab(void)
+{
+	int		i;
+	char	**ret;
+	t_list	*envp_entry;
+
+	i = 0;
+	envp_entry = *g_glob->envp;
+	ret = ft_calloc(ft_lstsize(envp_entry) + 1, sizeof(char *)); //malloc pas protégé
+	while (envp_entry)
+	{
+		ret[i++] = (char *)envp_entry->content;
+		envp_entry = envp_entry->next;
+	}
+	ret[i] = NULL;
+	return (ret);
 }
 
 int	count_quotes(char *str)
