@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/22 14:27:25 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:13:38 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	handle_sigint(int sig, siginfo_t *info, void *context)
 		rl_redisplay();
 		ft_putstr_fd("minishell> ", 1);
 	}
+	if (sig == SIGQUIT)
+		ft_putstr_fd("\b\b  \b\b", 1);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -77,6 +79,7 @@ int	main(int argc, char **argv, char **envp)
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &handle_sigint;
 	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 	head = NULL;
 	if (argc > 1)
 		init_input(argv[1]);
