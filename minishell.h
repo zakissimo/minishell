@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/22 10:33:04 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 14:04:59 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,11 @@ int		skip_if_quotes(const char *s, int i);
 char	**ft_split_quotes(char const *s, char *sep);
 void	add_cmd(t_token *token, t_list **cmds, bool *pb);
 void	pipex(void);
-void	child(t_cmd *cmd, int *pipes);
+void	child(t_cmd *cmd, int *pipes, int *children_pid);
 void	close_pipes(int *pipes);
 char	**envp_list_to_tab(void);
-void	clean_exit(void);
+void	clean_exit(int *children_pid);
+void	print_cmd_not_found(char *str);
+void	eof_limiter_not_found(char *here_doc_entry, char *limiter);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:58:39 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/22 11:38:19 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 13:15:28 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**envp_list_to_tab(void)
 		ret = ft_calloc(ft_lstsize(envp_entry) + 1, sizeof(char *));
 	while (envp_entry)
 	{
-		ret[i++] = (char *)envp_entry->content;
+		ret[i++] = ft_strdup((char *)envp_entry->content);
 		envp_entry = envp_entry->next;
 	}
 	ret[i] = NULL;

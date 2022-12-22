@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2022/12/22 11:06:50 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 13:06:35 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	*pipex_loop(void)
 			cmd = ((t_cmd *)curr->content);
 			children_pid[cmd->cmd_idx] = fork();
 			if (children_pid[cmd->cmd_idx] == 0)
-				child(cmd, pipes);
+				child(cmd, pipes, children_pid);
 			close_pipe_and_recreate(pipes, cmd);
 			curr = curr->next;
 		}

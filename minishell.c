@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 15:18:38 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 13:51:18 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	main(int argc, char **argv, char **envp)
 	t_list		**head;
 	char		*input;
 
+	head = NULL;
 	if (argc > 1)
 		init_input(argv[1]);
 	init_glob(envp);
@@ -67,7 +68,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		input = readline("minishell> ");
 		if (input == NULL)
+		{
+			printf("exit\n");
 			break ;
+		}
 		if (*input == '\0')
 			continue ;
 		add_history(input);
@@ -77,9 +81,15 @@ int	main(int argc, char **argv, char **envp)
 			events(head);
 		free(g_glob->input);
 		if (head)
+		{
 			free(head);
+			head = NULL;
+		}
 	}
+	if (head)
+		free(head);
 	ft_lstclear(g_glob->envp, free);
+	free(g_glob->envp);
 	free(g_glob);
 	rl_clear_history();
 }

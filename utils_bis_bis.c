@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 09:51:21 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 10:48:27 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 14:05:03 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,15 @@ char	*get_first(void)
 		return (ret);
 	}
 	return (NULL);
+}
+
+void	eof_limiter_not_found(char *here_doc_entry, char *limiter)
+{
+	if (here_doc_entry == NULL)
+	{
+		printf("minishell: warning: here-document");
+		printf(" delimited by end-of-file (wanted '%s')\n", limiter);
+	}
+	free(here_doc_entry);
+	free(limiter);
 }

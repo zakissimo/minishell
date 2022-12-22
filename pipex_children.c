@@ -6,58 +6,67 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:35:14 by brenaudo          #+#    #+#             */
-/*   Updated: 2022/12/22 11:28:14 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 13:43:38 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static char	*get_path(char *cmd);
 static void	dup_and_close(t_cmd *cmd, int *pipes);
-static int	ft_is_space(char c);
 
-void	child(t_cmd *cmd, int *pipes)
+static void	free_tab_bis(void *t)
 {
+	int		i;
+	char	**tab;
+
+	i = 1;
+	tab = (char **)t;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
+void	child(t_cmd *cmd, int *pipes, int *children_pid)
+{
+	char	**envp;
 	char	**cmd_split;
 
-	if (cmd->fd_in != -1 && cmd->fd_out != -1)
+	if (cmd->fd_in != -1 && cmd->fd_out != -1 && cmd->str[0] != '\0')
 	{
 		cmd_split = ft_split(cmd->str, ' ');
 		cmd_split[0] = get_path(cmd_split[0]);
-		if (ft_is_space(cmd->str[0]) == 1 || cmd_split[0] == NULL)
+		if (cmd_split[0] == NULL)
 		{
-			free_tab(cmd_split);
+			free_tab_bis(cmd_split);
 			close_pipes(pipes);
-			ft_putstr_fd("Command not found: ", 2);
-			ft_putstr_fd(cmd->str, 2);
-			ft_putstr_fd("\n", 2);
-			clean_exit();
+			print_cmd_not_found(cmd->str);
+			clean_exit(children_pid);
 			exit(127);
 		}
 		dup_and_close(cmd, pipes);
-		clean_exit();
-		if (execve(cmd_split[0], cmd_split, envp_list_to_tab()) == -1)
+		envp = envp_list_to_tab();
+		clean_exit(children_pid);
+		if (execve(cmd_split[0], cmd_split, envp) == -1)
 			perror("Error");
 	}
 	else
-		clean_exit();
+		clean_exit(children_pid);
 	close_pipes(pipes);
 	exit(1);
 }
 
-static char	*get_path(char *cmd)
+static char	*get_path_loop(char *cmd, t_list *envp_entry)
 {
 	int		i;
 	char	**paths;
 	char	*cmd_absolute;
-	t_list	*envp_entry;
 
 	i = 0;
-	envp_entry = *g_glob->envp;
-	while (ft_strncmp((char *)envp_entry->content, "PATH=", 5))
-		envp_entry = envp_entry->next;
-	if (ft_strncmp(cmd, "./", 2) == 0 && access(cmd, X_OK) == 0)
-		return (cmd);
 	paths = ft_split((char *)envp_entry->content + 5, ':');
 	while (cmd != NULL && paths[i])
 	{	
@@ -75,6 +84,18 @@ static char	*get_path(char *cmd)
 	free(cmd);
 	free_tab(paths);
 	return (NULL);
+}
+
+static char	*get_path(char *cmd)
+{
+	t_list	*envp_entry;
+
+	envp_entry = *g_glob->envp;
+	while (ft_strncmp((char *)envp_entry->content, "PATH=", 5))
+		envp_entry = envp_entry->next;
+	if (ft_strncmp(cmd, "./", 2) == 0 && access(cmd, X_OK) == 0)
+		return (cmd);
+	return (get_path_loop(cmd, envp_entry));
 }
 
 static void	dup_and_close(t_cmd *cmd, int *pipes)
@@ -104,11 +125,4 @@ static void	dup_and_close(t_cmd *cmd, int *pipes)
 			dup2(pipes[1], 1);
 	}
 	close_pipes(pipes);
-}
-
-static int	ft_is_space(char c)
-{
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
 }

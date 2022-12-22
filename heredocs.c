@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:33:11 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/22 10:31:44 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 14:04:41 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ static void	handle_here_doc(t_token *token)
 		free(here_doc_entry);
 		here_doc_entry = readline("> ");
 	}
-	free(here_doc_entry);
-	free(limiter);
+	eof_limiter_not_found(here_doc_entry, limiter);
 	close(fd);
 	token->file = file_name;
 }

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 13:16:51 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 09:35:14 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 12:56:40 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	free_tab(void *t)
 		free(tab[i]);
 		i++;
 	}
-	free(tab);
+	free(t);
 }
 
 void	add_to_tab(char **tab, char *str)
