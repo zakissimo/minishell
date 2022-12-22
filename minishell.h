@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 15:17:25 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 10:33:04 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	add_cmd(t_token *token, t_list **cmds, bool *pb);
 void	pipex(void);
 void	child(t_cmd *cmd, int *pipes);
 void	close_pipes(int *pipes);
-char *const	*envp_list_to_tab(void);
+char	**envp_list_to_tab(void);
 void	clean_exit(void);
 
 #endif

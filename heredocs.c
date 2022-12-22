@@ -6,10 +6,11 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:33:11 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 14:05:28 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 10:31:44 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static char	*name_generator(void)
@@ -78,8 +79,7 @@ static void	handle_here_doc(t_token *token)
 	while (here_doc_entry != NULL
 		&& strncmp(limiter, here_doc_entry, ft_strlen(limiter) + 1) != 0)
 	{
-		write(fd, here_doc_entry, ft_strlen(here_doc_entry));
-		write(fd, "\n", 1);
+		ft_putendl_fd(here_doc_entry, fd);
 		free(here_doc_entry);
 		here_doc_entry = readline("> ");
 	}

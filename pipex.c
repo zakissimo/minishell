@@ -6,25 +6,27 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2022/12/21 12:02:50 by brenaudo         ###   ########.fr       */
+/*   Updated: 2022/12/22 11:06:50 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static void	create_pipes(int *pipes);
 static void	close_pipe_and_recreate(int	*pipes, t_cmd *cmd);
 
-void	pipex(void)
+int	*pipex_loop(void)
 {
-	int		i;
 	int		pipes[4];
 	int		*children_pid;
 	t_list	*curr;
 	t_cmd	*cmd;
 
 	curr = *g_glob->cmds;
-	children_pid = ft_calloc(ft_lstsize(curr) + 1, sizeof(int)); //malloc pas protégé
+	children_pid = NULL;
+	while (!children_pid)
+		children_pid = ft_calloc(ft_lstsize(curr) + 1, sizeof(int));
 	create_pipes(pipes);
 	while (curr)
 	{
@@ -38,10 +40,19 @@ void	pipex(void)
 			curr = curr->next;
 		}
 	}
+	close_pipes(pipes);
+	return (children_pid);
+}
+
+void	pipex(void)
+{
+	int		i;
+	int		*children_pid;
+
 	i = 0;
+	children_pid = pipex_loop();
 	while (children_pid[i] != 0)
 		waitpid(children_pid[i++], NULL, 0);
-	close_pipes(pipes);
 	free(children_pid);
 }
 
@@ -69,23 +80,4 @@ static void	close_pipe_and_recreate(int	*pipes, t_cmd *cmd)
 			close(pipes[3]);
 		pipe(pipes + 2);
 	}
-}
-
-void	close_pipes(int *pipes)
-{
-	int	i;
-	
-	i = -1;
-	while (++i < 4)
-	{
-		if (pipes[i] > 2)
-			close(pipes[i]);
-	}
-}
-
-void	clean_exit(void)
-{
-	clear_cmds();
-	free(g_glob->cmds);
-	free_op_list();
 }

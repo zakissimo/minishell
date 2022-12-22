@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:58:39 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/13 13:17:27 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 11:38:19 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,16 @@ t_list	**str_tab_to_list(char **tab)
 	t_list	**head;
 
 	i = 0;
-	head = malloc(sizeof(t_list *)); //malloc pas protégé
+	head = NULL;
+	while (!head)
+		head = malloc(sizeof(t_list *));
 	*head = NULL;
 	while (tab[i])
 		ft_lstadd_back(head, ft_lstnew(ft_strdup(tab[i++])));
 	return (head);
 }
 
-char *const	*envp_list_to_tab(void)
+char	**envp_list_to_tab(void)
 {
 	int		i;
 	char	**ret;
@@ -42,7 +44,9 @@ char *const	*envp_list_to_tab(void)
 
 	i = 0;
 	envp_entry = *g_glob->envp;
-	ret = ft_calloc(ft_lstsize(envp_entry) + 1, sizeof(char *)); //malloc pas protégé
+	ret = NULL;
+	while (!ret)
+		ret = ft_calloc(ft_lstsize(envp_entry) + 1, sizeof(char *));
 	while (envp_entry)
 	{
 		ret[i++] = (char *)envp_entry->content;

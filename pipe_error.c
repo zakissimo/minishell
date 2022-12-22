@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:02:03 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/20 11:13:33 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 10:46:25 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,16 @@ static int	pipe_error_loop(t_list *curr, t_list *prev, char *trimmed)
 	return (0);
 }
 
-int	pipe_error_bis(char *trimmed, char *op_pipe)
+int	pipe_error_bis(char *trimmed, char *op_pipe, t_list *curr)
 {
-	if (!ft_strlen(trimmed) || !ft_strlen(op_pipe))
+	t_token	*token;
+
+	token = NULL;
+	if (curr->next)
+		token = ((t_token *)curr->next->content);
+	if (!ft_strlen(trimmed)
+		|| (!ft_strlen(op_pipe) && !token)
+		|| (!ft_strlen(op_pipe) && token && token->label == PIPE))
 	{
 		free(op_pipe);
 		free(trimmed);
@@ -72,7 +79,7 @@ int	pipe_error(void)
 	{
 		trimmed = get_first();
 		op_pipe = ft_strtrim(((t_token *)curr->content)->arg, " \t");
-		if (pipe_error_bis(trimmed, op_pipe) == -1)
+		if (pipe_error_bis(trimmed, op_pipe, curr) == -1)
 			return (-1);
 	}
 	if (curr)

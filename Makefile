@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2022/12/20 15:17:48 by zhabri           ###   ########.fr        #
+#    Updated: 2022/12/22 11:07:08 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SRCS		= minishell.c \
 				heredocs.c \
 				parse_init_input.c \
 				pipex.c \
-				pipex_children.c
+				pipex_children.c \
+				utils_pipex.c
 
 OBJS		= $(SRCS:.c=.o)
 
