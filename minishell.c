@@ -6,12 +6,13 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/22 13:51:18 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/22 14:27:25 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft/includes/libft.h"
+#include <readline/readline.h>
 
 t_glob	*g_glob;
 
@@ -55,11 +56,27 @@ void	events(t_list **head)
 	free_op_list();
 }
 
+void	handle_sigint(int sig, siginfo_t *info, void *context)
+{
+	(void)context;
+	(void)info;
+	if (sig == SIGINT)
+	{
+		ft_putchar_fd('\n', 1);
+		rl_redisplay();
+		ft_putstr_fd("minishell> ", 1);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_list		**head;
-	char		*input;
+	t_list				**head;
+	char				*input;
+	struct sigaction	sa;
 
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = &handle_sigint;
+	sigaction(SIGINT, &sa, NULL);
 	head = NULL;
 	if (argc > 1)
 		init_input(argv[1]);
