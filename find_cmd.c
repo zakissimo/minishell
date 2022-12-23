@@ -140,6 +140,5 @@ void	get_cmd(void)
 			add_cmd(token, cmds, &pb);
 		curr = curr->next;
 	}
-	printf("I see %i cmds\n", ft_lstsize(*cmds));
 	g_glob->cmds = cmds;
 }
