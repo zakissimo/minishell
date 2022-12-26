@@ -6,10 +6,11 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/11 16:28:46 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 15:43:01 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 void	expand(t_token *var)
@@ -38,13 +39,16 @@ void	expand(t_token *var)
 		else
 			var->arg = ft_strdup("");
 	}
+	else
+		var->arg = ft_strjoinf(ft_itoa(g_glob->exit_ret), \
+			var->not_expanded + 1);
 }
 
 static bool	str_is_op(char *needle)
 {
 	int						i;
-	static const char		*op_tab[10] = {"<<", ">>", "|", \
-		">", "<", "$", " ", "\"", "'", NULL};
+	static const char		*op_tab[11] = {"<<", ">>", "|", \
+		">", "<", "$", " ", "\"", "'", "/", NULL};
 
 	i = 0;
 	while (op_tab[i])

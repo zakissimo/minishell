@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2022/12/22 13:06:35 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 15:23:31 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	*pipex_loop(void)
 			children_pid[cmd->cmd_idx] = fork();
 			if (children_pid[cmd->cmd_idx] == 0)
 				child(cmd, pipes, children_pid);
+			g_glob->in_child = true;
 			close_pipe_and_recreate(pipes, cmd);
 			curr = curr->next;
 		}
@@ -53,6 +54,7 @@ void	pipex(void)
 	children_pid = pipex_loop();
 	while (children_pid[i] != 0)
 		waitpid(children_pid[i++], NULL, 0);
+	g_glob->in_child = false;
 	free(children_pid);
 }
 

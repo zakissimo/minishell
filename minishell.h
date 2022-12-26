@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/23 10:54:25 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 15:37:40 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "libft/includes/libft.h"
+
+# define PARENT 0
+# define CHILD 1
 
 typedef enum e_label
 {
@@ -57,14 +60,17 @@ typedef struct s_cmd
 
 typedef struct s_glob
 {
-	t_list		**envp;
-	char		*input;
-	t_list		**head;
-	t_list		**cmds;
+	t_list			**envp;
+	char			*input;
+	t_list			**head;
+	t_list			**cmds;
+	unsigned char	exit_ret;
+	bool			in_child;
 }				t_glob;
 
 extern t_glob	*g_glob;
 
+void	ignore_sig(int sig);
 void	final_clean_up(void);
 void	free_null(void *var);
 void	init_input(char *str);
@@ -114,6 +120,6 @@ char	**envp_list_to_tab(void);
 void	clean_exit(int *children_pid);
 void	print_cmd_not_found(char *str);
 void	eof_limiter_not_found(char *here_doc_entry, char *limiter);
-void	init_sig_callbacks(void);
+void	init_sig_callbacks(int process);
 
 #endif

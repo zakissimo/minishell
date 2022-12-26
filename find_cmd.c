@@ -62,7 +62,7 @@ void	find_cmd(t_list **cmds)
 	{
 		while (trimmed[i] && !str_is_op(trimmed + i))
 			i += skip_if_quotes(trimmed, i);
-		node->str = ft_substr(trimmed, 0, i);
+		node->str = remove_quotes(ft_substr(trimmed, 0, i));
 	}
 	ft_lstadd_back(cmds, ft_lstnew(node));
 	free(trimmed);

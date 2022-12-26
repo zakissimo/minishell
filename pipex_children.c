@@ -1,17 +1,16 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   pipex_children.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:35:14 by brenaudo          #+#    #+#             */
-/*   Updated: 2022/12/22 13:43:38 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 12:23:21 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/includes/libft.h"
 #include "minishell.h"
+#include <unistd.h>
 
 static char	*get_path(char *cmd);
 static void	dup_and_close(t_cmd *cmd, int *pipes);
@@ -93,7 +92,7 @@ static char	*get_path(char *cmd)
 	envp_entry = *g_glob->envp;
 	while (ft_strncmp((char *)envp_entry->content, "PATH=", 5))
 		envp_entry = envp_entry->next;
-	if (ft_strncmp(cmd, "./", 2) == 0 && access(cmd, X_OK) == 0)
+	if (access(cmd, X_OK) == 0 && ft_strchr(cmd, '/'))
 		return (cmd);
 	return (get_path_loop(cmd, envp_entry));
 }
