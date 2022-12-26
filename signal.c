@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:32:29 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/26 14:43:59 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 15:53:28 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,20 @@ static void	handler(int sig)
 	{
 		ft_putchar_fd('\n', 1);
 		ft_putstr_fd("minishell> ", 1);
+		g_glob->exit_ret = 130;
 	}
 	else if (sig == SIGINT && g_glob->in_child)
+	{
 		ft_putchar_fd('\n', 1);
+		g_glob->exit_ret = 130;
+	}
 	if (sig == SIGQUIT && !g_glob->in_child)
 		ft_putstr_fd("\b\b  \b\b", 1);
 	else if (sig == SIGQUIT && g_glob->in_child)
+	{
 		ft_putstr_fd("Quit (core dumped)\n", 2);
+		g_glob->exit_ret = 131;
+	}
 }
 
 void	ignore_sig(int sig)

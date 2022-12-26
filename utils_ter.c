@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bis_bis.c                                    :+:      :+:    :+:   */
+/*   utils_ter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 09:51:21 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/22 14:05:03 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 16:51:53 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,22 @@ void	eof_limiter_not_found(char *here_doc_entry, char *limiter)
 	}
 	free(here_doc_entry);
 	free(limiter);
+}
+
+t_cmd	*init_cmd_token(int in, int out, char *str, bool reset)
+{
+	static int	idx;
+	t_cmd		*node;
+
+	if (reset)
+		idx = 0;
+	node = NULL;
+	while (!node)
+		node = malloc(sizeof(t_cmd));
+	node->cmd_idx = idx;
+	node->fd_in = in;
+	node->fd_out = out;
+	node->str = str;
+	idx++;
+	return (node);
 }

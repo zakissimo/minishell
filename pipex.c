@@ -6,12 +6,13 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2022/12/26 15:23:31 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 16:24:04 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/includes/libft.h"
 #include "minishell.h"
+#include <stdlib.h>
 
 static void	create_pipes(int *pipes);
 static void	close_pipe_and_recreate(int	*pipes, t_cmd *cmd);
@@ -48,12 +49,16 @@ int	*pipex_loop(void)
 void	pipex(void)
 {
 	int		i;
+	int		exit_ret;
 	int		*children_pid;
 
 	i = 0;
 	children_pid = pipex_loop();
 	while (children_pid[i] != 0)
-		waitpid(children_pid[i++], NULL, 0);
+	{
+		waitpid(children_pid[i++], &exit_ret, 0);
+		g_glob->exit_ret = exit_ret >> 8;
+	}
 	g_glob->in_child = false;
 	free(children_pid);
 }

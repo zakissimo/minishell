@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/26 15:37:40 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 16:56:17 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,10 @@ void	clean_exit(int *children_pid);
 void	print_cmd_not_found(char *str);
 void	eof_limiter_not_found(char *here_doc_entry, char *limiter);
 void	init_sig_callbacks(int process);
+void	exit_on_permission(char **cmd_split, \
+		int *pipes, int *children_pid);
+void	exit_on_bad_cmd(char **cmd_split, \
+		int *pipes, char *cmd, int *children_pid);
+void	free_tab_bis(void *t);
 
 #endif

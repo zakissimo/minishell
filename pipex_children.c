@@ -1,10 +1,12 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   pipex_children.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 12:35:14 by brenaudo          #+#    #+#             */
-/*   Updated: 2022/12/26 12:23:21 by zhabri           ###   ########.fr       */
+/*   Created: 2022/12/26 16:35:44 by zhabri            #+#    #+#             */
+/*   Updated: 2022/12/26 16:54:59 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +17,7 @@
 static char	*get_path(char *cmd);
 static void	dup_and_close(t_cmd *cmd, int *pipes);
 
-static void	free_tab_bis(void *t)
+void	free_tab_bis(void *t)
 {
 	int		i;
 	char	**tab;
@@ -39,14 +41,8 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 	{
 		cmd_split = ft_split(cmd->str, ' ');
 		cmd_split[0] = get_path(cmd_split[0]);
-		if (cmd_split[0] == NULL)
-		{
-			free_tab_bis(cmd_split);
-			close_pipes(pipes);
-			print_cmd_not_found(cmd->str);
-			clean_exit(children_pid);
-			exit(127);
-		}
+		exit_on_bad_cmd(cmd_split, pipes, cmd->str, children_pid);
+		exit_on_permission(cmd_split, pipes, children_pid);
 		dup_and_close(cmd, pipes);
 		envp = envp_list_to_tab();
 		clean_exit(children_pid);
@@ -92,7 +88,7 @@ static char	*get_path(char *cmd)
 	envp_entry = *g_glob->envp;
 	while (ft_strncmp((char *)envp_entry->content, "PATH=", 5))
 		envp_entry = envp_entry->next;
-	if (access(cmd, X_OK) == 0 && ft_strchr(cmd, '/'))
+	if (access(cmd, F_OK) == 0 && ft_strchr(cmd, '/'))
 		return (cmd);
 	return (get_path_loop(cmd, envp_entry));
 }

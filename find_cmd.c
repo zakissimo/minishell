@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,31 +6,13 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:14:40 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 11:46:36 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 16:51:36 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/includes/libft.h"
 #include "minishell.h"
 #include <stdlib.h>
-
-t_cmd	*init_cmd_token(int in, int out, char *str, bool reset)
-{
-	static int	idx;
-	t_cmd	*node;
-
-	if (reset)
-		idx = 0;
-	node = NULL;
-	while (!node)
-		node = malloc(sizeof(t_cmd));
-	node->cmd_idx = idx;
-	node->fd_in = in;
-	node->fd_out = out;
-	node->str = str;
-	idx++;
-	return (node);
-}
 
 static bool	str_is_op(char *needle)
 {
@@ -85,7 +66,8 @@ void	find_cmd_infile(t_token *token, t_cmd *node, bool *pb)
 	}
 	file = ft_substr(token->arg, 0, i);
 	cmd = ft_strtrimf(ft_strdup(token->arg + i), " \t");
-	node->str = ft_strtrimf(ft_strjoinf(ft_strjoinf(node->str, " "), cmd), " \t");
+	node->str = ft_strtrimf(ft_strjoinf(ft_strjoinf(node->str, " "), cmd), \
+				" \t");
 	free(cmd);
 	if (token->label != HEREDOC)
 		token->file = remove_quotes(file);
@@ -111,7 +93,8 @@ void	find_cmd_outfile(t_token *token, t_cmd *node, bool *pb)
 	}
 	file = ft_substr(token->arg, 0, i);
 	cmd = ft_strtrimf(ft_strdup(token->arg + i), " \t");
-	node->str = ft_strtrimf(ft_strjoinf(ft_strjoinf(node->str, " "), cmd), " \t");
+	node->str = ft_strtrimf(ft_strjoinf(ft_strjoinf(node->str, " "), cmd), \
+				" \t");
 	free(cmd);
 	token->file = remove_quotes(file);
 	*pb = ft_open_out(node, token);

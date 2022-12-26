@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/26 15:38:03 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/26 15:54:56 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	event_loop(void)
 	t_list				**head;
 	char				*input;
 
+	g_glob->exit_ret = 0;
 	while (1)
 	{
-		g_glob->exit_ret = 0;
 		g_glob->in_child = false;
 		input = readline("minishell> ");
 		if (input == NULL)
