@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:33:11 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/22 14:04:41 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/27 12:17:13 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,27 @@ static void	handle_here_doc(t_token *token)
 		free(file_name);
 		return ;
 	}
-	here_doc_entry = readline("> ");
+	here_doc_entry = NULL;
 	limiter = get_limiter(token);
-	while (here_doc_entry != NULL
-		&& strncmp(limiter, here_doc_entry, ft_strlen(limiter) + 1) != 0)
+	while (1)
 	{
+		here_doc_entry = readline("> ");
+		printf("%s\n", here_doc_entry);
+		if (!here_doc_entry || g_glob->sig_int \
+			|| !strncmp(limiter, here_doc_entry, ft_strlen(limiter) + 1))
+		{
+			if (g_glob->sig_int)
+				g_glob->input = here_doc_entry;
+			break ;
+		}
 		ft_putendl_fd(here_doc_entry, fd);
 		free(here_doc_entry);
-		here_doc_entry = readline("> ");
 	}
 	eof_limiter_not_found(here_doc_entry, limiter);
 	close(fd);
 	token->file = file_name;
-}
+	g_glob->sig_int = false;
+} 
 
 void	scan_heredocs(void)
 {
@@ -117,7 +125,7 @@ void	unlink_heredocs(void)
 		if (curr->content)
 		{
 			token = ((t_token *)curr->content);
-			if (token->label == HEREDOC)
+			if (token->label == HEREDOC && token->file)
 				unlink(token->file);
 		}
 		curr = curr->next;

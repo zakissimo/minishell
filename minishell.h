@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/26 16:56:17 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/27 12:13:00 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_glob
 	t_list			**cmds;
 	unsigned char	exit_ret;
 	bool			in_child;
+	bool			sig_int;
 }				t_glob;
 
 extern t_glob	*g_glob;

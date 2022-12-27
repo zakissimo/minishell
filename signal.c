@@ -6,17 +6,20 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:32:29 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/27 11:13:56 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/27 12:13:30 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/includes/libft.h"
 #include "minishell.h"
+#include <readline/readline.h>
+#include <signal.h>
 
 static void	handler(int sig)
 {
 	if (sig == SIGINT && !g_glob->in_child)
 	{
+		g_glob->sig_int = true;
 		ft_putchar_fd('\n', 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -25,6 +28,7 @@ static void	handler(int sig)
 	}
 	else if (sig == SIGINT && g_glob->in_child)
 	{
+		g_glob->sig_int = true;
 		ft_putchar_fd('\n', 1);
 		g_glob->exit_ret = 130;
 	}
@@ -44,7 +48,11 @@ void	ignore_sig(int sig)
 
 void	init_sig_callbacks(int process)
 {
-	(void)process;
-	signal(SIGINT, handler);
-	signal(SIGQUIT, handler);
+	if (process == 0)
+	{
+		signal(SIGINT, handler);
+		signal(SIGQUIT, handler);
+	}
+	else
+		signal(SIGINT, ignore_sig);
 }
