@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/27 12:13:57 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/27 14:43:50 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	events(t_list **head)
 		{
 			scan_heredocs();
 			get_cmd();
-			pipex();
+			if (!g_glob->sig_int)
+				pipex();
 			unlink_heredocs();
 			clear_cmds();
 			if (g_glob->cmds)
@@ -60,6 +61,7 @@ void	event_loop(void)
 	{
 		g_glob->in_child = false;
 		g_glob->sig_int = false;
+		g_glob->here_doc = false;
 		input = readline("minishell> ");
 		if (input == NULL)
 		{

@@ -6,12 +6,13 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:33:11 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/27 12:17:13 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/27 13:59:47 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/includes/libft.h"
 #include "minishell.h"
+#include <unistd.h>
 
 static char	*name_generator(void)
 {
@@ -63,11 +64,13 @@ static char	*get_limiter(t_token *token)
 static void	handle_here_doc(t_token *token)
 {
 	int		fd;
+	int		stdin_cpy;
 	char	*here_doc_entry;
 	char	*file_name;
 	char	*limiter;
 
 	file_name = name_generator();
+	stdin_cpy = dup(0);
 	fd = open(file_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -76,24 +79,22 @@ static void	handle_here_doc(t_token *token)
 	}
 	here_doc_entry = NULL;
 	limiter = get_limiter(token);
-	while (1)
+	g_glob->here_doc = true;
+	while (!g_glob->sig_int)
 	{
 		here_doc_entry = readline("> ");
-		printf("%s\n", here_doc_entry);
 		if (!here_doc_entry || g_glob->sig_int \
 			|| !strncmp(limiter, here_doc_entry, ft_strlen(limiter) + 1))
-		{
-			if (g_glob->sig_int)
-				g_glob->input = here_doc_entry;
 			break ;
-		}
 		ft_putendl_fd(here_doc_entry, fd);
 		free(here_doc_entry);
 	}
-	eof_limiter_not_found(here_doc_entry, limiter);
+	g_glob->here_doc = false;
+	if (!g_glob->sig_int)
+		eof_limiter_not_found(here_doc_entry, limiter);
 	close(fd);
+	dup2(stdin_cpy, 0);
 	token->file = file_name;
-	g_glob->sig_int = false;
 } 
 
 void	scan_heredocs(void)
