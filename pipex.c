@@ -37,6 +37,7 @@ int	*pipex_loop(void)
 			children_pid[cmd->cmd_idx] = fork();
 			if (children_pid[cmd->cmd_idx] == 0)
 				child(cmd, pipes, children_pid);
+			change_sig_handling(cmd->str);
 			g_glob->in_child = true;
 			close_pipe_and_recreate(pipes, cmd);
 			curr = curr->next;
@@ -60,6 +61,7 @@ void	pipex(void)
 		g_glob->exit_ret = exit_ret >> 8;
 	}
 	g_glob->in_child = false;
+	init_sig_callbacks(0);
 	free(children_pid);
 }
 

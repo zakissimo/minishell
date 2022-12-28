@@ -15,6 +15,8 @@
 #include <readline/readline.h>
 #include <signal.h>
 
+// Problème quand on enchaîne les ctrl+C : la commande suivante n'est pas prise en compte
+
 static void	handler(int sig)
 {
 	if (sig == SIGINT && !g_glob->in_child)
@@ -62,5 +64,24 @@ void	init_sig_callbacks(int process)
 		signal(SIGQUIT, handler);
 	}
 	else
+	{
 		signal(SIGINT, ignore_sig);
+		signal(SIGQUIT, ignore_sig);
+	}
+}
+
+void	change_sig_handling(char *cmd)
+{
+	char	**cmd_split;
+	char	*sum;
+
+	sum = NULL;
+	cmd_split = ft_split(cmd, ' ');
+	cmd_split[0] = get_path(cmd_split[0]);
+	if (cmd_split[0] != NULL)
+	{
+		get_sum(cmd_split[0], &sum);
+		if (ft_strncmp(sum, g_glob->minishell_sum, 41) == 0)
+			init_sig_callbacks(42);
+	}
 }

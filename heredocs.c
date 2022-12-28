@@ -95,7 +95,7 @@ static void	handle_here_doc(t_token *token)
 	close(fd);
 	dup2(stdin_cpy, 0);
 	token->file = file_name;
-} 
+}
 
 void	scan_heredocs(void)
 {

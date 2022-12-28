@@ -16,7 +16,6 @@ t_glob	*g_glob;
 
 void	get_envp(char **envp)
 {
-	g_glob = malloc(sizeof(t_glob));
 	if (g_glob)
 		g_glob->envp = str_tab_to_list(envp);
 }
@@ -56,7 +55,6 @@ void	event_loop(void)
 	t_list				**head;
 	char				*input;
 
-	g_glob->exit_ret = 0;
 	while (1)
 	{
 		g_glob->in_child = false;
@@ -85,9 +83,11 @@ void	event_loop(void)
 int	main(int argc, char **argv, char **envp)
 {
 	init_sig_callbacks(0);
+	init_g_glob();
 	if (argc > 1)
 		init_input(argv[1]);
 	get_envp(envp);
+	get_sum(argv[0], &(g_glob->minishell_sum));
 	event_loop();
 	final_clean_up();
 }

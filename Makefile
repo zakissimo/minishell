@@ -46,7 +46,8 @@ SRCS		= minishell.c \
 				pipex_children.c \
 				utils_pipex.c \
 				signal.c \
-				main_utils.c
+				main_utils.c \
+				get_sum.c
 
 OBJS		= $(SRCS:.c=.o)
 

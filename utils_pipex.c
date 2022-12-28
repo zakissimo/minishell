@@ -62,10 +62,13 @@ void	close_pipes(int *pipes)
 void	clean_exit(int *children_pid)
 {
 	free_null(children_pid);
-	clear_cmds();
+	if (g_glob->cmds)
+		clear_cmds();
 	free_null(g_glob->cmds);
-	free_op_list();
-	ft_lstclear(g_glob->envp, free);
+	if (g_glob->head)
+		free_op_list();
+	if (g_glob->envp)
+		ft_lstclear(g_glob->envp, free);
 	free_null(g_glob->envp);
 	free_null(g_glob->head);
 	free_null(g_glob->input);

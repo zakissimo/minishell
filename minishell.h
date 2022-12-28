@@ -24,6 +24,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "libft/includes/libft.h"
+# include <unistd.h>
 
 # define PARENT 0
 # define CHILD 1
@@ -68,10 +69,12 @@ typedef struct s_glob
 	bool			in_child;
 	bool			sig_int;
 	bool			here_doc;
+	char			*minishell_sum;
 }				t_glob;
 
 extern t_glob	*g_glob;
 
+void	init_g_glob(void);
 void	ignore_sig(int sig);
 void	final_clean_up(void);
 void	free_null(void *var);
@@ -128,5 +131,8 @@ void	exit_on_permission(char **cmd_split, \
 void	exit_on_bad_cmd(char **cmd_split, \
 		int *pipes, char *cmd, int *children_pid);
 void	free_tab_bis(void *t);
+void	get_sum(char *cmd, char **ret);
+char	*get_path(char *cmd);
+void	change_sig_handling(char *cmd);
 
 #endif

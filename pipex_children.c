@@ -10,11 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
-#include <unistd.h>
 
-static char	*get_path(char *cmd);
 static void	dup_and_close(t_cmd *cmd, int *pipes);
 
 void	free_tab_bis(void *t)
@@ -81,7 +78,7 @@ static char	*get_path_loop(char *cmd, t_list *envp_entry)
 	return (NULL);
 }
 
-static char	*get_path(char *cmd)
+char	*get_path(char *cmd)
 {
 	t_list	*envp_entry;
 
