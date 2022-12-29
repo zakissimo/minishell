@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/27 14:43:50 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/29 14:12:32 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ void	event_loop(void)
 
 	while (1)
 	{
-		g_glob->in_child = false;
-		g_glob->sig_int = false;
-		g_glob->here_doc = false;
+		reset_g_glob();
 		input = readline("minishell> ");
 		if (input == NULL)
 		{
@@ -87,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1)
 		init_input(argv[1]);
 	get_envp(envp);
-	get_sum(argv[0], &(g_glob->minishell_sum));
+	get_sum(argv[0], &(g_glob->minishell_sum), NULL);
 	event_loop();
 	final_clean_up();
 }

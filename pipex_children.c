@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:35:44 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/26 16:54:59 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/29 13:41:05 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 		clean_exit(children_pid);
 		if (execve(cmd_split[0], cmd_split, envp) == -1)
 			perror("Error");
+		close_pipes(pipes);
+		exit(1);
 	}
 	else
 		clean_exit(children_pid);
 	close_pipes(pipes);
-	exit(1);
+	exit(0);
 }
 
 static char	*get_path_loop(char *cmd, t_list *envp_entry)
@@ -85,7 +87,7 @@ char	*get_path(char *cmd)
 	envp_entry = *g_glob->envp;
 	while (ft_strncmp((char *)envp_entry->content, "PATH=", 5))
 		envp_entry = envp_entry->next;
-	if (access(cmd, F_OK) == 0 && ft_strchr(cmd, '/'))
+	if (cmd && access(cmd, F_OK) == 0 && ft_strchr(cmd, '/'))
 		return (cmd);
 	return (get_path_loop(cmd, envp_entry));
 }

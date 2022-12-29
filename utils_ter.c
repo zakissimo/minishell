@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 09:51:21 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/26 16:51:53 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/29 12:25:49 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	eof_limiter_not_found(char *here_doc_entry, char *limiter)
 		printf(" delimited by end-of-file (wanted '%s')\n", limiter);
 	}
 	free(here_doc_entry);
-	free(limiter);
 }
 
 t_cmd	*init_cmd_token(int in, int out, char *str, bool reset)

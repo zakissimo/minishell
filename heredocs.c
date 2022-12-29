@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:33:11 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/27 13:59:47 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/29 13:55:25 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,30 @@
 #include "minishell.h"
 #include <unistd.h>
 
-static char	*name_generator(void)
+static void	finalize_heredoc(char *here_doc_entry, char *limiter, \
+		int fd, int stdin_cpy)
 {
-	int		i;
-	char	*file_name;
-
-	i = 0;
-	file_name = NULL;
-	while (file_name == NULL)
-		file_name = malloc(10 * sizeof(char));
-	file_name[0] = '.';
-	file_name[9] = '\0';
-	while (++i < 9)
-		file_name[i] = 'a';
-	while (file_name == NULL || access(file_name, 0) == 0)
-	{
-		file_name[8]++;
-		i = 9;
-		while (--i > 1)
-		{
-			if (file_name[i] == 'z' + 1)
-			{
-				file_name[i - 1]++;
-				file_name[i] = 'a';
-			}
-		}
-	}
-	return (file_name);
+	if (!g_glob->sig_int)
+		eof_limiter_not_found(here_doc_entry, limiter);
+	close(fd);
+	free(limiter);
+	dup2(stdin_cpy, 0);
+	close(stdin_cpy);
 }
 
-static char	*get_limiter(t_token *token)
+static int	init_heredoc(char **here_doc_entry, char **file_name, \
+		int *stdin_cpy, int *fd)
 {
-	int		i;
-	char	*limiter;
-
-	i = 0;
-	while (ft_isprint_nospace(token->arg[i]))
+	*file_name = name_generator();
+	*stdin_cpy = dup(0);
+	*fd = open(*file_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (*fd == -1)
 	{
-		if (token->arg[i] == '"')
-			i += find_quote(token->arg + i + 1, '"');
-		else if (token->arg[i] == '\'')
-			i += find_quote(token->arg + i + 1, '\'');
-		i++;
+		free(*file_name);
+		return (1);
 	}
-	limiter = ft_substr(token->arg, 0, i);
-	return (remove_quotes(limiter));
+	*here_doc_entry = NULL;
+	return (0);
 }
 
 static void	handle_here_doc(t_token *token)
@@ -69,16 +48,9 @@ static void	handle_here_doc(t_token *token)
 	char	*file_name;
 	char	*limiter;
 
-	file_name = name_generator();
-	stdin_cpy = dup(0);
-	fd = open(file_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		free(file_name);
-		return ;
-	}
-	here_doc_entry = NULL;
 	limiter = get_limiter(token);
+	if (init_heredoc(&here_doc_entry, &file_name, &stdin_cpy, &fd))
+		return ;
 	g_glob->here_doc = true;
 	while (!g_glob->sig_int)
 	{
@@ -90,10 +62,7 @@ static void	handle_here_doc(t_token *token)
 		free(here_doc_entry);
 	}
 	g_glob->here_doc = false;
-	if (!g_glob->sig_int)
-		eof_limiter_not_found(here_doc_entry, limiter);
-	close(fd);
-	dup2(stdin_cpy, 0);
+	finalize_heredoc(here_doc_entry, limiter, fd, stdin_cpy);
 	token->file = file_name;
 }
 

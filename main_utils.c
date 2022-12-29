@@ -6,15 +6,24 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:40:36 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/23 11:35:14 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/29 13:57:23 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	reset_g_glob(void)
+{
+	g_glob->in_child = false;
+	g_glob->sig_int = false;
+	g_glob->sig_quit = false;
+	g_glob->here_doc = false;
+}
+
 void	final_clean_up(void)
 {
 	ft_lstclear(g_glob->envp, free);
+	free_null(g_glob->minishell_sum);
 	free_null(g_glob->envp);
 	free_null(g_glob);
 	rl_clear_history();

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/27 13:06:46 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/29 14:04:35 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,18 @@ typedef struct s_glob
 	unsigned char	exit_ret;
 	bool			in_child;
 	bool			sig_int;
+	bool			sig_quit;
 	bool			here_doc;
 	char			*minishell_sum;
 }				t_glob;
 
 extern t_glob	*g_glob;
 
+void	handle_sigquit(void);
+void	handle_sigint(void);
+void	reset_g_glob(void);
+char	*get_limiter(t_token *token);
+char	*name_generator(void);
 void	init_g_glob(void);
 void	ignore_sig(int sig);
 void	final_clean_up(void);
@@ -131,8 +137,8 @@ void	exit_on_permission(char **cmd_split, \
 void	exit_on_bad_cmd(char **cmd_split, \
 		int *pipes, char *cmd, int *children_pid);
 void	free_tab_bis(void *t);
-void	get_sum(char *cmd, char **ret);
+void	get_sum(char *cmd, char **ret, int *pipes);
 char	*get_path(char *cmd);
-void	change_sig_handling(char *cmd);
+void	change_sig_handling(char *cmd, int *pipes);
 
 #endif

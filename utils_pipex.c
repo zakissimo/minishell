@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:02:00 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/26 16:58:10 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/29 11:09:49 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	clean_exit(int *children_pid)
 	free_null(g_glob->envp);
 	free_null(g_glob->head);
 	free_null(g_glob->input);
+	free_null(g_glob->minishell_sum);
 	free_null(g_glob);
 	rl_clear_history();
 }
