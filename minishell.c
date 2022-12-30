@@ -6,11 +6,12 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/29 14:12:32 by zhabri           ###   ########.fr       */
+/*   Updated: 2022/12/30 12:16:26 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft/includes/libft.h"
 
 t_glob	*g_glob;
 
@@ -61,7 +62,7 @@ void	event_loop(void)
 		input = readline("minishell> ");
 		if (input == NULL)
 		{
-			printf("exit\n");
+			ft_putstr_fd("exit\n", 2);
 			break ;
 		}
 		if (*input == '\0')
