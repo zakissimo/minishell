@@ -141,5 +141,6 @@ void		free_tab_bis(void *t);
 void		get_sum(char *cmd, char **ret, int *pipes);
 char		*get_path(char *cmd);
 void		change_sig_handling(char *cmd, int *pipes);
+void		pwd(void);
 
 #endif

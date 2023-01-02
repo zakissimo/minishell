@@ -58,7 +58,7 @@ bool	exit_parent(void)
 		cmd = ((t_cmd *)(*g_glob->cmds)->content);
 		cmd_split = ft_split(cmd->str, ' ');
 		if (!ft_strncmp(cmd_split[0], "exit", 5))
-			//TODO if cmd_split[1] exists it needs to be:
+		//	TODO if cmd_split[1] exists it needs to be:
 		//		1- numeric
 		//		2- lower than LLMAX higer than LLMIN
 		//		cmd_split[2] is NULL
