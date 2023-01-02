@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/30 12:36:35 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/02 15:04:44 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,15 @@ typedef struct s_glob
 
 extern t_glob	*g_glob;
 
+bool		last_cmd_is_exit(void);
+char		**ft_split_sep(char const *s, char *sep);
+bool		exit_child(char *cmd);
+bool		exit_parent(void);
+bool		check_exit_error(char **cmd_split);
+void		print_exit_num_error(char *cmd);
+bool		is_valid_exit_arg(char *cmd);
+bool		overflows_llong(char *str);
+bool		str_is_numeric(char *str);
 long long	ft_atoll(const char *nptr);
 void		handle_sigquit(void);
 void		handle_sigint(void);

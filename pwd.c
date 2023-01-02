@@ -6,18 +6,18 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:16:11 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/02 11:16:27 by brenaudo         ###   ########.fr       */
+/*   Updated: 2023/01/02 13:33:21 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.c"
+#include "minishell.h"
 
 void	pwd(void)
 {
 	int		size;
 	char	*path;
 	char	*ret;
-	
+
 	size = 16;
 	path = NULL;
 	ret = NULL;

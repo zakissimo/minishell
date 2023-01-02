@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 09:51:21 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/29 12:25:49 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/02 15:27:44 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,20 @@ t_cmd	*init_cmd_token(int in, int out, char *str, bool reset)
 	node->str = str;
 	idx++;
 	return (node);
+}
+
+bool	last_cmd_is_exit(void)
+{
+	char	*str;
+	char	**cmd;
+
+	str = ((t_cmd *)(ft_lstlast(*g_glob->cmds)->content))->str;
+	cmd = ft_split_sep(str, " \t");
+	if (cmd[0] && !ft_strncmp(cmd[0], "exit", 5))
+	{
+		free_tab(cmd);
+		return (true);
+	}
+	free_tab(cmd);
+	return (false);
 }

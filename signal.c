@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:32:29 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/29 14:05:12 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/02 15:00:44 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	change_sig_handling(char *cmd, int *pipes)
 	{
 		if (cmd[0])
 		{
-			cmd_split = ft_split(cmd, ' ');
+			cmd_split = ft_split_sep(cmd, " \t");
 			cmd_split[0] = get_path(cmd_split[0]);
 			if (cmd_split[0] != NULL)
 			{

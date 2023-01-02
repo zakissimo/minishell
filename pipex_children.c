@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:35:44 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/29 13:41:05 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/02 15:01:06 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 
 	if (cmd->fd_in != -1 && cmd->fd_out != -1 && cmd->str[0] != '\0')
 	{
-		cmd_split = ft_split(cmd->str, ' ');
+		cmd_split = ft_split_sep(cmd->str, " \t");
 		cmd_split[0] = get_path(cmd_split[0]);
 		exit_on_bad_cmd(cmd_split, pipes, cmd->str, children_pid);
 		exit_on_permission(cmd_split, pipes, children_pid);

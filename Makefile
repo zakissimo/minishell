@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2022/12/29 14:05:48 by zhabri           ###   ########.fr        #
+#    Updated: 2023/01/02 15:00:09 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,12 @@ SRCS		= minishell.c \
 				main_utils.c \
 				get_sum.c \
 				utils_heredocs.c \
-				utils_signal.c
+				utils_signal.c \
+				pwd.c \
+				exit.c \
+				utils_exit.c \
+				ft_atoll.c \
+				ft_split_sep.c
 
 OBJS		= $(SRCS:.c=.o)
 
