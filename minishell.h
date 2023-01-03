@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/02 15:04:44 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/03 11:47:48 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,16 @@ typedef struct s_glob
 	char			*minishell_sum;
 }				t_glob;
 
+typedef void	t_builtin(char *cmd);
+
 extern t_glob	*g_glob;
 
+void		echo(char *cmd);
+void		call_builtin(int built_in, t_cmd *cmd);
+int			builtin(char *cmd);
 bool		last_cmd_is_exit(void);
 char		**ft_split_sep(char const *s, char *sep);
-bool		exit_child(char *cmd);
+void		exit_child(char *cmd);
 bool		exit_parent(void);
 bool		check_exit_error(char **cmd_split);
 void		print_exit_num_error(char *cmd);
@@ -94,7 +99,6 @@ void		init_g_glob(void);
 void		ignore_sig(int sig);
 void		final_clean_up(void);
 void		free_null(void *var);
-void		init_input(char *str);
 char		*get_first(void);
 bool		ft_open_out(t_cmd *node, t_token *token);
 bool		ft_open_in(t_cmd *node, t_token *token);
@@ -150,6 +154,7 @@ void		free_tab_bis(void *t);
 void		get_sum(char *cmd, char **ret, int *pipes);
 char		*get_path(char *cmd);
 void		change_sig_handling(char *cmd, int *pipes);
-void		pwd(void);
+void		pwd(char *cmd);
+void		init_children_pid(int **children_pid, int size);
 
 #endif

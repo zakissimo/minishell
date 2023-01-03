@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/02 15:27:42 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/03 11:47:55 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,24 @@ int	*pipex_loop(void)
 {
 	int		pipes[4];
 	int		*children_pid;
-	bool	exit_ret;
+	int		built_in;
 	t_list	*curr;
 
 	curr = *g_glob->cmds;
-	children_pid = NULL;
-	while (!children_pid)
-		children_pid = ft_calloc(ft_lstsize(curr) + 1, sizeof(int));
+	init_children_pid(&children_pid, ft_lstsize(curr) + 1);
 	create_pipes(pipes);
 	while (curr)
 	{
 		if (curr->content)
 		{
-			exit_ret = exit_child(((t_cmd *)curr->content)->str);
-			if (!exit_ret)
+			built_in = builtin(((t_cmd *)curr->content)->str);
+			if (built_in == -1)
 				pipex_loop_exit(children_pid, curr, pipes);
 			else
+			{
 				children_pid[((t_cmd *)curr->content)->cmd_idx] = -1;
+				call_builtin(built_in, ((t_cmd *)curr->content));
+			}
 		}
 		curr = curr->next;
 	}

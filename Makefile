@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2023/01/02 15:00:09 by zhabri           ###   ########.fr        #
+#    Updated: 2023/01/03 11:40:34 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,6 @@ SRCS		= minishell.c \
 				open.c \
 				add_cmd.c \
 				heredocs.c \
-				parse_init_input.c \
 				pipex.c \
 				pipex_children.c \
 				utils_pipex.c \
@@ -54,7 +53,9 @@ SRCS		= minishell.c \
 				exit.c \
 				utils_exit.c \
 				ft_atoll.c \
-				ft_split_sep.c
+				ft_split_sep.c \
+				builtin.c \
+				echo.c
 
 OBJS		= $(SRCS:.c=.o)
 

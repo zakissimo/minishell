@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/30 12:16:26 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/03 10:47:50 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,9 @@ void	event_loop(void)
 
 int	main(int argc, char **argv, char **envp)
 {
+	(void)argc;
 	init_sig_callbacks(0);
 	init_g_glob();
-	if (argc > 1)
-		init_input(argv[1]);
 	get_envp(envp);
 	get_sum(argv[0], &(g_glob->minishell_sum), NULL);
 	event_loop();

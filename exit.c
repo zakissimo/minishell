@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:56:08 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/02 15:02:43 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/03 11:30:29 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,17 @@ bool	exit_parent(void)
 	return (false);
 }
 
-bool	exit_child_arg(char **cmd_split)
+void	exit_child(char *cmd)
 {
 	long long	ret;
+	char		**cmd_split;
 
+	cmd_split = ft_split_sep(cmd, " \t");
+	g_glob->exit_ret = 0;
 	if (cmd_split[1])
 	{
 		if (check_exit_error(cmd_split))
-			return (true);
+			return ;
 		if (!is_valid_exit_arg(cmd_split[1]))
 		{
 			free_tab(cmd_split);
@@ -75,19 +78,4 @@ bool	exit_child_arg(char **cmd_split)
 		g_glob->exit_ret = ret;
 	}
 	free_tab(cmd_split);
-	return (false);
-}
-
-bool	exit_child(char *cmd)
-{
-	char		**cmd_split;
-
-	cmd_split = ft_split_sep(cmd, " \t");
-	if (!ft_strncmp(cmd_split[0], "exit", 5))
-	{
-		g_glob->exit_ret = 0;
-		exit_child_arg(cmd_split);
-		return (true);
-	}
-	return (false);
 }
