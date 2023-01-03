@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2023/01/03 11:40:34 by zhabri           ###   ########.fr        #
+#    Updated: 2023/01/03 13:17:27 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,8 @@ SRCS		= minishell.c \
 				ft_atoll.c \
 				ft_split_sep.c \
 				builtin.c \
-				echo.c
+				echo.c \
+				cd.c
 
 OBJS		= $(SRCS:.c=.o)
 

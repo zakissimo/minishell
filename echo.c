@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:24:58 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/03 11:40:06 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/03 13:37:13 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ static bool	is_echo_with_newline(char *arg)
 	if (arg && arg[0] != '-')
 		return (true);
 	i = 1;
-	while (arg[i] == 'n')
-		i++;
-	if (!arg[i])
-		return (false);
+	if (arg)
+	{
+		while (arg[i] == 'n')
+			i++;
+		if (!arg[i])
+			return (false);
+	}
 	return (true);
 }
 
@@ -38,8 +41,13 @@ void	echo(char *cmd)
 	newline = is_echo_with_newline(cmd_split[1]);
 	if (!newline)
 		i++;
-	while (cmd_split[i])
+	while (cmd_split[i] && cmd_split[i + 1])
+	{
 		ft_putstr_fd(cmd_split[i++], 1);
+		ft_putchar_fd(' ', 1);
+	}
+	if (cmd_split[i])
+		ft_putstr_fd(cmd_split[i], 1);
 	if (newline)
 		ft_putchar_fd('\n', 1);
 	free_tab(cmd_split);

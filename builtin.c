@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:49:26 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/03 11:47:01 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/03 13:16:55 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	call_builtin(int built_in, t_cmd *cmd)
 	t_builtin	*tab[7];
 
 	tab[0] = echo;
+	tab[1] = cd;
 	tab[5] = exit_child;
 	tab[6] = pwd;
 	if (cmd->fd_out != -3)

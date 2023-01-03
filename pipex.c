@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/03 11:47:55 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/03 13:41:02 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	*pipex_loop(void)
 				pipex_loop_exit(children_pid, curr, pipes);
 			else
 			{
+				// IL FAUT ENVOYER CERTAINS TRUCS DANS LES PIPES 
+						// CF: echo haha lol | cat -e
 				children_pid[((t_cmd *)curr->content)->cmd_idx] = -1;
 				call_builtin(built_in, ((t_cmd *)curr->content));
 			}

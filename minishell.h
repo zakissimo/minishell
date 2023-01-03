@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/03 11:47:48 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/03 13:25:18 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include "libft/includes/libft.h"
 # include <unistd.h>
+# include <dirent.h>
+# include "libft/includes/libft.h"
 
 # define PARENT 0
 # define CHILD 1
@@ -77,6 +78,7 @@ typedef void	t_builtin(char *cmd);
 
 extern t_glob	*g_glob;
 
+void		cd(char *cmd);
 void		echo(char *cmd);
 void		call_builtin(int built_in, t_cmd *cmd);
 int			builtin(char *cmd);
