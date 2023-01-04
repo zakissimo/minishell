@@ -76,8 +76,8 @@ char	**ft_split_sep(char const *s, char *sep)
 
 	if (!s)
 		return (NULL);
-	tab = ft_calloc(tab_len((char *)s, sep) + 1, sizeof(char *));
-	if (!tab)
-		return (NULL);
+	tab = NULL;
+	while (tab == NULL)
+		tab = ft_calloc(tab_len((char *)s, sep) + 1, sizeof(char *));
 	return (split_loop(tab, s, sep));
 }

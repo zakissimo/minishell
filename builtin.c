@@ -34,14 +34,31 @@ int	builtin(char *cmd)
 	return (-1);
 }
 
-void	call_builtin(int built_in, t_cmd *cmd)
+void	call_builtin(int built_in, t_cmd *cmd, int *pipes, int *children_pid)
 {
+	int			fd_out;
+	int			i;
 	t_builtin	*tab[7];
 
 	tab[0] = echo;
 	tab[1] = cd;
+	tab[2] = export;
+	tab[4] = unset;
 	tab[5] = exit_child;
 	tab[6] = pwd;
 	if (cmd->fd_out != -3)
-		tab[built_in](cmd->str);
+		fd_out = cmd->fd_out;
+	else
+	{
+		if (cmd->cmd_idx % 2 == 0)
+			fd_out = pipes[3];
+		else
+			fd_out = pipes[1];
+	}
+	i = -1;
+	while (++i < 4)
+		if (pipes[i] != fd_out)
+			close(pipes[i]);
+	free(children_pid);
+	tab[built_in](cmd->str, fd_out);
 }

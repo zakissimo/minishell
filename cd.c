@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_list	*get_env_node(char *var)
+static t_list	*get_env_node(char *var)
 {
 	t_list	*envp_entry;
 
@@ -22,7 +22,7 @@ t_list	*get_env_node(char *var)
 	return (envp_entry);
 }
 
-void	ft_chdir(char *dir, int size)
+static void	ft_chdir(char *dir, int size)
 {
 	char	*ret;
 	char	*tmp;
@@ -35,13 +35,12 @@ void	ft_chdir(char *dir, int size)
 	free_null(old_pwd->content);
 	tmp = ft_strdup(pwd->content + 4);
 	old_pwd->content = ft_strjoin("OLDPWD=", tmp);
-	free_null(tmp);
-	tmp = NULL;
+	free_and_null(&tmp);
 	chdir(dir);
 	while (ret == NULL)
 	{
 		size *= 2;
-		free_null(tmp);
+		free_and_null(&tmp);
 		while (tmp == NULL)
 			tmp = ft_calloc(size, sizeof(char));
 		ret = getcwd(tmp, size);
@@ -51,31 +50,68 @@ void	ft_chdir(char *dir, int size)
 	free_null(tmp);
 }
 
-void	cd(char *cmd)
+void	cd(char *cmd, int fd_out)
 {
 	char	**cmd_split;
 	DIR		*dir;
 
+	close(fd_out);
 	cmd_split = ft_split_sep(cmd, " \t");
 	if (cmd_split[1])
 	{
-		if (cmd_split[2])
-		{
-			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-			g_glob->exit_ret = 1;
-			free_tab(cmd_split);
-			return ;
-		}
 		dir = opendir(cmd_split[1]);
-		if (!dir)
+		if (cmd_split[2] || !dir)
 		{
-			perror("minishell: ");
-			free_tab(cmd_split);
-			return ;
+			if (cmd_split[2])
+				ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+			if (!dir)
+				print_error_dir_cd(cmd_split[1]);
+			clean_and_free(cmd_split);
+			exit(1);
 		}
+		closedir(dir);
 		ft_chdir(cmd_split[1], 16);
-		return ;
 	}
-	ft_chdir(get_env_node("HOME=")->content + 5, 16);
-	free_tab(cmd_split);
+	else
+		ft_chdir(get_env_node("HOME=")->content + 5, 16);
+	clean_and_free(cmd_split);
+	exit(0);
+}
+
+bool	cd_parent(void)
+{
+	char	**cmd_split;
+	DIR		*dir;
+
+	if (ft_lstsize(*g_glob->cmds) == 1)
+	{
+		cmd_split = ft_split_sep(((t_cmd *)(*g_glob->cmds)->content)->str, \
+			" \t");
+		if (!ft_strncmp(cmd_split[0], "cd", 3))
+		{
+			if (cmd_split[1])
+			{
+				dir = opendir(cmd_split[1]);
+				if (cmd_split[2] || !dir)
+				{
+					if (cmd_split[2])
+						ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+					if (!dir)
+						print_error_dir_cd(cmd_split[1]);
+					free_tab(cmd_split);
+					g_glob->exit_ret = 1;
+					return (true);
+				}
+				closedir(dir);
+				ft_chdir(cmd_split[1], 16);
+			}
+			else
+				ft_chdir(get_env_node("HOME=")->content + 5, 16);
+			free_tab(cmd_split);
+			g_glob->exit_ret = 0;
+			return (true);
+		}
+		free_tab(cmd_split);
+	}
+	return (false);
 }

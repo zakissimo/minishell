@@ -38,7 +38,7 @@ void	free_tab(void *t)
 
 	i = 0;
 	tab = (char **)t;
-	while (tab[i])
+	while (tab && tab[i])
 	{
 		free(tab[i]);
 		i++;

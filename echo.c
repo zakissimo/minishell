@@ -30,7 +30,7 @@ static bool	is_echo_with_newline(char *arg)
 	return (true);
 }
 
-void	echo(char *cmd)
+void	echo(char *cmd, int fd_out)
 {
 	int		i;
 	char	**cmd_split;
@@ -43,12 +43,15 @@ void	echo(char *cmd)
 		i++;
 	while (cmd_split[i] && cmd_split[i + 1])
 	{
-		ft_putstr_fd(cmd_split[i++], 1);
-		ft_putchar_fd(' ', 1);
+		ft_putstr_fd(cmd_split[i++], fd_out);
+		ft_putchar_fd(' ', fd_out);
 	}
 	if (cmd_split[i])
-		ft_putstr_fd(cmd_split[i], 1);
+		ft_putstr_fd(cmd_split[i], fd_out);
 	if (newline)
-		ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', fd_out);
 	free_tab(cmd_split);
+	close(fd_out);
+	clean_exit(NULL);
+	exit(0);
 }

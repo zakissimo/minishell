@@ -20,43 +20,47 @@ RM			= rm -f
 
 NAME		= minishell
 
-SRCS		= minishell.c \
-				find_ops.c \
-				ft_strtrimf.c \
-				insert_node.c \
-				print.c \
-				errors.c \
-				nuke.c \
-				utils.c \
-				utils_bis.c \
-				utils_ter.c \
-				dollar.c \
+SRCS		= add_cmd.c \
 				arg.c \
-				get_after.c \
-				ft_strjoinf.c \
+				builtin.c \
+				cd.c \
+				dollar.c \
+				echo.c \
+				errors.c \
+				exit.c \
+				export.c \
 				find_cmd.c \
+				find_ops.c \
+				ft_atoll.c \
 				ft_split_quotes.c \
-				split_cmds.c \
-				pipe_error.c \
-				open.c \
-				add_cmd.c \
+				ft_split_sep.c \
+				ft_strjoinf.c \
+				ft_strtrimf.c \
+				get_after.c \
+				get_sum.c \
 				heredocs.c \
+				insert_node.c \
+				main_utils.c \
+				minishell.c \
+				nuke.c \
+				open.c \
+				pipe_error.c \
 				pipex.c \
 				pipex_children.c \
-				utils_pipex.c \
-				signal.c \
-				main_utils.c \
-				get_sum.c \
-				utils_heredocs.c \
-				utils_signal.c \
+				print.c \
 				pwd.c \
-				exit.c \
+				signal.c \
+				split_cmds.c \
+				unset.c \
+				utils.c \
+				utils_bis.c \
+				utils_cd.c \
 				utils_exit.c \
-				ft_atoll.c \
-				ft_split_sep.c \
-				builtin.c \
-				echo.c \
-				cd.c
+				utils_export.c \
+				utils_heredocs.c \
+				utils_pipex.c \
+				utils_signal.c \
+				utils_ter.c			
 
 OBJS		= $(SRCS:.c=.o)
 

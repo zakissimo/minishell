@@ -36,7 +36,7 @@ bool	exit_parent_arg(char **cmd_split)
 
 bool	exit_parent(void)
 {
-	char		**cmd_split;
+	char	**cmd_split;
 
 	if (ft_lstsize(*g_glob->cmds) == 1)
 	{
@@ -46,11 +46,13 @@ bool	exit_parent(void)
 		{
 			ft_putstr_fd("exit\n", 2);
 			if (exit_parent_arg(cmd_split))
+			{
+				free_tab(cmd_split);
 				return (true);
+			}
 			else
 			{
-				clean_exit(NULL);
-				free_tab(cmd_split);
+				clean_and_free(cmd_split);
 				exit(0);
 			}
 		}
@@ -59,24 +61,30 @@ bool	exit_parent(void)
 	return (false);
 }
 
-void	exit_child(char *cmd)
+void	exit_child(char *cmd, int fd_out)
 {
 	long long	ret;
 	char		**cmd_split;
 
+	close(fd_out);
 	cmd_split = ft_split_sep(cmd, " \t");
-	g_glob->exit_ret = 0;
 	if (cmd_split[1])
 	{
 		if (check_exit_error(cmd_split))
-			return ;
+		{
+			clean_and_free(cmd_split);
+			exit(1);
+		}
+		clean_exit(NULL);
 		if (!is_valid_exit_arg(cmd_split[1]))
 		{
 			free_tab(cmd_split);
-			g_glob->exit_ret = 2;
+			exit(2);
 		}
 		ret = ft_atoll(cmd_split[1]);
-		g_glob->exit_ret = ret;
+		free_tab(cmd_split);
+		exit(ret);
 	}
-	free_tab(cmd_split);
+	clean_and_free(cmd_split);
+	exit(0);
 }

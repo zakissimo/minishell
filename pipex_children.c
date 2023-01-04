@@ -61,8 +61,10 @@ static char	*get_path_loop(char *cmd, t_list *envp_entry)
 	char	*cmd_absolute;
 
 	i = 0;
-	paths = ft_split((char *)envp_entry->content + 5, ':');
-	while (cmd != NULL && paths[i])
+	paths = NULL;
+	if (envp_entry)
+		paths = ft_split((char *)envp_entry->content + 5, ':');
+	while (cmd != NULL && envp_entry && paths[i])
 	{	
 		cmd_absolute = ft_strjoin(paths[i], "/");
 		cmd_absolute = ft_strjoinf(cmd_absolute, cmd);
@@ -85,7 +87,8 @@ char	*get_path(char *cmd)
 	t_list	*envp_entry;
 
 	envp_entry = *g_glob->envp;
-	while (ft_strncmp((char *)envp_entry->content, "PATH=", 5))
+	while (envp_entry && \
+		ft_strncmp((char *)envp_entry->content, "PATH=", 5))
 		envp_entry = envp_entry->next;
 	if (cmd && access(cmd, F_OK) == 0 && ft_strchr(cmd, '/'))
 		return (cmd);

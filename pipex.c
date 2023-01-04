@@ -10,18 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
-#include <stdlib.h>
 
 static void	create_pipes(int *pipes);
 static void	close_pipe_and_recreate(int	*pipes, t_cmd *cmd);
 
-static void	pipex_loop_exit(int	*children_pid, t_list *curr, int *pipes)
+static void	pipex_loop_core(int	*children_pid, t_list *curr, int *pipes)
 {
+	int		built_in;
+
 	children_pid[((t_cmd *)curr->content)->cmd_idx] = fork();
 	if (children_pid[((t_cmd *)curr->content)->cmd_idx] == 0)
-		child(((t_cmd *)curr->content), pipes, children_pid);
+	{
+		built_in = builtin(((t_cmd *)curr->content)->str);
+		if (built_in == -1)
+			child(((t_cmd *)curr->content), pipes, children_pid);
+		else
+			call_builtin(built_in, ((t_cmd *)curr->content), pipes, \
+				children_pid);
+	}
 	change_sig_handling(((t_cmd *)curr->content)->str, pipes);
 	g_glob->in_child = true;
 	close_pipe_and_recreate(pipes, ((t_cmd *)curr->content));
@@ -31,7 +38,6 @@ int	*pipex_loop(void)
 {
 	int		pipes[4];
 	int		*children_pid;
-	int		built_in;
 	t_list	*curr;
 
 	curr = *g_glob->cmds;
@@ -40,18 +46,7 @@ int	*pipex_loop(void)
 	while (curr)
 	{
 		if (curr->content)
-		{
-			built_in = builtin(((t_cmd *)curr->content)->str);
-			if (built_in == -1)
-				pipex_loop_exit(children_pid, curr, pipes);
-			else
-			{
-				// IL FAUT ENVOYER CERTAINS TRUCS DANS LES PIPES 
-						// CF: echo haha lol | cat -e
-				children_pid[((t_cmd *)curr->content)->cmd_idx] = -1;
-				call_builtin(built_in, ((t_cmd *)curr->content));
-			}
-		}
+			pipex_loop_core(children_pid, curr, pipes);
 		curr = curr->next;
 	}
 	close_pipes(pipes);
@@ -65,17 +60,14 @@ void	pipex(void)
 	int		*children_pid;
 
 	i = 0;
-	if (exit_parent())
+	if (exit_parent() || cd_parent() || unset_parent() || export_parent())
 		return ;
 	children_pid = pipex_loop();
 	while (children_pid[i] != 0)
 	{
-		if (children_pid[i] != -1)
-		{
-			waitpid(children_pid[i], &exit_ret, 0);
-			if (!g_glob->sig_int && !g_glob->sig_quit && !last_cmd_is_exit())
-				g_glob->exit_ret = exit_ret >> 8;
-		}
+		waitpid(children_pid[i], &exit_ret, 0);
+		if (!g_glob->sig_int && !g_glob->sig_quit)
+			g_glob->exit_ret = exit_ret >> 8;
 		i++;
 	}
 	g_glob->in_child = false;

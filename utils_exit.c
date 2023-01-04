@@ -66,7 +66,7 @@ bool	check_exit_error(char **cmd_split)
 {
 	if (!is_valid_exit_arg(cmd_split[1]))
 		print_exit_num_error(cmd_split[1]);
-	if (cmd_split[2])
+	else if (cmd_split[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		g_glob->exit_ret = 1;

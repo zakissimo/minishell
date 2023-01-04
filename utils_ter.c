@@ -76,18 +76,8 @@ t_cmd	*init_cmd_token(int in, int out, char *str, bool reset)
 	return (node);
 }
 
-bool	last_cmd_is_exit(void)
+void	clean_and_free(char **cmd_split)
 {
-	char	*str;
-	char	**cmd;
-
-	str = ((t_cmd *)(ft_lstlast(*g_glob->cmds)->content))->str;
-	cmd = ft_split_sep(str, " \t");
-	if (cmd[0] && !ft_strncmp(cmd[0], "exit", 5))
-	{
-		free_tab(cmd);
-		return (true);
-	}
-	free_tab(cmd);
-	return (false);
+	free_tab(cmd_split);
+	clean_exit(NULL);
 }
