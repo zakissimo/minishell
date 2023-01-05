@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:40:50 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/05 12:18:23 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 14:47:16 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ bool	cd_parent(void)
 	{
 		cmd_split = ft_split_sep(((t_cmd *)(*g_glob->cmds)->content)->str, \
 			" \t");
-		if (!ft_strncmp(cmd_split[0], "cd", 3))
+		if (cmd_split[0] && !ft_strncmp(cmd_split[0], "cd", 3))
 		{
 			if (cmd_split[1])
 			{

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:35:44 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/02 15:01:06 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 14:31:55 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 		dup_and_close(cmd, pipes);
 		envp = envp_list_to_tab();
 		clean_exit(children_pid);
-		if (execve(cmd_split[0], cmd_split, envp) == -1)
-			perror("Error");
+		execve(cmd_split[0], cmd_split, envp);
 		close_pipes(pipes);
 		exit(1);
 	}

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 10:02:48 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/11 16:34:24 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 15:09:13 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,30 @@ void	get_after_loop(char *expanded_input, t_list *curr, int i, int j)
 		free(expanded_input);
 }
 
+static void	heredoc_dollar_exception(void)
+{
+	char	*arg;
+	t_list	*curr;
+
+	curr = *g_glob->head;
+	if (curr)
+	{
+		while (curr->next)
+		{
+			if (((t_token *)(curr->content))->label == HEREDOC \
+				&& ((t_token *)(curr->next->content))->label == VARIABLE)
+			{
+				free(((t_token *)(curr->next->content))->arg);
+				arg = ft_strjoin("\'$", \
+					((t_token *)(curr->next->content))->not_expanded);
+				arg = ft_strjoinf(arg, "\'");
+				((t_token *)(curr->next->content))->arg = arg;
+			}
+			curr = curr->next;
+		}
+	}
+}
+
 void	get_after_op(void)
 {
 	int		i;
@@ -86,5 +110,6 @@ void	get_after_op(void)
 	j = 0;
 	curr = *g_glob->head;
 	curr = get_node(curr, VARIABLE, false);
+	heredoc_dollar_exception();
 	get_after_loop(expanded_input, curr, i, j);
 }

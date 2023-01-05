@@ -6,13 +6,13 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2022/11/16 08:08:28 by zhabri           ###   ########.fr        #
+#    Updated: 2023/01/05 14:38:38 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC				= clang
 
-CFLAGS			= -Wall -Wextra -Werror -Iincludes -fpie
+CFLAGS			= -Wall -Wextra -Werror -Iincludes -fpie -g
 
 RM				= rm -f
 

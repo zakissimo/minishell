@@ -6,11 +6,12 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:20:17 by brenaudo          #+#    #+#             */
-/*   Updated: 2022/12/29 11:23:02 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 14:30:31 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
 
 static void	sha1sum_child(char *cmd, int *pipefd, int *pipes);
 
@@ -20,7 +21,7 @@ void	get_sum(char *cmd, char **ret, int *pipes)
 	int		pipefd[2];
 
 	if (pipe(pipefd) < 0)
-		perror("minishell:");
+		perror("minishell");
 	fid = fork();
 	if (fid == -1)
 		perror("fork");
@@ -51,7 +52,7 @@ static void	sha1sum_child(char *cmd, int *pipefd, int *pipes)
 	close(pipefd[1]);
 	envp = envp_list_to_tab();
 	clean_exit(NULL);
-	if (execve(exec_args[0], exec_args, envp) == -1)
-		perror("minishell:");
+	if (!access(cmd, X_OK) && execve(exec_args[0], exec_args, envp) == -1)
+		perror("minishell");
 	exit(1);
 }

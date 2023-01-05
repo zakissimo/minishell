@@ -6,10 +6,11 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 10:48:10 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/05 11:34:52 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 14:12:59 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static void	env_no_arg(int fd_out)
@@ -21,8 +22,11 @@ static void	env_no_arg(int fd_out)
 	i = 0;
 	while (envp[i])
 	{
-		ft_putstr_fd(envp[i], fd_out);
-		ft_putchar_fd('\n', fd_out);
+		if (ft_strchr(envp[i], '='))
+		{
+			ft_putstr_fd(envp[i], fd_out);
+			ft_putchar_fd('\n', fd_out);
+		}
 		i++;
 	}
 	free_tab(envp);

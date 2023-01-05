@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:56:54 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/05 12:28:03 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 14:47:39 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,13 @@ static bool	is_valid_identifier(char *identifier)
 
 	i = 1;
 	if (!ft_isalpha(identifier[0]) && identifier[0] != '_')
+	{
+		err = ft_strjoin("minishell: cd: ", identifier);
+		err = ft_strjoinf(err, ": not a valid identifier\n");
+		ft_putstr_fd(err, 2);
+		free(err);
 		return (false);
+	}
 	while (identifier[i])
 	{
 		if (!ft_isalnum(identifier[i]) && identifier[i] != '_')
@@ -101,7 +107,7 @@ bool	export_parent(void)
 	{
 		cmd_split = ft_split_sep(((t_cmd *)(*g_glob->cmds)->content)->str, \
 			" \t");
-		if (!ft_strncmp(cmd_split[0], "export", 7))
+		if (cmd_split[0] && !ft_strncmp(cmd_split[0], "export", 7))
 		{
 			if (!cmd_split[1])
 				export_no_arg(((t_cmd *)(*g_glob->cmds)->content)->fd_out);
