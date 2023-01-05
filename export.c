@@ -6,10 +6,11 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:56:54 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/04 14:56:56 by brenaudo         ###   ########.fr       */
+/*   Updated: 2023/01/05 11:59:22 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static void	export_no_arg(int fd_out)
@@ -20,11 +21,9 @@ static void	export_no_arg(int fd_out)
 
 	envp = envp_list_to_tab();
 	sort_ascii(envp);
-	i = 0;
-	envp_entry_split = NULL;
-	while (envp[i])
+	i = -1;
+	while (envp[++i])
 	{
-		free_tab(envp_entry_split);
 		envp_entry_split = cut_on_first(envp[i], '=');
 		if (envp_entry_split && ft_strncmp(envp_entry_split[0], "_", 2))
 		{
@@ -38,7 +37,7 @@ static void	export_no_arg(int fd_out)
 			}
 			ft_putchar_fd('\n', fd_out);
 		}
-		i++;
+		free_tab(envp_entry_split);
 	}
 	free_tab(envp);
 }
@@ -81,38 +80,24 @@ static bool	is_valid_identifier(char *identifier)
 static void	handle_export_add(char *var)
 {
 	char	**var_split;
-	char	**env_entry_split;
 	t_list	*env_cpy;
 
 	var_split = cut_on_first(var, '=');
-	env_cpy = *g_glob->envp;
-	env_entry_split = cut_on_first(env_cpy->content, '=');
 	if (is_valid_identifier(var_split[0]))
 	{
-		while (env_cpy && ft_strncmp(env_entry_split[0], var_split[0], \
-			ft_strlen(var_split[0]) + 1))
-		{
-			env_cpy = env_cpy->next;
-			if (env_cpy)
-			{
-				free_tab(env_entry_split);
-				env_entry_split = cut_on_first(env_cpy->content, '=');
-			}
-		}
+		env_cpy = get_env_node(var_split[0]);
 		if (env_cpy == NULL)
-			ft_lstadd_back(g_glob->envp, ft_lstnew(var));
+			ft_lstadd_back(g_glob->envp, ft_lstnew(ft_strdup(var)));
 		else if (var_split[1][0])
 		{
 			free(env_cpy->content);
 			env_cpy->content = ft_strdup(var);
 		}
 		free_tab(var_split);
-		free_tab(env_entry_split);
 		g_glob->exit_ret = 0;
 		return ;
 	}
 	free_tab(var_split);
-	free_tab(env_entry_split);
 	g_glob->exit_ret = 1;
 	return ;
 }
@@ -137,6 +122,7 @@ bool	export_parent(void)
 					handle_export_add(cmd_split[i]);
 			}
 			g_glob->exit_ret = 0;
+			free_tab(cmd_split);
 			return (true);
 		}
 		free_tab(cmd_split);

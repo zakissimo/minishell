@@ -6,18 +6,19 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:40:50 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/03 13:25:40 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 11:57:24 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_list	*get_env_node(char *var)
+t_list	*get_env_node(char *var)
 {
 	t_list	*envp_entry;
 
 	envp_entry = *g_glob->envp;
-	while (ft_strncmp((char *)envp_entry->content, var, ft_strlen(var)))
+	while (envp_entry \
+		&& ft_strncmp((char *)envp_entry->content, var, ft_strlen(var)))
 		envp_entry = envp_entry->next;
 	return (envp_entry);
 }
@@ -78,10 +79,29 @@ void	cd(char *cmd, int fd_out)
 	exit(0);
 }
 
+bool	cd_parent_arg(char **cmd_split)
+{
+	DIR		*dir;
+
+	dir = opendir(cmd_split[1]);
+	if (cmd_split[2] || !dir)
+	{
+		if (cmd_split[2])
+			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		if (!dir)
+			print_error_dir_cd(cmd_split[1]);
+		free_tab(cmd_split);
+		g_glob->exit_ret = 1;
+		return (true);
+	}
+	closedir(dir);
+	ft_chdir(cmd_split[1], 16);
+	return (false);
+}
+
 bool	cd_parent(void)
 {
 	char	**cmd_split;
-	DIR		*dir;
 
 	if (ft_lstsize(*g_glob->cmds) == 1)
 	{
@@ -91,19 +111,8 @@ bool	cd_parent(void)
 		{
 			if (cmd_split[1])
 			{
-				dir = opendir(cmd_split[1]);
-				if (cmd_split[2] || !dir)
-				{
-					if (cmd_split[2])
-						ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-					if (!dir)
-						print_error_dir_cd(cmd_split[1]);
-					free_tab(cmd_split);
-					g_glob->exit_ret = 1;
+				if (cd_parent_arg(cmd_split))
 					return (true);
-				}
-				closedir(dir);
-				ft_chdir(cmd_split[1], 16);
 			}
 			else
 				ft_chdir(get_env_node("HOME=")->content + 5, 16);

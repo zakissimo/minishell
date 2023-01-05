@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/03 13:25:18 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 11:48:27 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,10 @@ char		*ft_strtrimf(char *s1, char const *set);
 void		get_after_op(void);
 void		get_args(void);
 void		get_cmd(void);
+t_list		*get_env_node(char *var);
 char		*get_first(void);
 char		*get_limiter(t_token *token);
 void		get_sum(char *cmd, char **ret, int *pipes);
-int			get_longest_str(char *s1, char *s2);
 void		get_ops(const char *input, t_list **head);
 char		*get_path(char *cmd);
 void		handle_sigint(void);

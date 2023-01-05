@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:49:26 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/03 13:16:55 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 11:32:50 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,8 @@ int	builtin(char *cmd)
 	return (-1);
 }
 
-void	call_builtin(int built_in, t_cmd *cmd, int *pipes, int *children_pid)
+void	init_builtin_tab(t_builtin *tab[7])
 {
-	int			fd_out;
-	int			i;
-	t_builtin	*tab[7];
-
 	tab[0] = echo;
 	tab[1] = cd;
 	tab[2] = export;
@@ -47,6 +43,15 @@ void	call_builtin(int built_in, t_cmd *cmd, int *pipes, int *children_pid)
 	tab[4] = unset;
 	tab[5] = exit_child;
 	tab[6] = pwd;
+}
+
+void	call_builtin(int built_in, t_cmd *cmd, int *pipes, int *children_pid)
+{
+	int			fd_out;
+	int			i;
+	t_builtin	*tab[7];
+
+	init_builtin_tab(tab);
 	if (cmd->fd_out != -3)
 		fd_out = cmd->fd_out;
 	else
