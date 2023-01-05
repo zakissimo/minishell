@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:56:54 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/05 11:59:22 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 12:28:03 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,7 @@ static void	export_no_arg(int fd_out)
 	{
 		envp_entry_split = cut_on_first(envp[i], '=');
 		if (envp_entry_split && ft_strncmp(envp_entry_split[0], "_", 2))
-		{
-			ft_putstr_fd("declare -x ", fd_out);
-			ft_putstr_fd(envp_entry_split[0], fd_out);
-			if (envp_entry_split[1][0])
-			{
-				ft_putstr_fd("=\"", fd_out);
-				ft_putstr_fd(envp_entry_split[1], fd_out);
-				ft_putchar_fd('\"', fd_out);
-			}
-			ft_putchar_fd('\n', fd_out);
-		}
+			print_export_line(envp_entry_split, fd_out);
 		free_tab(envp_entry_split);
 	}
 	free_tab(envp);

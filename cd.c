@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:40:50 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/05 11:57:24 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 12:18:23 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 t_list	*get_env_node(char *var)
 {
+	char	*var_eq;
 	t_list	*envp_entry;
 
+	var_eq = ft_strjoin(var, "=");
 	envp_entry = *g_glob->envp;
 	while (envp_entry \
-		&& ft_strncmp((char *)envp_entry->content, var, ft_strlen(var)))
+		&& ft_strncmp((char *)envp_entry->content, var_eq, ft_strlen(var_eq)) \
+		&& ft_strncmp((char *)envp_entry->content, var, ft_strlen(var) + 1))
 		envp_entry = envp_entry->next;
+	free(var_eq);
 	return (envp_entry);
 }
 
@@ -30,8 +34,8 @@ static void	ft_chdir(char *dir, int size)
 	t_list	*pwd;
 	t_list	*old_pwd;
 
-	pwd = get_env_node("PWD=");
-	old_pwd = get_env_node("OLDPWD=");
+	pwd = get_env_node("PWD");
+	old_pwd = get_env_node("OLDPWD");
 	ret = NULL;
 	free_null(old_pwd->content);
 	tmp = ft_strdup(pwd->content + 4);
@@ -74,7 +78,7 @@ void	cd(char *cmd, int fd_out)
 		ft_chdir(cmd_split[1], 16);
 	}
 	else
-		ft_chdir(get_env_node("HOME=")->content + 5, 16);
+		ft_chdir(get_env_node("HOME")->content + 5, 16);
 	clean_and_free(cmd_split);
 	exit(0);
 }
@@ -115,7 +119,7 @@ bool	cd_parent(void)
 					return (true);
 			}
 			else
-				ft_chdir(get_env_node("HOME=")->content + 5, 16);
+				ft_chdir(get_env_node("HOME")->content + 5, 16);
 			free_tab(cmd_split);
 			g_glob->exit_ret = 0;
 			return (true);

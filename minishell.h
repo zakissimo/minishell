@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/05 11:48:27 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/05 12:27:38 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void		print_cmds(void);
 void		print_cmd_not_found(char *str);
 void		print_error_dir_cd(char *dir);
 void		print_exit_num_error(char *cmd);
+void		print_export_line(char **envp_entry_split, int fd_out);
 void		print_label(t_label label);
 void		print_nodes(void *n);
 void		pwd(char *cmd, int fd_out);
