@@ -26,6 +26,7 @@ SRCS		= add_cmd.c \
 				cd.c \
 				dollar.c \
 				echo.c \
+				env.c \
 				errors.c \
 				exit.c \
 				export.c \

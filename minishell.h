@@ -95,6 +95,7 @@ void		clear_cmds(void);
 void		close_pipes(int *pipes);
 char		**cut_on_first(char *str, char sep);
 void		echo(char *cmd, int fd_out);
+void		env(char *cmd, int fd_out);
 char		**envp_list_to_tab(void);
 void		eof_limiter_not_found(char *here_doc_entry, char *limiter);
 void		exit_child(char *cmd, int fd_out);

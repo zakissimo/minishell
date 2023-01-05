@@ -40,6 +40,7 @@ static void	export_no_arg(int fd_out)
 		}
 		i++;
 	}
+	free_tab(envp);
 }
 
 void	export(char *cmd, int fd_out)
@@ -54,13 +55,26 @@ void	export(char *cmd, int fd_out)
 	exit(0);
 }
 
-/*TODO : verif si identifier valable (je crois que que lettres possibles
-ou un truc comme ça)
-*/
-
 static bool	is_valid_identifier(char *identifier)
 {
-	(void)identifier;
+	int		i;
+	char	*err;
+
+	i = 1;
+	if (!ft_isalpha(identifier[0]) && identifier[0] != '_')
+		return (false);
+	while (identifier[i])
+	{
+		if (!ft_isalnum(identifier[i]) && identifier[i] != '_')
+		{
+			err = ft_strjoin("minishell: cd: ", identifier);
+			err = ft_strjoinf(err, ": not a valid identifier\n");
+			ft_putstr_fd(err, 2);
+			free(err);
+			return (false);
+		}	
+		i++;
+	}
 	return (true);
 }
 
@@ -76,7 +90,7 @@ static void	handle_export_add(char *var)
 	if (is_valid_identifier(var_split[0]))
 	{
 		while (env_cpy && ft_strncmp(env_entry_split[0], var_split[0], \
-		ft_strlen(longest_str(env_entry_split[0], var_split[0])) + 1))
+			ft_strlen(var_split[0]) + 1))
 		{
 			env_cpy = env_cpy->next;
 			if (env_cpy)
@@ -92,9 +106,15 @@ static void	handle_export_add(char *var)
 			free(env_cpy->content);
 			env_cpy->content = ft_strdup(var);
 		}
+		free_tab(var_split);
+		free_tab(env_entry_split);
+		g_glob->exit_ret = 0;
+		return ;
 	}
 	free_tab(var_split);
 	free_tab(env_entry_split);
+	g_glob->exit_ret = 1;
+	return ;
 }
 
 bool	export_parent(void)

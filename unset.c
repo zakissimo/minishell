@@ -40,8 +40,11 @@ bool	unset_parent(void)
 					ft_strncmp(env_cpy->next->content, name, ft_strlen(name)))
 					env_cpy = env_cpy->next;
 				tmp = env_cpy->next;
-				env_cpy->next = tmp->next;
-				ft_lstdelone(tmp, free);
+				if (tmp != NULL)
+				{
+					env_cpy->next = tmp->next;
+					ft_lstdelone(tmp, free);
+				}	
 				free_tab(cmd_split);
 				g_glob->exit_ret = 0;
 				return (true);

@@ -67,20 +67,3 @@ char	**cut_on_first(char *str, char sep)
 	ret[1] = ft_substr(str, i + 1, ft_strlen(str) - i);
 	return (ret);
 }
-
-char	*longest_str(char *s1, char *s2)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (s1 && s1[i])
-		i++;
-	while (s2 && s2[j])
-		j++;
-	if (i > j)
-		return (s1);
-	else
-		return (s2);
-}

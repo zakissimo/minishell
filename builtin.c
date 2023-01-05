@@ -43,6 +43,7 @@ void	call_builtin(int built_in, t_cmd *cmd, int *pipes, int *children_pid)
 	tab[0] = echo;
 	tab[1] = cd;
 	tab[2] = export;
+	tab[3] = env;
 	tab[4] = unset;
 	tab[5] = exit_child;
 	tab[6] = pwd;
