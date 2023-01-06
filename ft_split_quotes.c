@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:37:29 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/13 13:44:35 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/06 11:12:42 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	**split_loop(char **tab, char const *s, char *sep)
 					free_tab(tab);
 					return (NULL);
 				}
-				add_to_tab(tab, tmp);
+				add_to_tab(tab, remove_quotes(tmp));
 			}
 			j = i + 1;
 		}

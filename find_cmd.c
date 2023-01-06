@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:14:40 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/29 13:46:24 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/06 10:58:59 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	find_cmd(t_list **cmds)
 	{
 		while (trimmed[i] && !str_is_op(trimmed + i))
 			i += skip_if_quotes(trimmed, i);
-		node->str = remove_quotes(ft_substr(trimmed, 0, i));
+		node->str = ft_substr(trimmed, 0, i);
 	}
 	ft_lstadd_back(cmds, ft_lstnew(node));
 	free(trimmed);

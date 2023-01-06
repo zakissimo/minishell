@@ -6,11 +6,12 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/05 14:47:53 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/06 12:05:29 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/wait.h>
 
 static void	create_pipes(int *pipes);
 static void	close_pipe_and_recreate(int	*pipes, t_cmd *cmd);
@@ -19,17 +20,18 @@ static void	pipex_loop_core(int	*children_pid, t_list *curr, int *pipes)
 {
 	int		built_in;
 
+	built_in = builtin(((t_cmd *)curr->content)->str);
 	children_pid[((t_cmd *)curr->content)->cmd_idx] = fork();
 	if (children_pid[((t_cmd *)curr->content)->cmd_idx] == 0)
 	{
-		built_in = builtin(((t_cmd *)curr->content)->str);
 		if (built_in == -1)
 			child(((t_cmd *)curr->content), pipes, children_pid);
 		else
 			call_builtin(built_in, ((t_cmd *)curr->content), pipes, \
 				children_pid);
 	}
-	change_sig_handling(((t_cmd *)curr->content)->str, pipes);
+	if (built_in == -1)
+		change_sig_handling(((t_cmd *)curr->content)->str, pipes);
 	g_glob->in_child = true;
 	close_pipe_and_recreate(pipes, ((t_cmd *)curr->content));
 }

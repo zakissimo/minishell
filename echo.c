@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:24:58 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/03 13:37:13 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/06 11:23:06 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	echo(char *cmd, int fd_out)
 	bool	newline;
 
 	i = 1;
-	cmd_split = ft_split_sep(cmd, " \t");
+	cmd_split = ft_split_quotes(cmd, " \t");
 	newline = is_echo_with_newline(cmd_split[1]);
 	if (!newline)
 		i++;
