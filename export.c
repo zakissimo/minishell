@@ -44,7 +44,7 @@ void	export(char *cmd, int fd_out)
 	exit(0);
 }
 
-static bool	is_valid_identifier(char *identifier)
+static bool	is_valid_identifier(char *identifier, char *var)
 {
 	int		i;
 	char	*err;
@@ -52,7 +52,7 @@ static bool	is_valid_identifier(char *identifier)
 	i = 1;
 	if (!ft_isalpha(identifier[0]) && identifier[0] != '_')
 	{
-		err = ft_strjoin("minishell: cd: ", identifier);
+		err = ft_strjoin("minishell: export: ", var);
 		err = ft_strjoinf(err, ": not a valid identifier\n");
 		ft_putstr_fd(err, 2);
 		free(err);
@@ -62,7 +62,7 @@ static bool	is_valid_identifier(char *identifier)
 	{
 		if (!ft_isalnum(identifier[i]) && identifier[i] != '_')
 		{
-			err = ft_strjoin("minishell: cd: ", identifier);
+			err = ft_strjoin("minishell: export: ", var);
 			err = ft_strjoinf(err, ": not a valid identifier\n");
 			ft_putstr_fd(err, 2);
 			free(err);
@@ -73,21 +73,60 @@ static bool	is_valid_identifier(char *identifier)
 	return (true);
 }
 
+static bool	plus_end_str(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str && str[i] && str[i + 1])
+		i++;
+	if (str && str[i] == '+')
+		return (true);
+	return (false);
+}
+
 static void	handle_export_add(char *var)
 {
+	char	*tmp;
 	char	**var_split;
+	bool	plus_char;
 	t_list	*env_cpy;
 
 	var_split = cut_on_first(var, '=');
-	if (is_valid_identifier(var_split[0]))
+	plus_char = plus_end_str(var_split[0]);
+	if (plus_char)
+	{
+		tmp = ft_substr(var_split[0], 0, ft_strlen(var_split[0]) - 1);
+		free(var_split[0]);
+		var_split[0] = tmp;
+	}
+	if (is_valid_identifier(var_split[0], var))
 	{
 		env_cpy = get_env_node(var_split[0]);
 		if (env_cpy == NULL)
-			ft_lstadd_back(g_glob->envp, ft_lstnew(ft_strdup(var)));
+		{
+			if (!plus_char)
+				ft_lstadd_back(g_glob->envp, ft_lstnew(ft_strdup(var)));
+			else
+				ft_lstadd_back(g_glob->envp, \
+					ft_lstnew(ft_strdup(ft_strjoin(var_split[0], var_split[1]))));
+		}
+			
 		else if (var_split[1][0])
 		{
-			free(env_cpy->content);
-			env_cpy->content = ft_strdup(var);
+			if (!plus_char)
+			{
+				free(env_cpy->content);
+				env_cpy->content = ft_strdup(var);
+			}
+			else
+			{
+				if (ft_strchr(env_cpy->content, '='))
+					env_cpy->content = ft_strjoinf(env_cpy->content, var_split[1] + 1);
+				else
+					env_cpy->content = ft_strjoinf(env_cpy->content, var_split[1]);
+			}
+				
 		}
 		free_tab(var_split);
 		g_glob->exit_ret = 0;
@@ -95,7 +134,6 @@ static void	handle_export_add(char *var)
 	}
 	free_tab(var_split);
 	g_glob->exit_ret = 1;
-	return ;
 }
 
 bool	export_parent(void)
