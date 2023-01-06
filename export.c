@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:56:54 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/05 14:47:39 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/06 10:49:20 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,6 @@ static bool	is_valid_identifier(char *identifier, char *var)
 	return (true);
 }
 
-static bool	plus_end_str(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str && str[i] && str[i + 1])
-		i++;
-	if (str && str[i] == '+')
-		return (true);
-	return (false);
-}
-
 static void	handle_export_add(char *var)
 {
 	char	*tmp;
@@ -104,36 +92,13 @@ static void	handle_export_add(char *var)
 	{
 		env_cpy = get_env_node(var_split[0]);
 		if (env_cpy == NULL)
-		{
-			if (!plus_char)
-				ft_lstadd_back(g_glob->envp, ft_lstnew(ft_strdup(var)));
-			else
-				ft_lstadd_back(g_glob->envp, \
-					ft_lstnew(ft_strdup(ft_strjoin(var_split[0], var_split[1]))));
-		}
-			
+			init_new_var(plus_char, var, var_split);
 		else if (var_split[1][0])
-		{
-			if (!plus_char)
-			{
-				free(env_cpy->content);
-				env_cpy->content = ft_strdup(var);
-			}
-			else
-			{
-				if (ft_strchr(env_cpy->content, '='))
-					env_cpy->content = ft_strjoinf(env_cpy->content, var_split[1] + 1);
-				else
-					env_cpy->content = ft_strjoinf(env_cpy->content, var_split[1]);
-			}
-				
-		}
-		free_tab(var_split);
-		g_glob->exit_ret = 0;
+			edit_var(plus_char, var, var_split, env_cpy);
+		free_and_set_exit_ret(var_split, 0);
 		return ;
 	}
-	free_tab(var_split);
-	g_glob->exit_ret = 1;
+	free_and_set_exit_ret(var_split, 1);
 }
 
 bool	export_parent(void)

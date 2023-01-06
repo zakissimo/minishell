@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/05 12:27:38 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/06 10:48:51 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void		add_cmd(t_token *token, t_list **cmds, bool *pb);
 void		add_to_tab(char **tab, char *str);
 int			builtin(char *cmd);
 void		call_builtin(int built_in, t_cmd *cmd, int *pipes, \
-			int *children_pid);
+				int *children_pid);
 void		cd(char *cmd, int fd_out);
 bool		cd_parent(void);
 void		change_sig_handling(char *cmd, int *pipes);
@@ -95,14 +95,16 @@ void		clear_cmds(void);
 void		close_pipes(int *pipes);
 char		**cut_on_first(char *str, char sep);
 void		echo(char *cmd, int fd_out);
+void		edit_var(bool plus_char, char *var, char **var_split, \
+				t_list *env_cpy);
 void		env(char *cmd, int fd_out);
 char		**envp_list_to_tab(void);
 void		eof_limiter_not_found(char *here_doc_entry, char *limiter);
 void		exit_child(char *cmd, int fd_out);
 void		exit_on_bad_cmd(char **cmd_split, \
-			int *pipes, char *cmd, int *children_pid);
+				int *pipes, char *cmd, int *children_pid);
 void		exit_on_permission(char **cmd_split, \
-			int *pipes, int *children_pid);
+				int *pipes, int *children_pid);
 bool		exit_parent(void);
 void		expand(t_token *var);
 void		export(char *cmd, int fd_out);
@@ -111,6 +113,7 @@ void		final_clean_up(void);
 int			find_quote(const char *s, char c);
 void		find_var(t_token *token, char *input);
 void		free_and_null(char **tmp);
+void		free_and_set_exit_ret(char **var_split, int ret);
 void		free_null(void *var);
 void		free_op_list(void);
 void		free_tab(void *t);
@@ -140,6 +143,7 @@ void		ignore_sig(int sig);
 void		init_children_pid(int **children_pid, int size);
 t_cmd		*init_cmd_token(int in, int out, char *str, bool reset);
 void		init_g_glob(void);
+void		init_new_var(bool plus_char, char *var, char **var_split);
 void		init_sig_callbacks(int process);
 void		insert_node(t_list **head, t_list *node, int idx);
 bool		is_valid_exit_arg(char *cmd);
@@ -151,6 +155,7 @@ char		*op_error_trimmed(t_list *curr);
 bool		overflows_llong(char *str);
 int			pipe_error(void);
 void		pipex(void);
+bool		plus_end_str(char *str);
 void		print_cmds(void);
 void		print_cmd_not_found(char *str);
 void		print_error_dir_cd(char *dir);
