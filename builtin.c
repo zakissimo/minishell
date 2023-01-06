@@ -20,8 +20,8 @@ int	builtin(char *cmd)
 		{"echo", "cd", "export", "env", "unset", "exit", "pwd", NULL};
 
 	i = 0;
-	cmd_split = ft_split_sep(cmd, " \t");
-	while (cmd_split[0] && builtins[i])
+	cmd_split = ft_split_quotes(cmd, " \t");
+	while (cmd_split && cmd_split[0] && builtins[i])
 	{
 		if (!ft_strncmp(builtins[i], cmd_split[0], ft_strlen(builtins[i]) + 1))
 		{
@@ -68,4 +68,6 @@ void	call_builtin(int built_in, t_cmd *cmd, int *pipes, int *children_pid)
 	free(children_pid);
 	if (cmd->fd_in != -1 && cmd->fd_out != -1)
 		tab[built_in](cmd->str, fd_out);
+	else
+		exit(1);
 }

@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+void	exit_on_not_existing_file(char *cmd, char **cmd_split, \
+		int *pipes, int *children_pid)
+{
+	char	**cmd_split_bis;
+
+	cmd_split_bis = ft_split_quotes(cmd, " \t");
+	if (cmd_split[0] == NULL && ft_strchr(cmd, '/') && \
+		access(cmd_split_bis[0], F_OK) != 0)
+	{
+		ft_putstr_fd(cmd_split[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		free_tab(cmd_split);
+		free_tab(cmd_split_bis);
+		close_pipes(pipes);
+		clean_exit(children_pid);
+		exit(127);
+	}
+	free_tab(cmd_split_bis);
+}
+
 void	exit_on_bad_cmd(char **cmd_split, \
 		int *pipes, char *cmd, int *children_pid)
 {
@@ -30,9 +50,8 @@ void	exit_on_permission(char **cmd_split, \
 {
 	if (access(cmd_split[0], X_OK) != 0)
 	{
-		ft_putstr_fd("Permission denied: ", 2);
 		ft_putstr_fd(cmd_split[0], 2);
-		ft_putchar_fd('\n', 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 		free_tab(cmd_split);
 		close_pipes(pipes);
 		clean_exit(children_pid);
@@ -42,9 +61,8 @@ void	exit_on_permission(char **cmd_split, \
 
 void	print_cmd_not_found(char *str)
 {
-	ft_putstr_fd("Command not found: ", 2);
 	ft_putstr_fd(str, 2);
-	ft_putstr_fd("\n", 2);
+	ft_putstr_fd(": command not found\n", 2);
 }
 
 void	close_pipes(int *pipes)

@@ -62,7 +62,7 @@ void	event_loop(void)
 		input = readline("minishell> ");
 		if (input == NULL)
 		{
-			ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("exit\n", 1);
 			break ;
 		}
 		if (*input == '\0')

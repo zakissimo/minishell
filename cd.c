@@ -109,9 +109,9 @@ bool	cd_parent(void)
 
 	if (ft_lstsize(*g_glob->cmds) == 1)
 	{
-		cmd_split = ft_split_sep(((t_cmd *)(*g_glob->cmds)->content)->str, \
+		cmd_split = ft_split_quotes(((t_cmd *)(*g_glob->cmds)->content)->str, \
 			" \t");
-		if (cmd_split[0] && !ft_strncmp(cmd_split[0], "cd", 3))
+		if (cmd_split && cmd_split[0] && !ft_strncmp(cmd_split[0], "cd", 3))
 		{
 			if (cmd_split[1])
 			{

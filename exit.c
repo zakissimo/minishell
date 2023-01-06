@@ -40,11 +40,11 @@ bool	exit_parent(void)
 
 	if (ft_lstsize(*g_glob->cmds) == 1)
 	{
-		cmd_split = ft_split_sep(((t_cmd *)(*g_glob->cmds)->content)->str, \
+		cmd_split = ft_split_quotes(((t_cmd *)(*g_glob->cmds)->content)->str, \
 			" \t");
-		if (cmd_split[0] && !ft_strncmp(cmd_split[0], "exit", 5))
+		if (cmd_split && cmd_split[0] && !ft_strncmp(cmd_split[0], "exit", 5))
 		{
-			ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("exit\n", 1);
 			if (exit_parent_arg(cmd_split))
 			{
 				free_tab(cmd_split);
@@ -67,7 +67,7 @@ void	exit_child(char *cmd, int fd_out)
 	char		**cmd_split;
 
 	close(fd_out);
-	cmd_split = ft_split_sep(cmd, " \t");
+	cmd_split = ft_split_quotes(cmd, " \t");
 	if (cmd_split[1])
 	{
 		if (check_exit_error(cmd_split))

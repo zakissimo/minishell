@@ -34,11 +34,13 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 	char	**envp;
 	char	**cmd_split;
 
+	g_glob->exit_ret = 1;
 	if (cmd->fd_in != -1 && cmd->fd_out != -1 && cmd->str[0] != '\0')
 	{
 		cmd_split = ft_split_quotes(cmd->str, " \t");
 		cmd_split[0] = remove_quotes(cmd_split[0]);
-		cmd_split[0] = get_path(cmd_split[0]);
+		cmd_split[0] = get_path(cmd_split[0], false);
+		exit_on_not_existing_file(cmd->str, cmd_split, pipes, children_pid);
 		exit_on_bad_cmd(cmd_split, pipes, cmd->str, children_pid);
 		exit_on_permission(cmd_split, pipes, children_pid);
 		dup_and_close(cmd, pipes);
@@ -46,7 +48,7 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 		clean_exit(children_pid);
 		execve(cmd_split[0], cmd_split, envp);
 		close_pipes(pipes);
-		exit(1);
+		exit(g_glob->exit_ret);
 	}
 	else
 		clean_exit(children_pid);
@@ -84,7 +86,7 @@ static char	*get_path_loop(char *cmd, t_list *envp_entry)
 	return (NULL);
 }
 
-char	*get_path(char *cmd)
+char	*get_path(char *cmd, bool shaone)
 {
 	t_list	*envp_entry;
 
@@ -93,7 +95,17 @@ char	*get_path(char *cmd)
 		ft_strncmp((char *)envp_entry->content, "PATH=", 5))
 		envp_entry = envp_entry->next;
 	if (cmd && access(cmd, F_OK) == 0 && ft_strchr(cmd, '/'))
+	{
+		if (is_dir(cmd) && !shaone)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": Is a directory\n", 2);
+			g_glob->exit_ret = 126;
+		}
 		return (cmd);
+	}
+		
 	return (get_path_loop(cmd, envp_entry));
 }
 

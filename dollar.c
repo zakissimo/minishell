@@ -53,8 +53,8 @@ void	expand(t_token *var)
 static bool	str_is_op(char *needle)
 {
 	int						i;
-	static const char		*op_tab[11] = {"<<", ">>", "|", \
-		">", "<", "$", " ", "\"", "'", "/", NULL};
+	static const char		*op_tab[13] = {"<<", ">>", "|", \
+		">", "<", "$", " ", "\"", "'", "/", "\t", NULL};
 
 	i = 0;
 	while (op_tab[i])

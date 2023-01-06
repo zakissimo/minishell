@@ -103,6 +103,8 @@ void		eof_limiter_not_found(char *here_doc_entry, char *limiter);
 void		exit_child(char *cmd, int fd_out);
 void		exit_on_bad_cmd(char **cmd_split, \
 				int *pipes, char *cmd, int *children_pid);
+void		exit_on_not_existing_file(char *cmd, char **cmd_split, \
+				int *pipes, int *children_pid);
 void		exit_on_permission(char **cmd_split, \
 				int *pipes, int *children_pid);
 bool		exit_parent(void);
@@ -136,7 +138,7 @@ char		*get_first(void);
 char		*get_limiter(t_token *token);
 void		get_sum(char *cmd, char **ret, int *pipes);
 void		get_ops(const char *input, t_list **head);
-char		*get_path(char *cmd);
+char		*get_path(char *cmd, bool shaone);
 void		handle_sigint(void);
 void		handle_sigquit(void);
 void		ignore_sig(int sig);
@@ -146,6 +148,7 @@ void		init_g_glob(void);
 void		init_new_var(bool plus_char, char *var, char **var_split);
 void		init_sig_callbacks(int process);
 void		insert_node(t_list **head, t_list *node, int idx);
+bool		is_dir(char *cmd);
 bool		is_valid_exit_arg(char *cmd);
 char		*longest_str(char *s1, char *s2);
 void		lst_dellast(t_list **lst, void (*del)(void *));

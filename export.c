@@ -30,6 +30,7 @@ static void	export_no_arg(int fd_out)
 		free_tab(envp_entry_split);
 	}
 	free_tab(envp);
+	g_glob->exit_ret = 0;
 }
 
 void	export(char *cmd, int fd_out)
@@ -96,9 +97,11 @@ static void	handle_export_add(char *var)
 		else if (var_split[1][0])
 			edit_var(plus_char, var, var_split, env_cpy);
 		free_and_set_exit_ret(var_split, 0);
+		g_glob->exit_ret = 0;
 		return ;
 	}
 	free_and_set_exit_ret(var_split, 1);
+	g_glob->exit_ret = 1;
 }
 
 bool	export_parent(void)
@@ -108,9 +111,9 @@ bool	export_parent(void)
 
 	if (ft_lstsize(*g_glob->cmds) == 1)
 	{
-		cmd_split = ft_split_sep(((t_cmd *)(*g_glob->cmds)->content)->str, \
+		cmd_split = ft_split_quotes(((t_cmd *)(*g_glob->cmds)->content)->str, \
 			" \t");
-		if (cmd_split[0] && !ft_strncmp(cmd_split[0], "export", 7))
+		if (cmd_split && cmd_split[0] && !ft_strncmp(cmd_split[0], "export", 7))
 		{
 			if (!cmd_split[1])
 				export_no_arg(((t_cmd *)(*g_glob->cmds)->content)->fd_out);
@@ -120,7 +123,6 @@ bool	export_parent(void)
 				while (cmd_split[++i])
 					handle_export_add(cmd_split[i]);
 			}
-			g_glob->exit_ret = 0;
 			free_tab(cmd_split);
 			return (true);
 		}

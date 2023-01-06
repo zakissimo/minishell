@@ -53,7 +53,7 @@ void	change_sig_handling(char *cmd, int *pipes)
 		if (cmd[0])
 		{
 			cmd_split = ft_split_sep(cmd, " \t");
-			cmd_split[0] = get_path(cmd_split[0]);
+			cmd_split[0] = get_path(cmd_split[0], true);
 			if (cmd_split[0] != NULL)
 			{
 				get_sum(cmd_split[0], &sum, pipes);

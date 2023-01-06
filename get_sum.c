@@ -35,6 +35,17 @@ void	get_sum(char *cmd, char **ret, int *pipes)
 	close(pipefd[0]);
 }
 
+bool	is_dir(char *cmd)
+{
+	DIR	*dir;
+
+	dir = opendir(cmd);
+	if (dir == NULL)
+		return (false);
+	closedir(dir);
+	return (true);
+}
+
 static void	sha1sum_child(char *cmd, int *pipefd, int *pipes)
 {
 	int		i;
@@ -52,7 +63,8 @@ static void	sha1sum_child(char *cmd, int *pipefd, int *pipes)
 	close(pipefd[1]);
 	envp = envp_list_to_tab();
 	clean_exit(NULL);
-	if (!access(cmd, X_OK) && execve(exec_args[0], exec_args, envp) == -1)
+	if (!is_dir(cmd) && !access(cmd, X_OK) \
+		&& execve(exec_args[0], exec_args, envp) == -1)
 		perror("minishell");
 	exit(1);
 }

@@ -75,7 +75,8 @@ void	find_cmd_infile(t_token *token, t_cmd *node, bool *pb)
 		free(file);
 	if (!g_glob->sig_int)
 		*pb = ft_open_in(node, token);
-	*pb = false;
+	else
+		*pb = false;
 }
 
 void	find_cmd_outfile(t_token *token, t_cmd *node, bool *pb)

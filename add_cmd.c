@@ -24,7 +24,7 @@ void	add_cmd(t_token *token, t_list **cmds, bool *pb)
 		if (node->str)
 			free(node->str);
 		node->str = ft_strdup(token->arg);
-		node->fd_in = 0;
+		node->fd_in = -3;
 		node->fd_out = 1;
 	}
 	else

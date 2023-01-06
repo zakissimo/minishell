@@ -98,7 +98,7 @@ void	get_ops(const char *input, t_list **head)
 			single_q = !single_q;
 		else if (input[i] == '$' && !ft_isprint_nospace_nodollar(input[i + 1]))
 			i++;
-		if ((!single_q && !double_q) || (input[i] == '$' && double_q))
+		if (input[i] && (!single_q && !double_q) || (input[i] == '$' && double_q))
 			i += add_ops(input, head, i);
 		i++;
 	}
