@@ -6,30 +6,35 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/26 16:39:32 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 11:25:54 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/includes/libft.h"
 #include "minishell.h"
 
-static void	expand_bis(t_list *curr, t_token *var, char *env, char char_tmp)
+static void	expand_bis(t_list *curr, t_token *var, char *env, char *tmp)
 {
-	if (char_tmp != '?')
+	if (tmp[0] != '?')
 	{
 		if (curr && env)
 			var->arg = ft_strdup(ft_strchr(env, '=') + 1);
 		else
-			var->arg = ft_strdup("");
+		{
+			if (ft_strlen(tmp) == 1)
+				var->arg = ft_strdup("$");
+			else
+				var->arg = ft_strdup("");
+		}
 	}
 	else
 		var->arg = ft_strjoinf(ft_itoa(g_glob->exit_ret), \
 			var->not_expanded + 1);
+	free(tmp);
 }
 
 void	expand(t_token *var)
 {
-	char	char_tmp;
 	char	*tmp;
 	char	*env;
 	t_list	*curr;
@@ -44,17 +49,15 @@ void	expand(t_token *var)
 		if (curr)
 			env = (char *)curr->content;
 	}
-	char_tmp = var->arg[0];
-	free(tmp);
 	free(var->arg);
-	expand_bis(curr, var, env, char_tmp);
+	expand_bis(curr, var, env, tmp);
 }
 
 static bool	str_is_op(char *needle)
 {
 	int						i;
 	static const char		*op_tab[13] = {"<<", ">>", "|", \
-		">", "<", "$", " ", "\"", "'", "/", "\t", NULL};
+		">", "<", " ", "$", "\"", "'", "/", "\t", NULL};
 
 	i = 0;
 	while (op_tab[i])

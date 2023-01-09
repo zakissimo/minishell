@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 13:04:06 by zhabri            #+#    #+#             */
-/*   Updated: 2022/12/19 09:46:19 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 11:23:44 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,13 @@ void	get_args(void)
 			idx = ((t_token *)next->content)->str_idx;
 		else
 			idx = ft_strlen(g_glob->input);
-		token->arg = ft_substr(g_glob->input, \
-			token->str_idx + ft_strlen(token->str), \
-			idx - token->str_idx - ft_strlen(token->str));
-		token->arg = ft_strtrimf(token->arg, " \t");
+		if (token->label != VARIABLE)
+		{
+			token->arg = ft_substr(g_glob->input, \
+				token->str_idx + ft_strlen(token->str), \
+				idx - token->str_idx - ft_strlen(token->str));
+			token->arg = ft_strtrimf(token->arg, " \t");
+		}
 		curr = curr->next;
 	}
 }
