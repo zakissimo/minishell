@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/06 10:48:51 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 13:26:18 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void		eof_limiter_not_found(char *here_doc_entry, char *limiter);
 void		exit_child(char *cmd, int fd_out);
 void		exit_on_bad_cmd(char **cmd_split, \
 				int *pipes, char *cmd, int *children_pid);
+void		exit_on_error(t_cmd *cmd, char **cmd_split, \
+				int *pipes, int *children_pid);
 void		exit_on_not_existing_file(char *cmd, char **cmd_split, \
 				int *pipes, int *children_pid);
 void		exit_on_permission(char **cmd_split, \
@@ -135,6 +137,7 @@ void		get_args(void);
 void		get_cmd(void);
 t_list		*get_env_node(char *var);
 char		*get_first(void);
+char		*get_home_content(void);
 char		*get_limiter(t_token *token);
 void		get_sum(char *cmd, char **ret, int *pipes);
 void		get_ops(const char *input, t_list **head);
@@ -144,6 +147,7 @@ void		handle_sigquit(void);
 void		ignore_sig(int sig);
 void		init_children_pid(int **children_pid, int size);
 t_cmd		*init_cmd_token(int in, int out, char *str, bool reset);
+void		init_ft_chdir(t_list **pwd, t_list **old_pwd, char **ret);
 void		init_g_glob(void);
 void		init_new_var(bool plus_char, char *var, char **var_split);
 void		init_sig_callbacks(int process);

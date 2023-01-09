@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:49:26 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/06 11:55:35 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 14:21:21 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,8 @@ void	call_builtin(int built_in, t_cmd *cmd, int *pipes, int *children_pid)
 	if (cmd->fd_in != -1 && cmd->fd_out != -1)
 		tab[built_in](cmd->str, fd_out);
 	else
+	{
+		clean_exit(NULL);
 		exit(1);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:14:40 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/06 10:58:59 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 14:23:41 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@ void	find_cmd_infile(t_token *token, t_cmd *node, bool *pb)
 		token->file = remove_quotes(file);
 	else
 		free(file);
+	*pb = false;
 	if (!g_glob->sig_int)
 		*pb = ft_open_in(node, token);
-	else
-		*pb = false;
 }
 
 void	find_cmd_outfile(t_token *token, t_cmd *node, bool *pb)

@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:56:08 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/05 14:47:53 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 13:30:38 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	exit_child(char *cmd, int fd_out)
 		free_tab(cmd_split);
 		exit(ret);
 	}
+	ret = g_glob->exit_ret;
 	clean_and_free(cmd_split);
-	exit(g_glob->exit_ret);
+	exit(ret);
 }

@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2023/01/06 10:39:22 by zhabri           ###   ########.fr        #
+#    Updated: 2023/01/09 13:26:38 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRCS		= add_cmd.c \
 				utils_export_bis.c \
 				utils_heredocs.c \
 				utils_pipex.c \
+				utils_pipex_bis.c \
 				utils_signal.c \
 				utils_ter.c			
 

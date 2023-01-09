@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:31:23 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/05 15:18:18 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 13:21:10 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	unset_parent_arg(char **cmd_split, int index)
 		ft_lstdelone(tmp, free);
 	}	
 	g_glob->exit_ret = 0;
+	free(name);
 }
 
 bool	unset_parent(void)

@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:56:54 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/06 10:49:20 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 14:22:42 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,9 @@ static void	handle_export_add(char *var)
 		else if (var_split[1][0])
 			edit_var(plus_char, var, var_split, env_cpy);
 		free_and_set_exit_ret(var_split, 0);
-		g_glob->exit_ret = 0;
 		return ;
 	}
 	free_and_set_exit_ret(var_split, 1);
-	g_glob->exit_ret = 1;
 }
 
 bool	export_parent(void)

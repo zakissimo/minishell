@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:37:29 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/02 14:59:34 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 13:48:15 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ char	**ft_split_sep(char const *s, char *sep)
 		return (NULL);
 	tab = NULL;
 	while (tab == NULL)
-		tab = ft_calloc(tab_len((char *)s, sep) + 1, sizeof(char *));
+		tab = ft_calloc(tab_len((char *)s, sep) + 2, sizeof(char *));
 	return (split_loop(tab, s, sep));
 }

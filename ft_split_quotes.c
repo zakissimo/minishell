@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:37:29 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/06 11:12:42 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 13:46:58 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**ft_split_quotes(char const *s, char *sep)
 
 	if (!s)
 		return (NULL);
-	tab = ft_calloc(tab_len((char *)s, sep) + 1, sizeof(char *));
+	tab = ft_calloc(tab_len((char *)s, sep) + 2, sizeof(char *));
 	if (!tab)
 		return (NULL);
 	return (split_loop(tab, s, sep));

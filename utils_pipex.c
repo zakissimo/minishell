@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:02:00 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/03 11:16:58 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 13:49:05 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,4 @@ void	close_pipes(int *pipes)
 		if (pipes[i] > 2)
 			close(pipes[i]);
 	}
-}
-
-void	init_children_pid(int **children_pid, int size)
-{
-	*children_pid = NULL;
-	while (!*children_pid)
-		*children_pid = ft_calloc(size, sizeof(int));
 }

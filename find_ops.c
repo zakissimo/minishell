@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 19:39:54 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/09 11:25:09 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 14:22:57 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,6 @@ void	get_ops(const char *input, t_list **head)
 			double_q = !double_q;
 		else if (input[i] == '\'' && !double_q)
 			single_q = !single_q;
-		// if (input[i] == '$' && input[i + 1] == '$')
-		// 	while (input[i + 1] == '$')
-		// 		i++;
 		else if (input[i] == '$' && !ft_isprint_nospace_nodollar(input[i + 1]))
 			i++;
 		if (input[i] && ((!single_q && !double_q) \

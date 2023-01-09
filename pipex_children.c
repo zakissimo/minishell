@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:35:44 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/06 11:50:07 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 13:27:07 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 		cmd_split = ft_split_quotes(cmd->str, " \t");
 		cmd_split[0] = remove_quotes(cmd_split[0]);
 		cmd_split[0] = get_path(cmd_split[0], false);
-		exit_on_not_existing_file(cmd->str, cmd_split, pipes, children_pid);
-		exit_on_bad_cmd(cmd_split, pipes, cmd->str, children_pid);
-		exit_on_permission(cmd_split, pipes, children_pid);
+		exit_on_error(cmd, cmd_split, pipes, children_pid);
 		dup_and_close(cmd, pipes);
 		envp = envp_list_to_tab();
 		clean_exit(children_pid);
@@ -50,11 +48,13 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 		close_pipes(pipes);
 		exit(g_glob->exit_ret);
 	}
-	else
-		clean_exit(children_pid);
 	close_pipes(pipes);
 	if (cmd->fd_in != -1 && cmd->fd_out != -1)
+	{
+		clean_exit(children_pid);
 		exit(1);
+	}
+	clean_exit(children_pid);
 	exit(0);
 }
 
@@ -105,7 +105,6 @@ char	*get_path(char *cmd, bool shaone)
 		}
 		return (cmd);
 	}
-		
 	return (get_path_loop(cmd, envp_entry));
 }
 

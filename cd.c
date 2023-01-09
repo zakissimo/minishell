@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:40:50 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/05 14:47:16 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/09 13:17:52 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,26 @@ static void	ft_chdir(char *dir, int size)
 	t_list	*pwd;
 	t_list	*old_pwd;
 
-	pwd = get_env_node("PWD");
-	old_pwd = get_env_node("OLDPWD");
-	ret = NULL;
-	free_null(old_pwd->content);
-	tmp = ft_strdup(pwd->content + 4);
-	old_pwd->content = ft_strjoin("OLDPWD=", tmp);
-	free_and_null(&tmp);
-	chdir(dir);
-	while (ret == NULL)
+	if (dir)
 	{
-		size *= 2;
+		init_ft_chdir(&pwd, &old_pwd, &ret);
+		free_null(old_pwd->content);
+		tmp = ft_strdup(pwd->content + 4);
+		old_pwd->content = ft_strjoin("OLDPWD=", tmp);
 		free_and_null(&tmp);
-		while (tmp == NULL)
-			tmp = ft_calloc(size, sizeof(char));
-		ret = getcwd(tmp, size);
+		chdir(dir);
+		while (ret == NULL)
+		{
+			size *= 2;
+			free_and_null(&tmp);
+			while (tmp == NULL)
+				tmp = ft_calloc(size, sizeof(char));
+			ret = getcwd(tmp, size);
+		}
+		free_null(pwd->content);
+		pwd->content = ft_strjoin("PWD=", tmp);
+		free_null(tmp);
 	}
-	free_null(pwd->content);
-	pwd->content = ft_strjoin("PWD=", tmp);
-	free_null(tmp);
 }
 
 void	cd(char *cmd, int fd_out)
@@ -78,7 +79,7 @@ void	cd(char *cmd, int fd_out)
 		ft_chdir(cmd_split[1], 16);
 	}
 	else
-		ft_chdir(get_env_node("HOME")->content + 5, 16);
+		ft_chdir(get_home_content(), 16);
 	clean_and_free(cmd_split);
 	exit(0);
 }
@@ -119,7 +120,7 @@ bool	cd_parent(void)
 					return (true);
 			}
 			else
-				ft_chdir(get_env_node("HOME")->content + 5, 16);
+				ft_chdir(get_home_content(), 16);
 			free_tab(cmd_split);
 			g_glob->exit_ret = 0;
 			return (true);
