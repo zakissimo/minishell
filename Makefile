@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2023/01/09 13:26:38 by zhabri           ###   ########.fr        #
+#    Updated: 2023/01/10 11:24:53 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,8 @@ SRCS		= add_cmd.c \
 				utils_pipex.c \
 				utils_pipex_bis.c \
 				utils_signal.c \
-				utils_ter.c			
+				utils_table.c \
+				utils_ter.c
 
 OBJS		= $(SRCS:.c=.o)
 

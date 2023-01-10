@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/09 11:05:43 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/10 12:53:16 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,15 @@ void	event_loop(void)
 
 int	main(int argc, char **argv, char **envp)
 {
+	char	**t;
+
 	(void)argc;
 	init_sig_callbacks(0);
 	init_g_glob();
 	get_envp(envp);
-	get_sum(argv[0], &(g_glob->minishell_sum), NULL);
+	t = tab_dup(argv, argc);
+	get_sum(t, &(g_glob->minishell_sum), NULL, NULL);
+	free_tab(t);
 	event_loop();
 	final_clean_up();
 }

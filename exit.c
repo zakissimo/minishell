@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:56:08 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/09 13:30:38 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/10 10:50:58 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ bool	exit_parent_arg(char **cmd_split)
 
 bool	exit_parent(void)
 {
+	int		ret;
 	char	**cmd_split;
 
 	if (ft_lstsize(*g_glob->cmds) == 1)
@@ -52,8 +53,9 @@ bool	exit_parent(void)
 			}
 			else
 			{
+				ret = g_glob->exit_ret;
 				clean_and_free(cmd_split);
-				exit(g_glob->exit_ret);
+				exit(ret);
 			}
 		}
 		free_tab(cmd_split);

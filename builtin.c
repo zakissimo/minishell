@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:49:26 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/09 14:21:21 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/10 13:01:15 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	init_builtin_tab(t_builtin *tab[7])
 
 void	call_builtin(int built_in, t_cmd *cmd, int *pipes, int *children_pid)
 {
-	int			fd_out;
 	int			i;
+	int			fd_out;
 	t_builtin	*tab[7];
 
 	init_builtin_tab(tab);
@@ -68,9 +68,6 @@ void	call_builtin(int built_in, t_cmd *cmd, int *pipes, int *children_pid)
 	free(children_pid);
 	if (cmd->fd_in != -1 && cmd->fd_out != -1)
 		tab[built_in](cmd->str, fd_out);
-	else
-	{
-		clean_exit(NULL);
-		exit(1);
-	}
+	clean_exit(NULL);
+	exit(1);
 }

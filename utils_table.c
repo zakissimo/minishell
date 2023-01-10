@@ -1,28 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_pipex_bis.c                                  :+:      :+:    :+:   */
+/*   utils_table.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 13:24:09 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/10 10:59:53 by zhabri           ###   ########.fr       */
+/*   Created: 2023/01/10 11:22:00 by zhabri            #+#    #+#             */
+/*   Updated: 2023/01/10 13:04:27 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
-void	exit_on_error(t_cmd *cmd, char **cmd_split, \
-		int *pipes, int *children_pid)
+char	**tab_dup(char **tab, int tab_len)
 {
-	exit_on_not_existing_file(cmd->str, cmd_split, pipes, children_pid);
-	exit_on_bad_cmd(cmd_split, pipes, cmd->str, children_pid);
-	exit_on_permission(cmd_split, pipes, children_pid);
+	int		i;
+	char	**t;
+
+	t = ft_calloc(tab_len + 1, sizeof(char *));
+	i = 0;
+	while (i < tab_len)
+	{
+		t[i] = ft_strdup(tab[i]);
+		i++;
+	}
+	return (t);
 }
 
-void	init_children_pid(int **children_pid, int size)
+void	free_tab_bis(void *t)
 {
-	*children_pid = NULL;
-	while (!*children_pid)
-		*children_pid = ft_calloc(size, sizeof(int));
+	int		i;
+	char	**tab;
+
+	i = 1;
+	tab = (char **)t;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }

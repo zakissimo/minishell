@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/09 15:54:11 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/10 11:18:33 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	close_pipe_and_recreate(int	*pipes, t_cmd *cmd);
 
 static void	pipex_loop_core(int	*children_pid, t_list *curr, int *pipes)
 {
-	// int		ret;
 	int		built_in;
 
 	built_in = builtin(((t_cmd *)curr->content)->str);
@@ -33,16 +32,7 @@ static void	pipex_loop_core(int	*children_pid, t_list *curr, int *pipes)
 				children_pid);
 	}
 	if (built_in == -1)
-		change_sig_handling(((t_cmd *)curr->content)->str, pipes);
-	// else
-	// {
-	// 	waitpid(children_pid[((t_cmd *)curr->content)->cmd_idx], &ret, 0);
-	// 	printf("children_pid is %d, ret is %d\n", children_pid[((t_cmd *)curr->content)->cmd_idx], ret >> 8);
-	// 	if (ret >> 8 == 0)
-	// 		children_pid[((t_cmd *)curr->content)->cmd_idx] = -256;
-	// 	else
-	// 		children_pid[((t_cmd *)curr->content)->cmd_idx] = -1 * (ret >> 8);
-	// }
+		change_sig_handling(((t_cmd *)curr->content)->str, pipes, children_pid);
 	g_glob->in_child = true;
 	close_pipe_and_recreate(pipes, ((t_cmd *)curr->content));
 }
@@ -78,20 +68,9 @@ void	pipex(void)
 	children_pid = pipex_loop();
 	while (children_pid[i] != 0)
 	{
-		// printf("children_pid: %d\n", children_pid[i]);
-		// if (children_pid[i] < 0 && !g_glob->sig_int && !g_glob->sig_quit \
-		// 	&& children_pid[i] != -256)
-		// 	g_glob->exit_ret = children_pid[i] * (-1);
-		// else if (children_pid[i] < 0 && !g_glob->sig_int && !g_glob->sig_quit \
-		// 	&& children_pid[i] == -256)
-		// 	g_glob->exit_ret = 0;
-		// else if (children_pid[i] > 0)
-		// {
-			waitpid(children_pid[i], &exit_ret, 0);
-			// printf("ret is %d\n", exit_ret >> 8);
-			if (!g_glob->sig_int && !g_glob->sig_quit)
-				g_glob->exit_ret = exit_ret >> 8;
-		// }
+		waitpid(children_pid[i], &exit_ret, 0);
+		if (!g_glob->sig_int && !g_glob->sig_quit)
+			g_glob->exit_ret = exit_ret >> 8;
 		i++;
 	}
 	g_glob->in_child = false;

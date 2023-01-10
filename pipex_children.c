@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:35:44 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/10 09:59:28 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/10 13:05:55 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,53 @@
 
 static void	dup_and_close(t_cmd *cmd, int *pipes);
 
-void	free_tab_bis(void *t)
+void	child_end(int *pipes, t_cmd *cmd, int *children_pid)
 {
-	int		i;
-	char	**tab;
+	int	ret;
 
-	i = 1;
-	tab = (char **)t;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
-
-void	child(t_cmd *cmd, int *pipes, int *children_pid)
-{
-	char	**envp;
-	char	**cmd_split;
-
-	g_glob->exit_ret = 1;
-	if (cmd->fd_in != -1 && cmd->fd_out != -1 && cmd->str[0] != '\0')
-	{
-		cmd_split = ft_split_quotes(cmd->str, " \t");
-		cmd_split[0] = remove_quotes(cmd_split[0]);
-		cmd_split[0] = get_path(cmd_split[0], false);
-		exit_on_error(cmd, cmd_split, pipes, children_pid);
-		dup_and_close(cmd, pipes);
-		envp = envp_list_to_tab();
-		clean_exit(children_pid);
-		execve(cmd_split[0], cmd_split, envp);
-		close_pipes(pipes);
-		exit(g_glob->exit_ret);
-	}
 	close_pipes(pipes);
-	if (cmd->fd_in != -1 || cmd->fd_out != -1)
+	ret = g_glob->exit_ret;
+	if (!cmd->str)
+	{
+		clean_exit(children_pid);
+		exit(ret);
+	}
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
 	{
 		clean_exit(children_pid);
 		exit(1);
 	}
 	clean_exit(children_pid);
 	exit(0);
+}
+
+void	child(t_cmd *cmd, int *pipes, int *children_pid)
+{
+	int		ret;
+	char	**envp;
+	char	**cmd_split;
+
+	if (cmd->fd_in != -1 && cmd->fd_out != -1 \
+		&& cmd->str && cmd->str[0] != '\0')
+	{
+		g_glob->exit_ret = 1;
+		cmd_split = ft_split_quotes(cmd->str, " \t");
+		cmd_split[0] = remove_quotes(cmd_split[0]);
+		cmd_split[0] = get_path(cmd_split[0], false);
+		exit_on_error(cmd, cmd_split, pipes, children_pid);
+		dup_and_close(cmd, pipes);
+		envp = envp_list_to_tab();
+		ret = g_glob->exit_ret;
+		clean_exit(children_pid);
+		execve(cmd_split[0], cmd_split, envp);
+		free_tab(cmd_split);
+		free_tab(envp);
+		close(0);
+		close(1);
+		close_pipes(pipes);
+		exit(ret);
+	}
+	child_end(pipes, cmd, children_pid);
 }
 
 static char	*get_path_loop(char *cmd, t_list *envp_entry)

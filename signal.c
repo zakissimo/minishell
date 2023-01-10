@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:32:29 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/02 15:00:44 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/10 11:11:47 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	init_sig_callbacks(int process)
 	}
 }
 
-void	change_sig_handling(char *cmd, int *pipes)
+void	change_sig_handling(char *cmd, int *pipes, int *children_pid)
 {
 	char	**cmd_split;
 	char	*sum;
@@ -56,7 +56,7 @@ void	change_sig_handling(char *cmd, int *pipes)
 			cmd_split[0] = get_path(cmd_split[0], true);
 			if (cmd_split[0] != NULL)
 			{
-				get_sum(cmd_split[0], &sum, pipes);
+				get_sum(cmd_split, &sum, pipes, children_pid);
 				if (ft_strncmp(sum, g_glob->minishell_sum, 41) == 0)
 					init_sig_callbacks(42);
 				free(sum);

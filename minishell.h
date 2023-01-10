@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/09 13:26:18 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/10 11:24:36 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void		call_builtin(int built_in, t_cmd *cmd, int *pipes, \
 				int *children_pid);
 void		cd(char *cmd, int fd_out);
 bool		cd_parent(void);
-void		change_sig_handling(char *cmd, int *pipes);
+void		change_sig_handling(char *cmd, int *pipes, int *children_pid);
 bool		check_exit_error(char **cmd_split);
 void		child(t_cmd *cmd, int *pipes, int *children_pid);
 void		clean_and_free(char **cmd_split);
@@ -139,7 +139,7 @@ t_list		*get_env_node(char *var);
 char		*get_first(void);
 char		*get_home_content(void);
 char		*get_limiter(t_token *token);
-void		get_sum(char *cmd, char **ret, int *pipes);
+void		get_sum(char **cmd, char **ret, int *pipes, int *children_pid);
 void		get_ops(const char *input, t_list **head);
 char		*get_path(char *cmd, bool shaone);
 void		handle_sigint(void);
@@ -181,6 +181,7 @@ void		split_cmds(void);
 int			str_cmp_sort(char *s1, char *s2);
 bool		str_is_numeric(char *str);
 t_list		**str_tab_to_list(char **tab);
+char		**tab_dup(char **tab, int tab_len);
 void		unlink_heredocs(void);
 void		unset(char *cmd, int fd_out);
 bool		unset_parent(void);
