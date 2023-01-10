@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 16:35:44 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/09 16:03:25 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/10 09:59:28 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,13 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 		close_pipes(pipes);
 		exit(g_glob->exit_ret);
 	}
-	else
-		clean_exit(children_pid);
 	close_pipes(pipes);
-	if (cmd->fd_in != -1 && cmd->fd_out != -1)
+	if (cmd->fd_in != -1 || cmd->fd_out != -1)
+	{
+		clean_exit(children_pid);
 		exit(1);
+	}
+	clean_exit(children_pid);
 	exit(0);
 }
 
