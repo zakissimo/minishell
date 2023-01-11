@@ -45,7 +45,7 @@ static int	tab_len(char *str, char *sep)
 	return (n);
 }
 
-static char	**split_loop(char **tab, char const *s, char *sep)
+static char	**split_loop(char **tab, char const *s, char *sep, int skip_sep)
 {
 	size_t	i;
 	size_t	j;
@@ -67,7 +67,7 @@ static char	**split_loop(char **tab, char const *s, char *sep)
 				}
 				add_to_tab(tab, remove_quotes(tmp));
 			}
-			j = i + 1;
+			j = i + skip_sep;
 		}
 		i += skip_if_quotes(s, i);
 	}
@@ -83,5 +83,17 @@ char	**ft_split_quotes(char const *s, char *sep)
 	tab = ft_calloc(tab_len((char *)s, sep) + 2, sizeof(char *));
 	if (!tab)
 		return (NULL);
-	return (split_loop(tab, s, sep));
+	return (split_loop(tab, s, sep, 1));
+}
+
+char	**ft_split_quotes_keep_sep(char const *s, char *sep)
+{
+	char	**tab;
+
+	if (!s)
+		return (NULL);
+	tab = ft_calloc(tab_len((char *)s, sep) + 2, sizeof(char *));
+	if (!tab)
+		return (NULL);
+	return (split_loop(tab, s, sep, 0));
 }

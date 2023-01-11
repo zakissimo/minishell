@@ -129,6 +129,7 @@ int			ft_isprint_nospace_nodollar(int c);
 bool		ft_open_in(t_cmd *node, t_token *token);
 bool		ft_open_out(t_cmd *node, t_token *token);
 char		**ft_split_quotes(char const *s, char *sep);
+char		**ft_split_quotes_keep_sep(char const *s, char *sep);
 char		**ft_split_sep(char const *s, char *sep);
 char		*ft_strjoinf(char *s1, char const *s2);
 char		*ft_strtrimf(char *s1, char const *set);

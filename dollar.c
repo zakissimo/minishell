@@ -13,12 +13,42 @@
 #include "libft/includes/libft.h"
 #include "minishell.h"
 
+static void	infile_exception(t_token *var)
+{
+	int					i;
+	char				*second_part;
+	char				*tmp;
+	char				**arg_split;
+
+	arg_split = ft_split_quotes_keep_sep(var->arg, "<>|");
+	second_part = ft_calloc(1, sizeof(char));
+	if (arg_split[1])
+	{
+		i = 1;
+		while (arg_split[i])
+		{
+			tmp = ft_strjoin("\"", arg_split[i]);
+			tmp = ft_strjoinf(tmp, "\"");
+			second_part = ft_strjoinf(second_part, tmp);
+			free(tmp);
+			i++;
+		}
+	}
+	free(var->arg);
+	var->arg = ft_strjoin(arg_split[0], second_part);
+	free(second_part);
+	free_tab(arg_split);
+}
+
 static void	expand_bis(t_list *curr, t_token *var, char *env, char *tmp)
 {
 	if (tmp[0] != '?')
 	{
 		if (curr && env)
+		{
 			var->arg = ft_strdup(ft_strchr(env, '=') + 1);
+			infile_exception(var);
+		}	
 		else
 		{
 			if (ft_strlen(tmp) == 1)
