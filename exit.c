@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
 
 bool	exit_parent_arg(char **cmd_split)

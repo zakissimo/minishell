@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
-#include <sys/wait.h>
 
 static void	create_pipes(int *pipes);
 static void	close_pipe_and_recreate(int	*pipes, t_cmd *cmd);

@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
-#include <readline/readline.h>
-#include <signal.h>
 
 static void	handler(int sig)
 {

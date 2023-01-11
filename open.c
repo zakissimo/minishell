@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
 
 bool	ft_open_in(t_cmd *node, t_token *token)

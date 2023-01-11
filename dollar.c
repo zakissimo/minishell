@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static void	infile_exception(t_token *var)

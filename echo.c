@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static bool	is_echo_with_newline(char *arg)

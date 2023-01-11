@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
-#include <unistd.h>
 
 static void	sha1sum_child(char **cmd, int *pipefd, int *pipes, \
 			int *children_pid);

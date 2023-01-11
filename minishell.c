@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft/includes/libft.h"
 
 t_glob	*g_glob;
 

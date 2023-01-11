@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
-#include <stdlib.h>
 
 static bool	str_is_op(char *needle)
 {

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static int	pipe_error_loop(t_list *curr, t_list *prev, char *trimmed)

@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
-#include <unistd.h>
 
 static void	finalize_heredoc(char *here_doc_entry, char *limiter, \
 		int fd, int stdin_cpy)

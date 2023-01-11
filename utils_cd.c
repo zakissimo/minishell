@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
 
 void	init_ft_chdir(t_list **pwd, t_list **old_pwd, char **ret)

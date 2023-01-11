@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
-#include <stdlib.h>
 
 int	get_longest_str(char *s1, char *s2)
 {
