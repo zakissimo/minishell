@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/09 11:25:54 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/12 11:12:07 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	infile_exception(t_token *var)
 {
-	int					i;
-	char				*second_part;
-	char				*tmp;
-	char				**arg_split;
+	int		i;
+	char	*second_part;
+	char	*tmp;
+	char	**arg_split;
 
 	arg_split = ft_split_quotes_keep_sep(var->arg, "<>|");
 	second_part = ft_calloc(1, sizeof(char));
@@ -84,8 +84,8 @@ void	expand(t_token *var)
 
 static bool	str_is_op(char *needle)
 {
-	int						i;
-	static const char		*op_tab[13] = {"<<", ">>", "|", \
+	int					i;
+	static const char	*op_tab[13] = {"<<", ">>", "|", \
 		">", "<", " ", "$", "\"", "'", "/", "\t", NULL};
 
 	i = 0;
@@ -100,8 +100,8 @@ static bool	str_is_op(char *needle)
 
 void	find_var(t_token *token, char *input)
 {
-	int						i;
-	size_t					len;
+	int		i;
+	size_t	len;
 
 	len = 0;
 	if (token)
