@@ -6,7 +6,7 @@
 #    By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/04 08:44:16 by zhabri            #+#    #+#              #
-#    Updated: 2023/01/10 11:24:53 by zhabri           ###   ########.fr        #
+#    Updated: 2023/01/12 14:29:11 by zhabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SRCS		= add_cmd.c \
 				utils.c \
 				utils_bis.c \
 				utils_cd.c \
+				utils_dollar.c \
 				utils_exit.c \
 				utils_export.c \
 				utils_export_bis.c \

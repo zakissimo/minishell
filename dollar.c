@@ -6,17 +6,17 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/12 11:12:07 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/12 15:17:15 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static void	infile_exception(t_token *var)
 {
 	int		i;
 	char	*second_part;
-	char	*tmp;
 	char	**arg_split;
 
 	arg_split = ft_split_quotes_keep_sep(var->arg, "<>|");
@@ -26,15 +26,17 @@ static void	infile_exception(t_token *var)
 		i = 1;
 		while (arg_split[i])
 		{
-			tmp = ft_strjoin("\"", arg_split[i]);
-			tmp = ft_strjoinf(tmp, "\"");
-			second_part = ft_strjoinf(second_part, tmp);
-			free(tmp);
+			infile_exception_tmp(&second_part, arg_split[i]);
 			i++;
 		}
 	}
 	free(var->arg);
-	var->arg = ft_strjoin(arg_split[0], second_part);
+	if (arg_split[0][0] == '<' || arg_split[0][0] == '>' || \
+		arg_split[0][0] == '|')
+		var->arg = ft_strjoinf(ft_strjoin("\"", arg_split[0]), "\"");
+	else
+		var->arg = ft_strdup(arg_split[0]);
+	var->arg = ft_strjoinf(var->arg, second_part);
 	free(second_part);
 	free_tab(arg_split);
 }
@@ -116,7 +118,10 @@ void	find_var(t_token *token, char *input)
 				i++;
 				len++;
 			}
-			token->arg = ft_substr(input, token->str_idx + 1, len);
+			if (len == 0 && (input[i] == '\'' || input[i] == '\"'))
+				token->arg = ft_strdup("-");
+			else
+				token->arg = ft_substr(input, token->str_idx + 1, len);
 		}
 	}
 }

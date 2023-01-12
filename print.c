@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 13:24:06 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/10 11:37:26 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/12 15:21:09 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	print_cmds(void)
 				if (!(((t_cmd *)cmd->content)->str))
 					printf("cmd is NULL\n");
 				else
-					printf("cmd: %d\n", (((t_cmd *)cmd->content)->str[0]));
+					printf("cmd: %s\n", (((t_cmd *)cmd->content)->str));
 			}
 			cmd = cmd->next;
 		}

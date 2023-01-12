@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:49:37 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/10 12:53:16 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/12 15:21:41 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	events(t_list **head)
 		{
 			scan_heredocs();
 			get_cmd();
+			print_cmds();
 			if (!g_glob->sig_int)
 				pipex();
 			unlink_heredocs();

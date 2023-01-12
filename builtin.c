@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:49:26 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/10 13:01:15 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/12 15:27:17 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	builtin(char *cmd)
 		}
 		i++;
 	}
+	printf("jsp: %s\n", cmd_split[0]);
 	free_tab(cmd_split);
 	return (-1);
 }

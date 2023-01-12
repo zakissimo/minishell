@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/12 14:12:34 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/12 14:28:56 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ char		*get_path(char *cmd, bool shaone);
 void		handle_sigint(void);
 void		handle_sigquit(void);
 void		ignore_sig(int sig);
+void		infile_exception_tmp(char **second_part, char *arg_split);
 void		init_children_pid(int **children_pid, int size);
 t_cmd		*init_cmd_token(int in, int out, char *str, bool reset);
 void		init_ft_chdir(t_list **pwd, t_list **old_pwd, char **ret);
