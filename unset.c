@@ -6,11 +6,40 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:31:23 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/09 13:21:10 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/12 13:10:50 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	is_valid_identifier(char *identifier)
+{
+	int		i;
+	char	*err;
+
+	i = 1;
+	if (!ft_isalpha(identifier[0]) && identifier[0] != '_')
+	{
+		err = ft_strjoin("minishell: unset: ", identifier);
+		err = ft_strjoinf(err, ": not a valid identifier\n");
+		ft_putstr_fd(err, 2);
+		free(err);
+		return (false);
+	}
+	while (identifier[i])
+	{
+		if (!ft_isalnum(identifier[i]) && identifier[i] != '_')
+		{
+			err = ft_strjoin("minishell: unset: ", identifier);
+			err = ft_strjoinf(err, ": not a valid identifier\n");
+			ft_putstr_fd(err, 2);
+			free(err);
+			return (false);
+		}	
+		i++;
+	}
+	return (true);
+}
 
 void	unset_parent_arg(char **cmd_split, int index)
 {
@@ -53,7 +82,8 @@ bool	unset_parent(void)
 		{
 			i = 0;
 			while (cmd_split[++i])
-				unset_parent_arg(cmd_split, i);
+				if (is_valid_identifier(cmd_split[i]))
+					unset_parent_arg(cmd_split, i);
 			free_tab(cmd_split);
 			return (true);
 		}
