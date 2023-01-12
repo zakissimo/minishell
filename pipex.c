@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/10 11:18:33 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/12 14:13:02 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,15 @@ void	pipex(void)
 	while (children_pid[i] != 0)
 	{
 		waitpid(children_pid[i], &exit_ret, 0);
-		if (!g_glob->sig_int && !g_glob->sig_quit)
+		if (g_glob->sig_int)
+			g_glob->exit_ret = 130;
+		else if (g_glob->sig_quit)
+			g_glob->exit_ret = 131;
+		else
 			g_glob->exit_ret = exit_ret >> 8;
 		i++;
+		g_glob->sig_quit = false;
+		g_glob->sig_int = false;
 	}
 	g_glob->in_child = false;
 	init_sig_callbacks(0);
