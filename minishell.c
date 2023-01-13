@@ -39,7 +39,6 @@ void	events(t_list **head)
 		{
 			scan_heredocs();
 			get_cmd();
-			print_cmds();
 			if (!g_glob->sig_int)
 				pipex();
 			unlink_heredocs();

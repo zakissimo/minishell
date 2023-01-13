@@ -40,16 +40,13 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 	char	**envp;
 	char	**cmd_split;
 
-	ft_printf("0- cmd: %s\n", cmd->str);
 	if (cmd->fd_in != -1 && cmd->fd_out != -1 \
 		&& cmd->str && cmd->str[0] != '\0')
 	{
 		g_glob->exit_ret = 1;
 		cmd_split = ft_split_quotes(cmd->str, " \t");
 		cmd_split[0] = remove_quotes(cmd_split[0]);
-		ft_printf("1- cmd: %s\n", cmd_split[0]);
 		cmd_split[0] = get_path(cmd_split[0], false);
-		ft_printf("2- cmd: %s\n", cmd_split[0]);
 		exit_on_error(cmd, cmd_split, pipes, children_pid);
 		dup_and_close(cmd, pipes);
 		envp = envp_list_to_tab();
@@ -80,7 +77,7 @@ static char	*get_path_loop(char *cmd, t_list *envp_entry)
 	{	
 		cmd_absolute = ft_strjoin(paths[i], "/");
 		cmd_absolute = ft_strjoinf(cmd_absolute, cmd);
-		if (access(cmd_absolute, 0) == 0)
+		if (access(cmd_absolute, 0) == 0 && !is_dir(cmd_absolute))
 		{
 			free_tab(paths);
 			free(cmd);

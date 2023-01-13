@@ -30,7 +30,6 @@ int	builtin(char *cmd)
 		}
 		i++;
 	}
-	printf("jsp: %s\n", cmd_split[0]);
 	free_tab(cmd_split);
 	return (-1);
 }

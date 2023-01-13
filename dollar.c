@@ -118,7 +118,8 @@ void	find_var(t_token *token, char *input)
 				i++;
 				len++;
 			}
-			if (len == 0 && (input[i] == '\'' || input[i] == '\"'))
+			if (len == 0 && (input[i] == '\'' || input[i] == '\"') \
+				&& i > 1 && input[i - 2] != '\"')
 				token->arg = ft_strdup("-");
 			else
 				token->arg = ft_substr(input, token->str_idx + 1, len);

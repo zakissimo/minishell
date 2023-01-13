@@ -61,8 +61,17 @@ void	exit_on_permission(char **cmd_split, \
 
 void	print_cmd_not_found(char *str)
 {
-	ft_putstr_fd(str, 2);
+	char	**str_split;
+
+	str_split = ft_split_quotes(str, " \t");
+	if (str_split[0][0] == '\0')
+	{
+		free(str_split[0]);
+		str_split[0] = ft_strdup("\'\'");
+	}
+	ft_putstr_fd(str_split[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
+	free_tab(str_split);
 }
 
 void	close_pipes(int *pipes)
