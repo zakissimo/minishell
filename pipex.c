@@ -6,7 +6,7 @@
 /*   By: brenaudo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:02:33 by brenaudo          #+#    #+#             */
-/*   Updated: 2023/01/12 14:13:02 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/13 11:52:31 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	close_pipe_and_recreate(int	*pipes, t_cmd *cmd);
 
 static void	pipex_loop_core(int	*children_pid, t_list *curr, int *pipes)
 {
-	int		built_in;
+	int	built_in;
+	int	ret;
 
 	built_in = builtin(((t_cmd *)curr->content)->str);
 	children_pid[((t_cmd *)curr->content)->cmd_idx] = fork();
@@ -31,6 +32,14 @@ static void	pipex_loop_core(int	*children_pid, t_list *curr, int *pipes)
 	}
 	if (built_in == -1)
 		change_sig_handling(((t_cmd *)curr->content)->str, pipes, children_pid);
+	else
+	{
+		waitpid(children_pid[((t_cmd *)curr->content)->cmd_idx], &ret, 0);
+		if (ret >> 8 == 0)
+			children_pid[((t_cmd *)curr->content)->cmd_idx] = -256;
+		else
+			children_pid[((t_cmd *)curr->content)->cmd_idx] = -1 * (ret >> 8);
+	}
 	g_glob->in_child = true;
 	close_pipe_and_recreate(pipes, ((t_cmd *)curr->content));
 }
@@ -66,13 +75,9 @@ void	pipex(void)
 	children_pid = pipex_loop();
 	while (children_pid[i] != 0)
 	{
-		waitpid(children_pid[i], &exit_ret, 0);
-		if (g_glob->sig_int)
-			g_glob->exit_ret = 130;
-		else if (g_glob->sig_quit)
-			g_glob->exit_ret = 131;
-		else
-			g_glob->exit_ret = exit_ret >> 8;
+		if (children_pid[i] > 0)
+			waitpid(children_pid[i], &exit_ret, 0);
+		pipex_handle_exit_ret(children_pid[i], exit_ret);
 		i++;
 		g_glob->sig_quit = false;
 		g_glob->sig_int = false;

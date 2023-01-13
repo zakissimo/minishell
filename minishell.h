@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/12 14:28:56 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/13 11:52:07 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ char		*op_error_trimmed(t_list *curr);
 bool		overflows_llong(char *str);
 int			pipe_error(void);
 void		pipex(void);
+void		pipex_handle_exit_ret(int children_pid, int exit_ret);
 bool		plus_end_str(char *str);
 void		print_cmds(void);
 void		print_cmd_not_found(char *str);
