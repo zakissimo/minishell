@@ -6,11 +6,10 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/12 15:17:15 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/13 13:25:59 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minishell.h"
 
 static void	infile_exception(t_token *var)
