@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 12:05:54 by zhabri            #+#    #+#             */
-/*   Updated: 2022/09/29 09:11:25 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/13 14:03:39 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strdup(const char *s)
 	out = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (out == NULL)
 		return (NULL);
-	while (s[i])
+	while (s && s[i])
 	{
 		out[i] = s[i];
 		i++;

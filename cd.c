@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:40:50 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/09 13:17:52 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/13 14:12:43 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,26 @@ t_list	*get_env_node(char *var)
 
 static void	ft_chdir(char *dir, int size)
 {
-	char	*ret;
 	char	*tmp;
 	t_list	*pwd;
 	t_list	*old_pwd;
 
 	if (dir)
 	{
-		init_ft_chdir(&pwd, &old_pwd, &ret);
-		free_null(old_pwd->content);
-		tmp = ft_strdup(pwd->content + 4);
-		old_pwd->content = ft_strjoin("OLDPWD=", tmp);
+		init_ft_chdir(&pwd, &old_pwd);
+		if (old_pwd)
+			free_null(old_pwd->content);
+		if (pwd)
+			tmp = ft_strdup(pwd->content + 4);
+		else
+			tmp = ft_strdup("");
+		if (old_pwd)
+			old_pwd->content = ft_strjoin("OLDPWD=", tmp);
+		else
+			ft_lstadd_back(g_glob->envp, ft_lstnew(ft_strjoin("OLDPWD=", tmp)));
 		free_and_null(&tmp);
 		chdir(dir);
-		while (ret == NULL)
-		{
-			size *= 2;
-			free_and_null(&tmp);
-			while (tmp == NULL)
-				tmp = ft_calloc(size, sizeof(char));
-			ret = getcwd(tmp, size);
-		}
-		free_null(pwd->content);
-		pwd->content = ft_strjoin("PWD=", tmp);
-		free_null(tmp);
+		ft_chdir_core(size, &tmp, pwd);
 	}
 }
 

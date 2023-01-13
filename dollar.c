@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:15 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/13 13:25:59 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/13 14:03:50 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	infile_exception(t_token *var)
 
 	arg_split = ft_split_quotes_keep_sep(var->arg, "<>|");
 	second_part = ft_calloc(1, sizeof(char));
-	if (arg_split[1])
+	if (arg_split[0] && arg_split[1])
 	{
 		i = 1;
 		while (arg_split[i])
@@ -30,8 +30,8 @@ static void	infile_exception(t_token *var)
 		}
 	}
 	free(var->arg);
-	if (arg_split[0][0] == '<' || arg_split[0][0] == '>' || \
-		arg_split[0][0] == '|')
+	if (arg_split[0] && (arg_split[0][0] == '<' \
+		|| arg_split[0][0] == '>' || arg_split[0][0] == '|'))
 		var->arg = ft_strjoinf(ft_strjoin("\"", arg_split[0]), "\"");
 	else
 		var->arg = ft_strdup(arg_split[0]);

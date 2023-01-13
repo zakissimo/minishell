@@ -6,7 +6,7 @@
 /*   By: zhabri <zhabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 20:30:45 by zhabri            #+#    #+#             */
-/*   Updated: 2023/01/13 11:52:07 by zhabri           ###   ########.fr       */
+/*   Updated: 2023/01/13 14:12:31 by zhabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void		free_tab(void *t);
 void		free_tab_bis(void *t);
 void		free_token_str(void *n);
 long long	ft_atoll(const char *nptr);
+void		ft_chdir_core(int size, char **tmp, t_list *pwd);
 int			ft_isprint_nospace(int c);
 int			ft_isprint_nospace_nodollar(int c);
 bool		ft_open_in(t_cmd *node, t_token *token);
@@ -149,7 +150,7 @@ void		ignore_sig(int sig);
 void		infile_exception_tmp(char **second_part, char *arg_split);
 void		init_children_pid(int **children_pid, int size);
 t_cmd		*init_cmd_token(int in, int out, char *str, bool reset);
-void		init_ft_chdir(t_list **pwd, t_list **old_pwd, char **ret);
+void		init_ft_chdir(t_list **pwd, t_list **old_pwd);
 void		init_g_glob(void);
 void		init_new_var(bool plus_char, char *var, char **var_split);
 void		init_sig_callbacks(int process);
