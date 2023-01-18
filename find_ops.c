@@ -21,7 +21,7 @@ int	find_quote(const char *s, char c)
 		i++;
 	if (s[i] == (char)c)
 		return (i + 1);
-	return (0);
+	return (1);
 }
 
 t_token	*init_token(const char *str, int str_idx, int idx, t_label label)

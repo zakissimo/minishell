@@ -50,6 +50,7 @@ SRCS		= add_cmd.c \
 				pipex_children.c \
 				print.c \
 				pwd.c \
+				remove_quotes.c \
 				signal.c \
 				split_cmds.c \
 				unset.c \

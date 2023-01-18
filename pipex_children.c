@@ -45,7 +45,6 @@ void	child(t_cmd *cmd, int *pipes, int *children_pid)
 	{
 		g_glob->exit_ret = 1;
 		cmd_split = ft_split_quotes(cmd->str, " \t");
-		cmd_split[0] = remove_quotes(cmd_split[0]);
 		cmd_split[0] = get_path(cmd_split[0], false);
 		exit_on_error(cmd, cmd_split, pipes, children_pid);
 		dup_and_close(cmd, pipes);
