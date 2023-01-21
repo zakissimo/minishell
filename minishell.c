@@ -80,6 +80,7 @@ void	event_loop(void)
 
 int	main(int argc, char **argv, char **envp)
 {
+	int		exit_ret;
 	char	**t;
 
 	(void)argc;
@@ -90,5 +91,7 @@ int	main(int argc, char **argv, char **envp)
 	get_sum(t, &(g_glob->minishell_sum), NULL, NULL);
 	free_tab(t);
 	event_loop();
+	exit_ret = g_glob->exit_ret;
 	final_clean_up();
+	return (exit_ret);
 }
